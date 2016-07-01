@@ -1,0 +1,38 @@
+//
+//  CmdPalett.swift
+//  ec
+//
+//  Created by 十亀眞怜 on 2016/06/29.
+//  Copyright © 2016年 十亀眞怜. All rights reserved.
+//
+
+import Foundation
+import AppKit
+
+class CmdPalett: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+    var palett: [String] = []
+    
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        return palett.count
+    }
+    
+    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+        return palett[row]
+    }
+    
+    func addCmd(cmd: String) {
+        palett.append(cmd)
+    }
+    
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
+        cellView.cmdView.stringValue = palett[row]
+        return cellView
+    }
+    
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
+        cellView.cmdView.stringValue = palett[row]
+        return cellView.fittingSize.height
+    }
+}

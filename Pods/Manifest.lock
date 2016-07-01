@@ -1,0 +1,12 @@
+PODS:
+  - SwiftParsec (1.1)
+
+DEPENDENCIES:
+  - SwiftParsec (~> 1.1)
+
+SPEC CHECKSUMS:
+  SwiftParsec: a84d072cd00145e890b9604d7e8b069dccf11bed
+
+PODFILE CHECKSUM: e1230e4d25dde44d11b603a229d703947a08ad18
+
+COCOAPODS: 1.0.1
