@@ -84,8 +84,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Either/Either.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Prelude/Prelude.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftParsec/SwiftParsec.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Either/Either.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Prelude/Prelude.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftParsec/SwiftParsec.framework"
 fi

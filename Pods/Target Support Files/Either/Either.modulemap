@@ -1,0 +1,6 @@
+framework module Either {
+  umbrella header "Either-umbrella.h"
+
+  export *
+  module * { export * }
+}

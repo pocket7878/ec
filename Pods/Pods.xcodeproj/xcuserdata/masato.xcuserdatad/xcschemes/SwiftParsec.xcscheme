@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5D3EC2C8DA16AAC72A758033BB1F07B0'
+               BlueprintIdentifier = '19213D1FB653EC004780E4B53AB10EA2'
                BlueprintName = 'SwiftParsec'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SwiftParsec.framework'>

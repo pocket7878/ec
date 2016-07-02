@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Either.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-ec.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -19,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Prelude.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftParsec.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +37,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2729D13B4C5C34875B34642E6B1A6461</key>
+		<key>19213D1FB653EC004780E4B53AB10EA2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1D6A88D4AEBEE5A6CB5FC5D272634D74</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3FCD0680EECABF1B61F272F3B6F740A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -37,12 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5D3EC2C8DA16AAC72A758033BB1F07B0</key>
+		<key>CF1037D986B0A519072C266EE21729D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CF1037D986B0A519072C266EE21729D1</key>
+		<key>F2E16E3D078EF2803B6D99CF6425E127</key>
 		<dict>
 			<key>primary</key>
 			<true/>

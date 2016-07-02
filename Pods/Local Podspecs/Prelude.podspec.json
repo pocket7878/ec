@@ -1,0 +1,23 @@
+{
+  "name": "Prelude",
+  "version": "1.6.0",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "homepage": "https://github.com/robrix/Prelude",
+  "authors": {
+    "Rob Rix": "rob.rix@github.com"
+  },
+  "summary": "Swift µframework of simple functional programming tools",
+  "source": {
+    "git": "https://github.com/robrix/Prelude.git",
+    "tag": "1.6.0"
+  },
+  "source_files": "Prelude/*.swift",
+  "requires_arc": true,
+  "platforms": {
+    "ios": "8.0",
+    "osx": "10.9"
+  }
+}

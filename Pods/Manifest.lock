@@ -1,12 +1,33 @@
 PODS:
+  - Either (1.3.1):
+    - Prelude (~> 1.6.0)
+  - Prelude (1.6.0)
   - SwiftParsec (1.1)
 
 DEPENDENCIES:
+  - Either (from `https://github.com/robrix/Either.git`)
+  - Prelude (from `https://github.com/robrix/Prelude.git`)
   - SwiftParsec (~> 1.1)
 
+EXTERNAL SOURCES:
+  Either:
+    :git: https://github.com/robrix/Either.git
+  Prelude:
+    :git: https://github.com/robrix/Prelude.git
+
+CHECKOUT OPTIONS:
+  Either:
+    :commit: 50abe887b7387cfd12b7d7b59ed982eb2b7f7674
+    :git: https://github.com/robrix/Either.git
+  Prelude:
+    :commit: a744069377428aef9920f3f4e901d67b355c45f2
+    :git: https://github.com/robrix/Prelude.git
+
 SPEC CHECKSUMS:
+  Either: 8e1f5dc410cb7285d5ee1d1b85b66e4a7e5fa523
+  Prelude: 58847b15d6929eb5f05d4a0b4b48aac8d41fea68
   SwiftParsec: a84d072cd00145e890b9604d7e8b069dccf11bed
 
-PODFILE CHECKSUM: e1230e4d25dde44d11b603a229d703947a08ad18
+PODFILE CHECKSUM: e8f58e610284b4de83b9409fbc0d8191bb82e7cd
 
 COCOAPODS: 1.0.1

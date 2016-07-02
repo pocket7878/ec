@@ -46,10 +46,10 @@ let eofParser: GenericParser<String, (), Addr> = StringParser.character("$") >>-
     return GenericParser(result: Addr.Eof)
 }
 
-let lineNumberParser: GenericParser<String, (), UInt> = StringParser.oneOf("123456789") >>- { head in
+let lineNumberParser: GenericParser<String, (), Int> = StringParser.oneOf("123456789") >>- { head in
     StringParser.oneOf("0123456789").many.stringValue >>- {  body in
         let numStr = "\(head)\(body)"
-        return GenericParser(result: UInt(numStr)!)
+        return GenericParser(result: Int(numStr)!)
     }
 }
 
@@ -114,25 +114,25 @@ let cCmdParser: GenericParser<String, (), Cmd> = StringParser.character("c") *> 
 let dCmdParser: GenericParser<String, (), Cmd> = StringParser.character("d") *> GenericParser(result: Cmd.DCmd())
 
 let xCmdParser: GenericParser<String, (), Cmd> = StringParser.character("x") *> (patternLikeParser >>- { pat in
-    (StringParser.spaces *> cmdParser) >>- { cmd in
+    (StringParser.spaces *> cmdLineParser) >>- { cmd in
         return GenericParser(result: Cmd.XCmd(pat, cmd))
     }
 })
 
 let yCmdParser: GenericParser<String, (), Cmd> = StringParser.character("y") *> (patternLikeParser >>- { pat in
-    (StringParser.spaces *> cmdParser) >>- { cmd in
+    (StringParser.spaces *> cmdLineParser) >>- { cmd in
         return GenericParser(result: Cmd.YCmd(pat, cmd))
     }
     })
 
 let gCmdParser: GenericParser<String, (), Cmd> = StringParser.character("g") *> (patternLikeParser >>- { pat in
-    (StringParser.spaces *>  cmdParser) >>- { cmd in
+    (StringParser.spaces *>  cmdLineParser) >>- { cmd in
         return GenericParser(result: Cmd.GCmd(pat, cmd))
     }
     })
 
 let vCmdParser: GenericParser<String, (), Cmd> = StringParser.character("v") *> (patternLikeParser >>- { pat in
-    (StringParser.spaces *> cmdParser) >>- { cmd in
+    (StringParser.spaces *> cmdLineParser) >>- { cmd in
         return GenericParser(result: Cmd.VCmd(pat, cmd))
     }
     })

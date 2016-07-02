@@ -14,9 +14,9 @@ struct PatternLike {
 }
 
 indirect enum Addr {
-    case LineAddr(UInt)
-    case ForwardLineAddr(UInt)
-    case BackwardLineAddr(UInt)
+    case LineAddr(Int)
+    case ForwardLineAddr(Int)
+    case BackwardLineAddr(Int)
     case ForwardPatternAddr(PatternLike)
     case BackwardPatternAddr(PatternLike)
     case ComposeAddr(Addr, Addr)
@@ -29,11 +29,11 @@ indirect enum Cmd {
     case ACmd(String)
     case ICmd(String)
     case CCmd(String)
-    case XCmd(PatternLike, Cmd)
+    case XCmd(PatternLike, CmdLine)
     case DCmd()
-    case GCmd(PatternLike, Cmd)
-    case VCmd(PatternLike, Cmd)
-    case YCmd(PatternLike, Cmd)
+    case GCmd(PatternLike, CmdLine)
+    case VCmd(PatternLike, CmdLine)
+    case YCmd(PatternLike, CmdLine)
     case CmdGroup([CmdLine])
     case PipeCmd(String)
     case RedirectCmd(String)
