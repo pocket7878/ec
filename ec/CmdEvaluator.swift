@@ -217,27 +217,27 @@ func applyOffsetPatch(edit: TextEdit, offset: Int, patch: Patch) -> (TextEdit, I
     case .Insert(let p, let ns, let nd):
         var cloneStorage = edit.storage.copy() as! String
         cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
-        let newE = TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd))
+        let newE = TextEdit(storage: cloneStorage, dot: nd)
         return (newE, offset + ns.characters.count)
     case .Delete(let p1, let p2, let nd):
         var cloneStorage = edit.storage.copy() as! String
         cloneStorage.replaceRange(
             cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2),
             with: "")
-        return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset - (p2 - p1))
+        return (TextEdit(storage: cloneStorage, dot: nd), offset - (p2 - p1))
     case .Replace(let p1, let p2, let ns, let nd):
         var cloneStorage = edit.storage.copy() as! String
         cloneStorage.replaceRange(
             cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2),
             with: ns)
-        return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset - ((p2 - p1) - ns.characters.count))
+        return (TextEdit(storage: cloneStorage, dot: nd), offset - ((p2 - p1) - ns.characters.count))
     case .Append(let p, let ns, let nd):
         var cloneStorage = edit.storage.copy() as! String
         cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
-        return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset + ns.characters.count)
+        return (TextEdit(storage: cloneStorage, dot: nd), offset + ns.characters.count)
     case .MoveDot(let nd):
         let cloneStorage = edit.storage.copy() as! String
-        return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)) , offset)
+        return (TextEdit(storage: cloneStorage, dot: nd) , offset)
     case .NoOp:
         let cloneStorage = edit.storage.copy() as! String
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: edit.dot)), offset)
