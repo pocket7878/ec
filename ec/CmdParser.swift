@@ -54,11 +54,11 @@ let lineNumberParser: GenericParser<String, (), Int> = StringParser.oneOf("12345
     }
 }
 
-let forwardLineNumberAddrParser: GenericParser<String, (), Addr> = (StringParser.character("+") *> lineNumberParser) >>- { lnum in
+let forwardLineNumberAddrParser: GenericParser<String, (), Addr> = (StringParser.character("+") *> (lineNumberParser.attempt <|> GenericParser(result: 1))) >>- { lnum in
     return GenericParser(result: Addr.ForwardLineAddr(lnum))
 }
 
-let backwardLineNumberAddrParser: GenericParser<String, (), Addr> = (StringParser.character("-") *> lineNumberParser) >>- { lnum in
+let backwardLineNumberAddrParser: GenericParser<String, (), Addr> = (StringParser.character("-") *> (lineNumberParser.attempt <|> GenericParser(result: 1))) >>- { lnum in
     return GenericParser(result: Addr.BackwardLineAddr(lnum))
 }
 

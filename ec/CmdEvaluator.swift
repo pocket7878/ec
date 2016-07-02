@@ -79,6 +79,32 @@ func selectLine(edit: TextEdit, linum: Int) -> Patch {
     return Patch.MoveDot((p1, p2))
 }
 
+func selectForwardLine(edit: TextEdit, linum: Int) -> Patch {
+    if edit.dot.1 == 0 {
+        return selectLine(edit, linum: linum)
+    } else {
+        let restStr = edit.storage.substringFromIndex(edit.storage.startIndex.advancedBy(edit.dot.1 - 1))
+        var count = 0
+        var lineLenAcc = 0
+        var stopLineLen = 0
+        restStr.enumerateLines({ (line, stop) in
+            if (count < linum) {
+                lineLenAcc += line.characters.count + 1
+                count += 1
+            } else {
+                stop = true
+                stopLineLen = line.characters.count + 1
+            }
+        })
+        if (count < linum) {
+            //So lines outrange
+            return Patch.NoOp
+        } else {
+            return Patch.MoveDot((edit.dot.1 + lineLenAcc - 1, edit.dot.1 + lineLenAcc + stopLineLen - 1))
+        }
+    }
+}
+
 /*
  * Search func
  */
@@ -287,6 +313,10 @@ func evalAddr(edit: TextEdit, addr: Addr) throws -> Patch {
         } else {
             return Patch.NoOp
         }
+    case .ForwardLineAddr(let linum):
+        return selectForwardLine(edit, linum: linum)
+    case .BackwardLineAddr(let linum):
+        return selectForwardLine(edit, linum: linum)
     default:
         //TODO: Implement Forward Backward Pattern and Linenum
         return Patch.NoOp
