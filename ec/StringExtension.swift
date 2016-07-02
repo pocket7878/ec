@@ -15,5 +15,5 @@ extension String {
             lines.append(line)
         }
         return lines
-    }
+    }    
 }

@@ -12,6 +12,12 @@ import Cocoa
 
 typealias Dot = (Int, Int)
 
+enum ECError: ErrorType {
+    case PatternNotFound(String)
+    case AddrOutOfRange
+    case IlligalState
+}
+
 indirect enum Patch {
     case Insert(Int, String, Dot)
     case Delete(Int, Int, Dot)
@@ -79,7 +85,7 @@ func selectLine(edit: TextEdit, linum: Int) -> Patch {
     return Patch.MoveDot((p1, p2))
 }
 
-func selectForwardLine(edit: TextEdit, linum: Int) -> Patch {
+func selectForwardLine(edit: TextEdit, linum: Int) throws -> Patch {
     if edit.dot.1 == 0 {
         return selectLine(edit, linum: linum)
     } else {
@@ -97,10 +103,41 @@ func selectForwardLine(edit: TextEdit, linum: Int) -> Patch {
             }
         })
         if (count < linum) {
-            //So lines outrange
-            return Patch.NoOp
+            throw ECError.AddrOutOfRange
         } else {
             return Patch.MoveDot((edit.dot.1 + lineLenAcc - 1, edit.dot.1 + lineLenAcc + stopLineLen - 1))
+        }
+    }
+}
+
+func selectBackwardLine(edit: TextEdit, linum: Int) throws -> Patch {
+    if (edit.dot.0 < edit.storage.characters.count) {
+        let prevStr = edit.storage.substringToIndex(edit.storage.startIndex.advancedBy(edit.dot.0 + 1))
+        let rlines = prevStr.lines.reverse()
+        if (rlines.count > linum) {
+            var lineLenAcc = 0
+            var stopLineLen = 0
+            for i in 0 ..< (linum + 1) {
+                lineLenAcc += rlines[rlines.startIndex.advancedBy(i)].characters.count + 1
+                stopLineLen = rlines[rlines.startIndex.advancedBy(i)].characters.count + 1
+            }
+            return Patch.MoveDot((edit.dot.0 - lineLenAcc + 2, edit.dot.0 - lineLenAcc + 2 + stopLineLen))
+        } else {
+            throw ECError.AddrOutOfRange
+        }
+    } else {
+        let prevStr = edit.storage.substringToIndex(edit.storage.startIndex.advancedBy(edit.dot.0))
+        let rlines = prevStr.lines.reverse()
+        if (rlines.count > linum) {
+            var lineLenAcc = 0
+            var stopLineLen = 0
+            for i in 0 ..< (linum + 1) {
+                lineLenAcc += rlines[rlines.startIndex.advancedBy(i)].characters.count + 1
+                stopLineLen = rlines[rlines.startIndex.advancedBy(i)].characters.count + 1
+            }
+            return Patch.MoveDot((edit.dot.0 - lineLenAcc + 1, edit.dot.0 - lineLenAcc + 1 + stopLineLen))
+        } else {
+            throw ECError.AddrOutOfRange
         }
     }
 }
@@ -274,10 +311,7 @@ func applyOffsetPatch(edit: TextEdit, offset: Int, patch: Patch) -> (TextEdit, I
     }
 }
 
-enum ECError: ErrorType {
-    case PatternNotFound(String)
-    case IlligalState
-}
+
 
 func evalAddr(edit: TextEdit, addr: Addr) throws -> Patch {
     switch(addr) {
@@ -314,9 +348,9 @@ func evalAddr(edit: TextEdit, addr: Addr) throws -> Patch {
             return Patch.NoOp
         }
     case .ForwardLineAddr(let linum):
-        return selectForwardLine(edit, linum: linum)
+        return try selectForwardLine(edit, linum: linum)
     case .BackwardLineAddr(let linum):
-        return selectForwardLine(edit, linum: linum)
+        return try selectBackwardLine(edit, linum: linum)
     default:
         //TODO: Implement Forward Backward Pattern and Linenum
         return Patch.NoOp
