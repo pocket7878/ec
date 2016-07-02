@@ -430,7 +430,7 @@ func evalCmdLine(edit: TextEdit, cmdLine: CmdLine) throws -> [Patch] {
     if let cmd = cmdLine.cmd {
         return try evalCmd(newEdit, cmd: cmd)
     } else {
-        return [Patch.NoOp]
+        return [Patch.MoveDot(newEdit.dot)]
     }
 }
 
