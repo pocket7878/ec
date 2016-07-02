@@ -24,7 +24,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489157760.995904"
+            timestampString = "489160242.381258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "230"
@@ -40,7 +40,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489158173.028334"
+            timestampString = "489160242.381258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
@@ -56,7 +56,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489158220.577073"
+            timestampString = "489160242.381258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "332"
@@ -72,7 +72,7 @@
                   moduleName = "ec"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "489159401.436523"
+                  timestampString = "489160243.756817"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "332"
@@ -87,7 +87,7 @@
                   moduleName = "ec"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "489159401.436624"
+                  timestampString = "489160243.756944"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "333"
@@ -95,6 +95,86 @@
                   offsetFromSymbolStart = "95">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/CmdEvaluator.swift"
+            timestampString = "489159601.172909"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "selectLine(_:linum:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.selectLine (ec.TextEdit, linum : Swift.Int) -&gt; ec.Patch"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "489159601.176102"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "241">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.(selectLine (ec.TextEdit, linum : Swift.Int) -&gt; ec.Patch).(closure #1)"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "489159601.176241"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/CmdEvaluator.swift"
+            timestampString = "489159613.868523"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "selectLine(_:linum:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/CmdEvaluator.swift"
+            timestampString = "489160242.381258"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "selectLine(_:linum:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

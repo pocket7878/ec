@@ -37,7 +37,7 @@ class ViewController: NSViewController, NSTextStorageDelegate {
             let currDot = mainTextView.selectedRange()
             let newEdit = try runCmdLine(TextEdit(storage:  mainTextView.textStorage!.string, dot: (currDot.location, currDot.location + currDot.length)), cmdLine: res.0)
             mainTextView.textStorage?.setAttributedString(NSAttributedString(string: String(newEdit.storage)))
-            mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1))
+            mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
         } catch {
         }
     }

@@ -69,10 +69,10 @@ func selectEOF(edit: TextEdit) -> Patch {
 func selectLine(edit: TextEdit, linum: Int) -> Patch {
     let ls = String(edit.storage).lines
     let lens = ls.map({ (l) -> Int in
-        l.characters.count
+        l.characters.count + 1
     })
     var p1 = 0
-    for i in 0..<linum {
+    for i in 0..<(linum - 1) {
         p1 += lens[i]
     }
     let p2 = p1 + lens[linum - 1]
