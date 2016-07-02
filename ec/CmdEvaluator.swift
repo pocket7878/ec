@@ -85,9 +85,9 @@ func selectLine(edit: TextEdit, linum: Int) -> Patch {
 func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count)
+    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count - edit.dot.1)
     let backwardRange = NSMakeRange(0, edit.dot.0)
-    if let firstMatchRange: NSRange = regex.firstMatchInString(String(edit.storage), options: [], range: forwardRange)?.range {
+    if let firstMatchRange: NSRange = regex.firstMatchInString(edit.storage, options: [], range: forwardRange)?.range {
         return Patch.MoveDot((firstMatchRange.location, firstMatchRange.location + firstMatchRange.length))
     } else if let firstMatchRange: NSRange = regex.firstMatchInString(String(edit.storage), options: [], range: backwardRange)?.range {
         return Patch.MoveDot((firstMatchRange.location, firstMatchRange.location + firstMatchRange.length))
@@ -99,7 +99,7 @@ func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count)
+    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count - edit.dot.1)
     let backwardRange = NSMakeRange(0, edit.dot.0)
     let backwardMatchies = regex.matchesInString(String(edit.storage), options: [], range: backwardRange)
     if backwardMatchies.count > 0 {
@@ -274,6 +274,18 @@ func evalAddr(edit: TextEdit, addr: Addr) throws -> Patch {
             }
         } else {
             throw ECError.IlligalState
+        }
+    case .ForwardPatternAddr(let pat):
+        if let res = try searchForward(edit, pat: pat) {
+            return res
+        } else {
+            return Patch.NoOp
+        }
+    case .BackwardPatternAddr(let pat):
+        if let res = try searchBackward(edit, pat: pat) {
+            return res
+        } else {
+            return Patch.NoOp
         }
     default:
         //TODO: Implement Forward Backward Pattern and Linenum

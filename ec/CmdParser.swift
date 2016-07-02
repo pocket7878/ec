@@ -24,9 +24,10 @@ let textLineParser: GenericParser<String, (), String> = (StringParser.noneOf("\n
     return GenericParser(result: lineStr)
 }
 
-let dotLineParser: GenericParser<String, (), Bool> = (StringParser.character(".") *> StringParser.endOfLine) >>- { _ in
-    return GenericParser(result: true)
-}
+let dotLineParser: GenericParser<String, (), Bool> = (StringParser.character(".") *>
+    StringParser.endOfLine *>
+    GenericParser(result: true)).attempt <|>
+    (StringParser.character(".") *> StringParser.eof *> GenericParser(result: true))
 
 let textLinesParser: GenericParser<String, (), [String]> = textLineParser.manyTill(dotLineParser)
 
@@ -94,7 +95,7 @@ let addrParser: GenericParser<String, (), Addr> = composeAddrParser.attempt <|> 
 let patternStrOrMultilineParser: GenericParser<String, (), String> = ((patternLikeParser >>- { pat in
     return GenericParser(result: pat.pat)
     }) <|>
-    (textLinesParser >>- { lines in
+    ((StringParser.endOfLine *> textLinesParser) >>- { lines in
         let str = lines.joinWithSeparator("\n")
         return GenericParser(result: str)
         }))
