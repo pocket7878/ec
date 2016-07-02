@@ -23,20 +23,22 @@ indirect enum Patch {
 }
 
 struct TextEdit {
-    let storage: NSTextStorage
+    let storage: String
     var dot: Dot
 }
 
 func dotText(edit: TextEdit) -> String {
-    return edit.storage.string.substringWithRange(edit.storage.string.startIndex.advancedBy(edit.dot.0)..<edit.storage.string.startIndex.advancedBy(edit.dot.1))
+    return edit.storage.substringWithRange(
+        edit.storage.startIndex.advancedBy(edit.dot.0) ..< edit.storage.startIndex.advancedBy(edit.dot.1)
+    )
 }
 
 func strToEof(edit: TextEdit) -> String {
-    return edit.storage.string.substringFromIndex(edit.storage.string.startIndex.advancedBy(edit.dot.1))
+    return edit.storage.substringFromIndex(edit.storage.startIndex.advancedBy(edit.dot.1))
 }
 
 func strFromBof(edit: TextEdit) -> String {
-    return edit.storage.string.substringToIndex(edit.storage.string.startIndex.advancedBy(edit.dot.0))
+    return edit.storage.substringToIndex(edit.storage.startIndex.advancedBy(edit.dot.0))
 }
 
 func appendString(edit: TextEdit, str: String) -> Patch {
@@ -60,12 +62,12 @@ func selectBOF(edit: TextEdit) -> Patch {
 }
 
 func selectEOF(edit: TextEdit) -> Patch {
-    let eofpos = edit.storage.string.characters.count
+    let eofpos = edit.storage.characters.count
     return Patch.MoveDot((eofpos, eofpos))
 }
 
 func selectLine(edit: TextEdit, linum: Int) -> Patch {
-    let ls = edit.storage.string.lines
+    let ls = String(edit.storage).lines
     let lens = ls.map({ (l) -> Int in
         l.characters.count
     })
@@ -83,11 +85,11 @@ func selectLine(edit: TextEdit, linum: Int) -> Patch {
 func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.string.characters.count)
+    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count)
     let backwardRange = NSMakeRange(0, edit.dot.0)
-    if let firstMatchRange: NSRange = regex.firstMatchInString(edit.storage.string, options: [], range: forwardRange)?.range {
+    if let firstMatchRange: NSRange = regex.firstMatchInString(String(edit.storage), options: [], range: forwardRange)?.range {
         return Patch.MoveDot((firstMatchRange.location, firstMatchRange.location + firstMatchRange.length))
-    } else if let firstMatchRange: NSRange = regex.firstMatchInString(edit.storage.string, options: [], range: backwardRange)?.range {
+    } else if let firstMatchRange: NSRange = regex.firstMatchInString(String(edit.storage), options: [], range: backwardRange)?.range {
         return Patch.MoveDot((firstMatchRange.location, firstMatchRange.location + firstMatchRange.length))
     } else {
         return nil
@@ -97,9 +99,9 @@ func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.string.characters.count)
+    let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count)
     let backwardRange = NSMakeRange(0, edit.dot.0)
-    let backwardMatchies = regex.matchesInString(edit.storage.string, options: [], range: backwardRange)
+    let backwardMatchies = regex.matchesInString(String(edit.storage), options: [], range: backwardRange)
     if backwardMatchies.count > 0 {
         if let lastMatch = backwardMatchies.last {
             return Patch.MoveDot((lastMatch.range.location, lastMatch.range.location + lastMatch.range.length))
@@ -107,7 +109,7 @@ func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
             throw ECError.IlligalState
         }
     } else {
-        let forwardMatchies = regex.matchesInString(edit.storage.string, options: [], range: forwardRange)
+        let forwardMatchies = regex.matchesInString(String(edit.storage), options: [], range: forwardRange)
         if forwardMatchies.count > 0 {
             if let lastMatch = forwardMatchies.last {
                 return Patch.MoveDot((lastMatch.range.location, lastMatch.range.location + lastMatch.range.length))
@@ -122,7 +124,7 @@ func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    return regex.matchesInString(edit.storage.string, options: [], range: NSMakeRange(0, edit.storage.string.characters.count)).map { (res) -> Dot in
+    return regex.matchesInString(String(edit.storage), options: [], range: NSMakeRange(0, edit.storage.characters.count)).map { (res) -> Dot in
         (res.range.location, res.range.location + res.range.length)
     }
 }
@@ -130,14 +132,25 @@ func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
 func findAllMatchiesWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    return regex.matchesInString(edit.storage.string, options: [], range: NSMakeRange(0, edit.storage.string.characters.count)).map { (res) -> Dot in
+    return regex.matchesInString(String(edit.storage), options: [], range: NSMakeRange(0, edit.storage.characters.count)).map { (res) -> Dot in
         let d = (res.range.location, res.range.location + res.range.length)
-        shiftDot(offset, dot: d)
+        return shiftDot(offset, dot: d)
     }
 }
 
 func findAllUnmatchWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
-    
+    let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: offset)
+    let lastIdx = offset + pat.pat.characters.count
+    var rx = [(offset, offset)]
+    rx.appendContentsOf(dx)
+    rx.append((lastIdx, lastIdx))
+    var px: [(Dot, Dot)] = []
+    for i in 0..<(rx.count - 1) {
+        px.append((rx[i], rx[i + 1]))
+    }
+    return px.map { (let p) -> Dot in
+        (p.0.1, p.1.0)
+    }
 }
 
 
@@ -171,23 +184,27 @@ func shiftPatch(offset: Int, patch: Patch) -> Patch {
 func applyPatch(edit: TextEdit, patch: Patch) -> TextEdit {
     switch(patch) {
     case .Insert(let p, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.insertAttributedString(NSAttributedString(string: ns), atIndex: Int(p))
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
         return TextEdit(storage: cloneStorage, dot: nd)
     case .Delete(let p1, let p2, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.replaceCharactersInRange(NSMakeRange(Int(p1), Int(p2 - p1)), withString: "")
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.replaceRange(
+            cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2 - p1),
+            with: "")
         return TextEdit(storage: cloneStorage, dot: nd)
     case .Replace(let p1, let p2, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.replaceCharactersInRange(NSMakeRange(Int(p1), Int(p2 - p1)), withString: ns)
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.replaceRange(
+            cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2 - p1),
+            with: ns)
         return TextEdit(storage: cloneStorage, dot: nd)
     case .Append(let p, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.insertAttributedString(NSAttributedString(string: ns), atIndex: Int(p))
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
         return TextEdit(storage: cloneStorage, dot: nd)
     case .MoveDot(let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
+        let cloneStorage = edit.storage.copy() as! String
         return TextEdit(storage: cloneStorage, dot: nd)
     default:
         break
@@ -198,34 +215,37 @@ func applyPatch(edit: TextEdit, patch: Patch) -> TextEdit {
 func applyOffsetPatch(edit: TextEdit, offset: Int, patch: Patch) -> (TextEdit, Int) {
     switch(patch) {
     case .Insert(let p, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.insertAttributedString(NSAttributedString(string: ns), atIndex: p)
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
         let newE = TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd))
         return (newE, offset + ns.characters.count)
     case .Delete(let p1, let p2, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.replaceCharactersInRange(NSMakeRange(Int(p1), Int(p2 - p1)), withString: "")
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.replaceRange(
+            cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2),
+            with: "")
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset - (p2 - p1))
     case .Replace(let p1, let p2, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.replaceCharactersInRange(NSMakeRange(Int(p1), Int(p2 - p1)), withString: ns)
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.replaceRange(
+            cloneStorage.startIndex.advancedBy(p1) ..< cloneStorage.startIndex.advancedBy(p2),
+            with: ns)
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset - ((p2 - p1) - ns.characters.count))
     case .Append(let p, let ns, let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
-        cloneStorage.insertAttributedString(NSAttributedString(string: ns), atIndex: Int(p))
+        var cloneStorage = edit.storage.copy() as! String
+        cloneStorage.insertContentsOf(ns.characters, at: cloneStorage.startIndex.advancedBy(p))
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)), offset + ns.characters.count)
     case .MoveDot(let nd):
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
+        let cloneStorage = edit.storage.copy() as! String
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: nd)) , offset)
     case .NoOp:
-        let cloneStorage = edit.storage.copy() as! NSTextStorage
+        let cloneStorage = edit.storage.copy() as! String
         return (TextEdit(storage: cloneStorage, dot: shiftDot(offset, dot: edit.dot)), offset)
     case .Group(let ps):
         return ps.reduce((edit, offset), combine: { (let st, p) -> (TextEdit, Int) in
             applyOffsetPatch(st.0, offset: st.1, patch: p)
         })
     }
-    return (edit, offset)
 }
 
 enum ECError: ErrorType {
@@ -307,6 +327,16 @@ func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
         } catch {
             throw ECError.IlligalState
         }
+    case .XCmd(let pat, let cli):
+        let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: edit.dot.0)
+        return try dx.flatMap({ (let d) -> [Patch] in
+            try evalCmdLine(TextEdit(storage: edit.storage.copy() as! String, dot: d), cmdLine: cli)
+        })
+    case .YCmd(let pat, let cli):
+        let dx = try findAllUnmatchWithOffset(edit, pat: pat, offset: edit.dot.0)
+        return try dx.flatMap({ (let d) -> [Patch] in
+            try evalCmdLine(TextEdit(storage: edit.storage.copy() as! String, dot: d), cmdLine: cli)
+        })
     case .CmdGroup(let clx):
         return try clx.flatMap({ (cl) -> [Patch] in
             try evalCmdLine(edit, cmdLine: cl)
@@ -318,11 +348,11 @@ func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
 }
 
 func evalCmdLine(edit: TextEdit, cmdLine: CmdLine) throws -> [Patch] {
-    for addr in cmdLine.adders {
-        try applyAddr(edit, addr: addr)
-    }
+    let newEdit = try cmdLine.adders.reduce(edit, combine: { (e, a) -> TextEdit in
+        try applyAddr(e, addr: a)
+    })
     if let cmd = cmdLine.cmd {
-        return try evalCmd(edit, cmd: cmd)
+        return try evalCmd(newEdit, cmd: cmd)
     } else {
         return [Patch.NoOp]
     }
@@ -332,7 +362,7 @@ func runCmdLine(edit: TextEdit, cmdLine: CmdLine) throws -> TextEdit {
     if cmdLine.cmd != nil {
         let px = try evalCmdLine(edit, cmdLine: cmdLine)
         let res = px.reduce((edit, 0), combine: { (let st, p) -> (TextEdit, Int) in
-            applyOffsetPatch(st.0, offset: st.1, patch: p)
+            applyOffsetPatch(st.0, offset: st.1, patch: shiftPatch(st.1, patch: p))
         })
         return res.0
     } else {

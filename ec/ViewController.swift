@@ -32,11 +32,14 @@ class ViewController: NSViewController, NSTextStorageDelegate {
     }
 
     @IBAction func runBtnTouched(sender: NSButton) {
-        //addrParser.test(cmdTextView.string!)
-        cmdLineParser.test(cmdTextView.string!)
-        //textLinesParser.test(cmdTextView.string!)
-        //basicAddrParser.test(cmdTextView.string!)
-        //patternLikeParser.test(cmdTextView.string!)
+        do {
+            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmdTextView.textStorage!.string)
+            let currDot = mainTextView.selectedRange()
+            let newEdit = try runCmdLine(TextEdit(storage:  mainTextView.textStorage!.string, dot: (currDot.location, currDot.location + currDot.length)), cmdLine: res.0)
+            mainTextView.textStorage?.setAttributedString(NSAttributedString(string: String(newEdit.storage)))
+            mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1))
+        } catch {
+        }
     }
 
     @IBAction func addBtnTouched(sender: NSButton) {
