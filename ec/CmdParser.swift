@@ -138,12 +138,12 @@ let vCmdParser: GenericParser<String, (), Cmd> = StringParser.character("v") *> 
     }
     })
 
-let pipeCmdParser: GenericParser<String, (), Cmd> = StringParser.character("|") *> StringParser.spaces *> (StringParser.noneOf(" \t\n\r").many1.stringValue >>- { cmd in
-    return GenericParser(result: Cmd.PipeCmd(cmd))
-})
+let pipeCmdParser: GenericParser<String, (), Cmd> = StringParser.character("|") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.PipeCmd(pat.pat))
+    })
 
-let redirectCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> StringParser.spaces *> (StringParser.noneOf(" \t\n\r").many1.stringValue >>- {cmd in
-    return GenericParser(result: Cmd.RedirectCmd(cmd))
+let redirectCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.RedirectCmd(pat.pat))
     })
 
 let groupCmdParser: GenericParser<String, (), Cmd> = cmdLineParser.separatedBy(StringParser.endOfLine).between(StringParser.character("{"), StringParser.character("}")) >>- { cmds in

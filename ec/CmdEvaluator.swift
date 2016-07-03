@@ -362,7 +362,7 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
     }
     throw ECError.IlligalState
 }
-func runCommand(cmd : String, inputStr: String?, wdir: String?, args : String...) -> (output: [String], error: [String], exitCode: Int32) {
+func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
     
     var output : [String] = []
     var error : [String] = []
@@ -475,20 +475,41 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         })
     case .PipeCmd(let cmd):
         let dstr = dotText(edit)
-        let res = runCommand(cmd, inputStr: dstr, wdir: folderPath)
-        if res.exitCode == 0 {
-            let str = res.0.joinWithSeparator("\n")
-            return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+        let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if cx.count > 0 {
+            let c: String = cx[0]
+            var args: [String] = []
+            for i in 1..<cx.count {
+                args.append(cx[i])
+            }
+            let res = runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
+            if res.exitCode == 0 {
+                let str = res.0.joinWithSeparator("\n")
+                return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+            } else {
+                throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+            }
         } else {
-            throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+            return [Patch.NoOp]
         }
     case .RedirectCmd(let cmd):
-        let res = runCommand(cmd, inputStr: nil, wdir: folderPath)
-        if res.exitCode == 0 {
-            let str = res.0.joinWithSeparator("\n")
-            return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+        let dstr = dotText(edit)
+        let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if cx.count > 0 {
+            let c: String = cx[0]
+            var args: [String] = []
+            for i in 1..<cx.count {
+                args.append(cx[i])
+            }
+            let res = runCommand(c, inputStr: nil, wdir: folderPath, args: args)
+            if res.exitCode == 0 {
+                let str = res.0.joinWithSeparator("\n")
+                return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+            } else {
+                throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+            }
         } else {
-            throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+            return [Patch.NoOp]
         }
     default:
         return [Patch.NoOp]
