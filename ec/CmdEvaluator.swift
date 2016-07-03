@@ -16,6 +16,7 @@ enum ECError: ErrorType {
     case PatternNotFound(String)
     case AddrOutOfRange
     case IlligalState
+    case SystemCmdExecuteError(String)
 }
 
 indirect enum Patch {
@@ -361,8 +362,59 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
     }
     throw ECError.IlligalState
 }
+func runCommand(cmd : String, inputStr: String?, wdir: String?, args : String...) -> (output: [String], error: [String], exitCode: Int32) {
+    
+    var output : [String] = []
+    var error : [String] = []
+    
+    let task = NSTask()
+    var ax = [cmd]
+    ax.appendContentsOf(args)
+    task.launchPath = "/usr/bin/env"
+    task.arguments = ax
+    if let wdir = wdir {
+        task.currentDirectoryPath = wdir
+    } else {
+        task.currentDirectoryPath = "~/"
+    }
+    
+    if let instr = inputStr,
+        inData = instr.dataUsingEncoding(NSUTF8StringEncoding) {
+        let inpipe = NSPipe()
+        task.standardInput = inpipe
+        let handle = inpipe.fileHandleForWriting
+        handle.writeData(inData)
+        handle.closeFile()
+    }
+    
+    let outpipe = NSPipe()
+    task.standardOutput = outpipe
+    let errpipe = NSPipe()
+    task.standardError = errpipe
+    
+    task.launch()
+    
 
-func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
+    
+    let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
+    if var string = String.fromCString(UnsafePointer(outdata.bytes)) {
+        string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        output = string.componentsSeparatedByString("\n")
+    }
+    
+    let errdata = errpipe.fileHandleForReading.readDataToEndOfFile()
+    if var string = String.fromCString(UnsafePointer(errdata.bytes)) {
+        string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        error = string.componentsSeparatedByString("\n")
+    }
+    
+    task.waitUntilExit()
+    let status = task.terminationStatus
+    
+    return (output, error, status)
+}
+
+func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
     switch(cmd) {
     case .ACmd(let str):
         return [Patch.Append(edit.dot.1, str, (edit.dot.1, edit.dot.1 + str.characters.count))]
@@ -379,7 +431,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count > 0) {
-                try evalCmdLine(edit, cmdLine: cmd)
+                try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
             } else {
                 return [Patch.NoOp]
             }
@@ -393,7 +445,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count == 0) {
-                try evalCmdLine(edit, cmdLine: cmd)
+                try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
             } else {
                 return [Patch.NoOp]
             }
@@ -403,37 +455,61 @@ func evalCmd(edit: TextEdit, cmd: Cmd) throws -> [Patch] {
     case .XCmd(let pat, let cli):
         let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: edit.dot.0)
         return try dx.flatMap({ (let d) -> [Patch] in
-            try evalCmdLine(TextEdit(storage: edit.storage.copy() as! String, dot: d), cmdLine: cli)
+            try evalCmdLine(
+                TextEdit(storage: edit.storage.copy() as! String, dot: d),
+                cmdLine: cli,
+                folderPath: folderPath)
         })
     case .YCmd(let pat, let cli):
         let dx = try findAllUnmatchWithOffset(edit, pat: pat, offset: edit.dot.0)
         return try dx.flatMap({ (let d) -> [Patch] in
-            try evalCmdLine(TextEdit(storage: edit.storage.copy() as! String, dot: d), cmdLine: cli)
+            try evalCmdLine(
+                TextEdit(storage: edit.storage.copy() as! String, dot: d),
+                cmdLine: cli,
+                folderPath: folderPath
+            )
         })
     case .CmdGroup(let clx):
         return try clx.flatMap({ (cl) -> [Patch] in
-            try evalCmdLine(edit, cmdLine: cl)
+            try evalCmdLine(edit, cmdLine: cl, folderPath: folderPath)
         })
+    case .PipeCmd(let cmd):
+        let dstr = dotText(edit)
+        let res = runCommand(cmd, inputStr: dstr, wdir: folderPath)
+        if res.exitCode == 0 {
+            let str = res.0.joinWithSeparator("\n")
+            return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+        } else {
+            throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+        }
+    case .RedirectCmd(let cmd):
+        let res = runCommand(cmd, inputStr: nil, wdir: folderPath)
+        if res.exitCode == 0 {
+            let str = res.0.joinWithSeparator("\n")
+            return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+        } else {
+            throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+        }
     default:
         return [Patch.NoOp]
     }
     throw ECError.IlligalState
 }
 
-func evalCmdLine(edit: TextEdit, cmdLine: CmdLine) throws -> [Patch] {
+func evalCmdLine(edit: TextEdit, cmdLine: CmdLine, folderPath: String?) throws -> [Patch] {
     let newEdit = try cmdLine.adders.reduce(edit, combine: { (e, a) -> TextEdit in
         try applyAddr(e, addr: a)
     })
     if let cmd = cmdLine.cmd {
-        return try evalCmd(newEdit, cmd: cmd)
+        return try evalCmd(newEdit, cmd: cmd, folderPath: folderPath)
     } else {
         return [Patch.MoveDot(newEdit.dot)]
     }
 }
 
-func runCmdLine(edit: TextEdit, cmdLine: CmdLine) throws -> TextEdit {
+func runCmdLine(edit: TextEdit, cmdLine: CmdLine, folderPath: String?) throws -> TextEdit {
     if cmdLine.cmd != nil {
-        let px = try evalCmdLine(edit, cmdLine: cmdLine)
+        let px = try evalCmdLine(edit, cmdLine: cmdLine, folderPath: folderPath)
         let res = px.reduce((edit, 0), combine: { (let st, p) -> (TextEdit, Int) in
             applyOffsetPatch(st.0, offset: st.1, patch: shiftPatch(st.1, patch: p))
         })

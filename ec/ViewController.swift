@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
 
     @IBOutlet var mainTextView: NSTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -23,6 +23,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.setDataSource(cmdPalett)
         cmdPalettView.setDelegate(cmdPalett)
         cmdPalettView.selectionDelegate = self
+        mainTextView.delegate = self
     }
 
     override var representedObject: AnyObject? {
@@ -34,15 +35,34 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     func runCommand(cmd: String) {
         do {
+            var fileFolderPath: String? = nil
+            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                let fpath = fileUrl.path {
+                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            }
             let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
             let currDot = mainTextView.selectedRange()
-            let newEdit = try runCmdLine(TextEdit(storage:  mainTextView.textStorage!.string, dot: (currDot.location, currDot.location + currDot.length)), cmdLine: res.0)
+            let newEdit = try runCmdLine(
+                TextEdit(
+                    storage:  mainTextView.textStorage!.string,
+                    dot: (currDot.location, currDot.location + currDot.length)),
+                cmdLine: res.0,
+                folderPath: fileFolderPath
+            )
             if mainTextView.shouldChangeTextInRange(NSMakeRange(0, mainTextView.textStorage!.string.characters.count), replacementString: newEdit.storage) {
                 mainTextView.string = newEdit.storage
                 mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
                 mainTextView.didChangeText()
             }
         } catch {
+            if let nserror = error as? NSError {
+                let alert = NSAlert(error: nserror)
+                alert.runModal()
+            } else {
+                let alert = NSAlert()
+                alert.messageText = "\(error)"
+                alert.runModal()
+            }
         }
     }
 
@@ -72,8 +92,13 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         runCommand(cmdPalett.palett[idx])
     }
     
-    func onMiddleClick(idx: Int) {
-        runCommand(cmdPalett.palett[idx])
+    //MARK: NSTextViewDelegate
+    func textView(textView: NSTextView, doCommandBySelector commandSelector: Selector) -> Bool {
+        if commandSelector == Selector("insertTab:") {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

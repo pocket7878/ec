@@ -11,7 +11,6 @@ import Cocoa
 import AppKit
 
 protocol CmdPalettSelectionDelgate: class {
-    func onMiddleClick(idx: Int)
     func onRightClick(idx: Int)
 }
 

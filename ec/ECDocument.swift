@@ -14,10 +14,6 @@ class ECDocument: NSDocument {
     
     var contentOfFile: NSAttributedString = NSAttributedString(string: "")
     
-    override init() {
-        super.init()
-    }
-    
     override class func autosavesInPlace() -> Bool {
         return true
     }
@@ -43,6 +39,10 @@ class ECDocument: NSDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
     
+    override func readFromURL(url: NSURL, ofType typeName: String) throws {
+        self.contentOfFile = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+    }
+    /*
     override func readFromData(data: NSData, ofType typeName: String) throws {
         do {
             let fileContents = try NSAttributedString(data: data, options: [:], documentAttributes: nil)
@@ -51,4 +51,5 @@ class ECDocument: NSDocument {
             throw error
         }
     }
+ */
 }
