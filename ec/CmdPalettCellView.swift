@@ -9,6 +9,10 @@
 import Foundation
 import AppKit
 
+
+
 class CmdPalettCellView: NSTableCellView {
-    @IBOutlet weak var cmdView: NSTextField!
+    
+    @IBOutlet weak var cmdLabel: NSTextField!
+    
 }

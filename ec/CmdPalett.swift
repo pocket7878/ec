@@ -26,13 +26,13 @@ class CmdPalett: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
-        cellView.cmdView.stringValue = palett[row]
+        cellView.cmdLabel.stringValue = palett[row]
         return cellView
     }
     
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
-        cellView.cmdView.stringValue = palett[row]
+        cellView.cmdLabel.stringValue = palett[row]
         return cellView.fittingSize.height
     }
 }

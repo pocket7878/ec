@@ -351,9 +351,6 @@ func evalAddr(edit: TextEdit, addr: Addr) throws -> Patch {
         return try selectForwardLine(edit, linum: linum)
     case .BackwardLineAddr(let linum):
         return try selectBackwardLine(edit, linum: linum)
-    default:
-        //TODO: Implement Forward Backward Pattern and Linenum
-        return Patch.NoOp
     }
 }
 

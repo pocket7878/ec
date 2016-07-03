@@ -686,7 +686,7 @@
                                                     <rect key="frame" x="1" y="1" width="200" height="589"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="51" rowSizeStyle="automatic" viewBased="YES" id="eHQ-Vn-P1l">
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="51" rowSizeStyle="automatic" viewBased="YES" id="eHQ-Vn-P1l" customClass="CmdPalettView" customModule="ec" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="0.0"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -710,23 +710,23 @@
                                                                             <rect key="frame" x="1" y="1" width="197" height="51"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
-                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVW-P2-Opb">
-                                                                                    <rect key="frame" x="3" y="3" width="191" height="45"/>
-                                                                                    <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="atg-bs-7nR">
+                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iau-i8-eCG">
+                                                                                    <rect key="frame" x="1" y="3" width="195" height="45"/>
+                                                                                    <textFieldCell key="cell" controlSize="mini" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Multiline Label" id="mpV-kW-mb4">
                                                                                         <font key="font" metaFont="system"/>
-                                                                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
                                                                                 </textField>
                                                                             </subviews>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="bottom" secondItem="NVW-P2-Opb" secondAttribute="bottom" constant="3" id="XMo-09-2y7"/>
-                                                                                <constraint firstItem="NVW-P2-Opb" firstAttribute="top" secondItem="eJS-75-1f8" secondAttribute="top" constant="3" id="lfS-Kg-2dE"/>
-                                                                                <constraint firstItem="NVW-P2-Opb" firstAttribute="leading" secondItem="eJS-75-1f8" secondAttribute="leading" constant="3" id="mDw-Or-XhX"/>
-                                                                                <constraint firstAttribute="trailing" secondItem="NVW-P2-Opb" secondAttribute="trailing" constant="3" id="oy2-0F-zDU"/>
+                                                                                <constraint firstItem="iau-i8-eCG" firstAttribute="leading" secondItem="eJS-75-1f8" secondAttribute="leading" constant="3" id="BrN-sk-BgB"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="iau-i8-eCG" secondAttribute="bottom" constant="3" id="iNc-9V-GQ5"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="iau-i8-eCG" secondAttribute="trailing" constant="3" id="p9x-Ix-Lbw"/>
+                                                                                <constraint firstItem="iau-i8-eCG" firstAttribute="top" secondItem="eJS-75-1f8" secondAttribute="top" constant="3" id="u4w-d5-oVE"/>
                                                                             </constraints>
                                                                             <connections>
-                                                                                <outlet property="cmdView" destination="NVW-P2-Opb" id="MmP-YN-z8O"/>
+                                                                                <outlet property="cmdLabel" destination="iau-i8-eCG" id="Ceh-Kc-Jcw"/>
                                                                             </connections>
                                                                         </tableCellView>
                                                                     </prototypeCellViews>

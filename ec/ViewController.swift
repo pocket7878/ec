@@ -8,11 +8,11 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate {
 
     @IBOutlet var mainTextView: NSTextView!
     @IBOutlet var cmdTextView: NSTextView!
-    @IBOutlet weak var cmdPalettView: NSTableView!
+    @IBOutlet weak var cmdPalettView: CmdPalettView!
     
     var doc: ECDocument?
     
@@ -22,6 +22,7 @@ class ViewController: NSViewController, NSTextStorageDelegate {
         super.viewDidLoad()
         cmdPalettView.setDataSource(cmdPalett)
         cmdPalettView.setDelegate(cmdPalett)
+        cmdPalettView.selectionDelegate = self
     }
 
     override var representedObject: AnyObject? {
@@ -30,16 +31,23 @@ class ViewController: NSViewController, NSTextStorageDelegate {
         // Update the view, if already loaded.
         }
     }
-
-    @IBAction func runBtnTouched(sender: NSButton) {
+    
+    func runCommand(cmd: String) {
         do {
-            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmdTextView.textStorage!.string)
+            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
             let currDot = mainTextView.selectedRange()
             let newEdit = try runCmdLine(TextEdit(storage:  mainTextView.textStorage!.string, dot: (currDot.location, currDot.location + currDot.length)), cmdLine: res.0)
-            mainTextView.textStorage?.setAttributedString(NSAttributedString(string: String(newEdit.storage)))
-            mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
+            if mainTextView.shouldChangeTextInRange(NSMakeRange(0, mainTextView.textStorage!.string.characters.count), replacementString: newEdit.storage) {
+                mainTextView.string = newEdit.storage
+                mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
+                mainTextView.didChangeText()
+            }
         } catch {
         }
+    }
+
+    @IBAction func runBtnTouched(sender: NSButton) {
+        runCommand(cmdTextView.textStorage!.string)
     }
 
     @IBAction func addBtnTouched(sender: NSButton) {
@@ -57,6 +65,15 @@ class ViewController: NSViewController, NSTextStorageDelegate {
         if let doc = self.doc {
             doc.contentOfFile = mainTextView.attributedString()
         }
+    }
+    
+    //MARK: CmdPalettSelectionDelegate
+    func onRightClick(idx: Int) {
+        runCommand(cmdPalett.palett[idx])
+    }
+    
+    func onMiddleClick(idx: Int) {
+        runCommand(cmdPalett.palett[idx])
     }
 }
 
