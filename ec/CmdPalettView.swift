@@ -11,7 +11,9 @@ import Cocoa
 import AppKit
 
 protocol CmdPalettSelectionDelgate: class {
-    func onRightClick(idx: Int)
+    func find(sender: NSMenuItem, row: Int)
+    func run(row: Int)
+    func delete(row: Int)
 }
 
 
@@ -23,15 +25,32 @@ class CmdPalettView: NSTableView {
         let mp = self.convertPoint(event.locationInWindow, fromView: nil)
         let row = self.rowAtPoint(mp)
         
-        self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-        
-        switch(event.type) {
-        case .RightMouseDown:
-            self.selectionDelegate?.onRightClick(row)
-        default:
-            break
+        if (row >= 0) {
+            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            let menu = NSMenu()
+            menu.addItem(NSMenuItem(title: "Find", action: #selector(CmdPalettView.find(_:)), keyEquivalent: ""))
+            menu.addItem(NSMenuItem(title: "Run", action: #selector(CmdPalettView.run), keyEquivalent: ""))
+            menu.addItem(NSMenuItem(title: "Delete", action: #selector(CmdPalettView.delete), keyEquivalent: ""))
+            return menu
+        } else {
+            return nil
         }
-        
         return nil
+    }
+    
+
+    func find(sender: NSMenuItem) {
+        let row = self.selectedRow
+        self.selectionDelegate?.find(sender, row: row)
+    }
+    
+    func run(sender: NSMenuItem) {
+        let row = self.selectedRow
+        self.selectionDelegate?.run(row)
+    }
+    
+    func delete(sender: NSMenuItem) {
+        let row = self.selectedRow
+        self.selectionDelegate?.delete(row)
     }
 }

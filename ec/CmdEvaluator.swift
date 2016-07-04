@@ -493,7 +493,6 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             return [Patch.NoOp]
         }
     case .RedirectCmd(let cmd):
-        let dstr = dotText(edit)
         let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if cx.count > 0 {
             let c: String = cx[0]
@@ -511,8 +510,6 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         } else {
             return [Patch.NoOp]
         }
-    default:
-        return [Patch.NoOp]
     }
     throw ECError.IlligalState
 }
@@ -528,17 +525,61 @@ func evalCmdLine(edit: TextEdit, cmdLine: CmdLine, folderPath: String?) throws -
     }
 }
 
-func runCmdLine(edit: TextEdit, cmdLine: CmdLine, folderPath: String?) throws -> TextEdit {
+func applyPatchesToTextView(textview: NSTextView, dot: Dot, patches: [Patch], topLevel: Bool) throws -> (Int, Dot) {
+    if (topLevel) {
+        textview.undoManager?.beginUndoGrouping()
+    }
+    let res = try patches.reduce((0, dot)) { (let st, patch) -> (Int, Dot) in
+        let offset = st.0
+        let dot = st.1
+        let shiftedPatch = shiftPatch(offset, patch: patch)
+        switch(shiftedPatch) {
+        case .Insert(let p, let ns, let nd):
+            if (textview.shouldChangeTextInRange(NSMakeRange(p, 0), replacementString: ns)) {
+                textview.insertText(ns, replacementRange: NSMakeRange(p, 0))
+                textview.didChangeText()
+            }
+            return (offset + ns.characters.count, nd)
+        case .Delete(let p1, let p2, let nd):
+            if (textview.shouldChangeTextInRange(NSMakeRange(p1, p2 - p1), replacementString: "")) {
+                textview.replaceCharactersInRange(NSMakeRange(p1, p2 - p1), withString: "")
+                textview.didChangeText()
+            }
+            return (offset - (p2 - p1), nd)
+        case .Replace(let p1, let p2, let ns, let nd):
+            if (textview.shouldChangeTextInRange(NSMakeRange(p1, p2 - p1), replacementString: ns)) {
+                textview.replaceCharactersInRange(NSMakeRange(p1, p2 - p1), withString: ns)
+                textview.didChangeText()
+            }
+            return (offset - ((p2 - p1) - ns.characters.count), nd)
+        case .Append(let p, let ns, let nd):
+            if (textview.shouldChangeTextInRange(NSMakeRange(p, 0), replacementString: ns)) {
+                textview.insertText(ns, replacementRange: NSMakeRange(p, 0))
+                textview.didChangeText()
+            }
+            return (offset + ns.characters.count, nd)
+        case .MoveDot(let nd):
+            return (offset, nd)
+        case .NoOp:
+            return (offset, shiftDot(offset, dot: dot))
+        case .Group(let ps):
+            return try applyPatchesToTextView(textview, dot: dot, patches: ps, topLevel: false)
+        }
+    }
+    if (topLevel) {
+        textview.undoManager?.endUndoGrouping()
+    }
+    return res
+}
+
+func runCmdLine(edit: TextEdit, textview: NSTextView, cmdLine: CmdLine, folderPath: String?) throws {
     if cmdLine.cmd != nil {
         let px = try evalCmdLine(edit, cmdLine: cmdLine, folderPath: folderPath)
-        let res = px.reduce((edit, 0), combine: { (let st, p) -> (TextEdit, Int) in
-            applyOffsetPatch(st.0, offset: st.1, patch: shiftPatch(st.1, patch: p))
-        })
-        return res.0
+        try applyPatchesToTextView(textview, dot: edit.dot, patches: px, topLevel: true)
     } else {
         let newEdit = try cmdLine.adders.reduce(edit, combine: { (e, a) ->  TextEdit in
             try applyAddr(e, addr: a)
         })
-        return newEdit
+        textview.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
     }
 }

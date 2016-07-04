@@ -20,6 +20,7 @@
 		699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03AA1D250D71005A9FE7 /* Cmd.swift */; };
 		69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBA1D289A260023A48E /* CmdPalettView.swift */; };
 		69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */; };
+		69C71EBF1D2A0C730023A48E /* ECTextFinderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBE1D2A0C730023A48E /* ECTextFinderClient.swift */; };
 		69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EA1D256AE7003C04DD /* CmdParser.swift */; };
 		69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */; };
 		69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EE1D269BAC003C04DD /* StringExtension.swift */; };
@@ -66,6 +67,7 @@
 		699A03AA1D250D71005A9FE7 /* Cmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
 		69C71EBA1D289A260023A48E /* CmdPalettView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdPalettView.swift; sourceTree = "<group>"; };
 		69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECSplitView.swift; path = ../ECSplitView.swift; sourceTree = "<group>"; };
+		69C71EBE1D2A0C730023A48E /* ECTextFinderClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECTextFinderClient.swift; sourceTree = "<group>"; };
 		69D0B6EA1D256AE7003C04DD /* CmdParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdParser.swift; sourceTree = "<group>"; };
 		69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEvaluator.swift; sourceTree = "<group>"; };
 		69D0B6EE1D269BAC003C04DD /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -147,13 +149,14 @@
 				699A03471D2234CC005A9FE7 /* Info.plist */,
 				699A03691D23FC84005A9FE7 /* CmdPalett.swift */,
 				699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */,
+				69C71EBA1D289A260023A48E /* CmdPalettView.swift */,
 				699A036F1D24C943005A9FE7 /* ECDocument.swift */,
 				699A03AA1D250D71005A9FE7 /* Cmd.swift */,
 				69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */,
 				69D0B6EA1D256AE7003C04DD /* CmdParser.swift */,
 				69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */,
 				69D0B6EE1D269BAC003C04DD /* StringExtension.swift */,
-				69C71EBA1D289A260023A48E /* CmdPalettView.swift */,
+				69C71EBE1D2A0C730023A48E /* ECTextFinderClient.swift */,
 			);
 			path = ec;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */,
 				699A036C1D240521005A9FE7 /* CmdPalettCellView.swift in Sources */,
 				69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */,
+				69C71EBF1D2A0C730023A48E /* ECTextFinderClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,11 +8,12 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, NSTextFinderClient {
 
     @IBOutlet var mainTextView: NSTextView!
     @IBOutlet var cmdTextView: NSTextView!
     @IBOutlet weak var cmdPalettView: CmdPalettView!
+    var textFinder: NSTextFinder!
     
     var doc: ECDocument?
     
@@ -24,6 +25,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.setDelegate(cmdPalett)
         cmdPalettView.selectionDelegate = self
         mainTextView.delegate = self
+        mainTextView.usesFindBar = true
+        mainTextView.incrementalSearchingEnabled = true
+        textFinder = NSTextFinder()
+        textFinder.client = self
+        textFinder.findBarContainer = mainTextView.enclosingScrollView
     }
 
     override var representedObject: AnyObject? {
@@ -42,18 +48,12 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
             }
             let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
             let currDot = mainTextView.selectedRange()
-            let newEdit = try runCmdLine(
+            try runCmdLine(
                 TextEdit(
-                    storage:  mainTextView.textStorage!.string,
+                    storage: mainTextView.textStorage!.string,
                     dot: (currDot.location, currDot.location + currDot.length)),
-                cmdLine: res.0,
-                folderPath: fileFolderPath
-            )
-            if mainTextView.shouldChangeTextInRange(NSMakeRange(0, mainTextView.textStorage!.string.characters.count), replacementString: newEdit.storage) {
-                mainTextView.string = newEdit.storage
-                mainTextView.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
-                mainTextView.didChangeText()
-            }
+                    textview: mainTextView,
+                    cmdLine: res.0, folderPath: fileFolderPath)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)
@@ -88,8 +88,27 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: CmdPalettSelectionDelegate
-    func onRightClick(idx: Int) {
-        runCommand(cmdPalett.palett[idx])
+    func find(sender: NSMenuItem, row: Int) {
+        let textFinder = NSTextFinder()
+        textFinder.client = self
+        textFinder.findBarContainer = mainTextView.enclosingScrollView
+        let pboard = NSPasteboard(name: NSFindPboard)
+        pboard.declareTypes([NSPasteboardTypeString], owner: nil)
+        pboard.setString(cmdPalett.palett[row], forType: NSStringPboardType)
+        textFinder.cancelFindIndicator()
+        sender.tag = NSTextFinderAction.SetSearchString.rawValue
+        mainTextView.performFindPanelAction(sender)
+        sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
+        mainTextView.performFindPanelAction(sender)
+    }
+    
+    func run(row: Int) {
+        runCommand(cmdPalett.palett[row])
+    }
+    
+    func delete(row: Int) {
+        cmdPalett.palett.removeAtIndex(row)
+        cmdPalettView.reloadData()
     }
     
     //MARK: NSTextViewDelegate
@@ -99,6 +118,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         } else {
             return false
         }
+    }
+    
+    //MARK: NSTextFinderClient
+    var string: String {
+        return self.mainTextView.string ?? ""
     }
 }
 
