@@ -566,6 +566,9 @@ func applyPatchesToTextView(textview: NSTextView, dot: Dot, patches: [Patch], to
             return try applyPatchesToTextView(textview, dot: dot, patches: ps, topLevel: false)
         }
     }
+    let newDot = res.1
+    textview.setSelectedRange(NSMakeRange(newDot.0, newDot.1 - newDot.0))
+    textview.scrollRangeToVisible(NSMakeRange(newDot.0, newDot.1 - newDot.0))
     if (topLevel) {
         textview.undoManager?.endUndoGrouping()
     }
@@ -580,6 +583,8 @@ func runCmdLine(edit: TextEdit, textview: NSTextView, cmdLine: CmdLine, folderPa
         let newEdit = try cmdLine.adders.reduce(edit, combine: { (e, a) ->  TextEdit in
             try applyAddr(e, addr: a)
         })
-        textview.setSelectedRange(NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0))
+        let newRange = NSMakeRange(newEdit.dot.0, newEdit.dot.1 - newEdit.dot.0)
+        textview.setSelectedRange(newRange)
+        textview.scrollRangeToVisible(newRange)
     }
 }
