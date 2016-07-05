@@ -8,12 +8,11 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, NSTextFinderClient {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
 
     @IBOutlet var mainTextView: NSTextView!
     @IBOutlet var cmdTextView: NSTextView!
     @IBOutlet weak var cmdPalettView: CmdPalettView!
-    var textFinder: NSTextFinder!
     
     var doc: ECDocument?
     
@@ -31,10 +30,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.incrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
-        
-        textFinder = NSTextFinder()
-        textFinder.client = self
-        textFinder.findBarContainer = mainTextView.enclosingScrollView
     }
 
     override var representedObject: AnyObject? {
@@ -95,13 +90,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     //MARK: CmdPalettSelectionDelegate
     func find(sender: NSMenuItem, row: Int) {
+        /*
         let textFinder = NSTextFinder()
         textFinder.client = self
         textFinder.findBarContainer = mainTextView.enclosingScrollView
+ */
         let pboard = NSPasteboard(name: NSFindPboard)
         pboard.declareTypes([NSPasteboardTypeString], owner: nil)
         pboard.setString(cmdPalett.palett[row], forType: NSStringPboardType)
-        textFinder.cancelFindIndicator()
+        
         sender.tag = NSTextFinderAction.SetSearchString.rawValue
         mainTextView.performFindPanelAction(sender)
         sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
@@ -131,11 +128,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         } else {
             return false
         }
-    }
-    
-    //MARK: NSTextFinderClient
-    var string: String {
-        return self.mainTextView.string ?? ""
     }
 }
 
