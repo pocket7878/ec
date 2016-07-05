@@ -25,6 +25,8 @@
 		69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */; };
 		69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECC1D2AB9980023A48E /* Preference.swift */; };
 		69C71ECF1D2B6F590023A48E /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; };
+		69C71ED01D2B773C0023A48E /* MMTabBarView.framework in Resources */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; };
+		69C71ED21D2B7A700023A48E /* MMTabBarView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EA1D256AE7003C04DD /* CmdParser.swift */; };
 		69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */; };
 		69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EE1D269BAC003C04DD /* StringExtension.swift */; };
@@ -48,6 +50,19 @@
 			remoteInfo = ec;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		69C71ED11D2B7A630023A48E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				69C71ED21D2B7A700023A48E /* MMTabBarView.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1780758AB037EDFFF6B2C76E /* Pods-ec.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ec.release.xcconfig"; path = "Pods/Target Support Files/Pods-ec/Pods-ec.release.xcconfig"; sourceTree = "<group>"; };
@@ -250,6 +265,7 @@
 				699A03391D2234CC005A9FE7 /* Resources */,
 				0200806C4481344213E67836 /* [CP] Embed Pods Frameworks */,
 				C626633D54965092499BCFE1 /* [CP] Copy Pods Resources */,
+				69C71ED11D2B7A630023A48E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -349,6 +365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69C71ED01D2B773C0023A48E /* MMTabBarView.framework in Resources */,
 				699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */,
 				699A03461D2234CC005A9FE7 /* Main.storyboard in Resources */,
 				69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */,
@@ -652,7 +669,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ec/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -669,7 +686,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ec/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
