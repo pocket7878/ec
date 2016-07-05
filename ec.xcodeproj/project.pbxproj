@@ -24,6 +24,7 @@
 		69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */; };
 		69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */; };
 		69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECC1D2AB9980023A48E /* Preference.swift */; };
+		69C71ECF1D2B6F590023A48E /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; };
 		69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EA1D256AE7003C04DD /* CmdParser.swift */; };
 		69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */; };
 		69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EE1D269BAC003C04DD /* StringExtension.swift */; };
@@ -74,6 +75,7 @@
 		69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceWindow.swift; sourceTree = "<group>"; };
 		69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		69C71ECC1D2AB9980023A48E /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MMTabBarView.framework; sourceTree = "<group>"; };
 		69D0B6EA1D256AE7003C04DD /* CmdParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdParser.swift; sourceTree = "<group>"; };
 		69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEvaluator.swift; sourceTree = "<group>"; };
 		69D0B6EE1D269BAC003C04DD /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF58C08244455014A4EEFC87 /* Pods_ec.framework in Frameworks */,
+				69C71ECF1D2B6F590023A48E /* MMTabBarView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +119,7 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */,
 				1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */,
 				BA36322443EB103FA0716171 /* Pods_ecTests.framework */,
 				8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */,
@@ -643,6 +647,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ec/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
@@ -656,6 +664,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ec/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
