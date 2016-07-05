@@ -35,7 +35,6 @@ class CmdPalettView: NSTableView {
         } else {
             return nil
         }
-        return nil
     }
     
 

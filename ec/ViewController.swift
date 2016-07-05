@@ -30,6 +30,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         textFinder = NSTextFinder()
         textFinder.client = self
         textFinder.findBarContainer = mainTextView.enclosingScrollView
+        mainTextView.font = Preference.font()
     }
 
     override var representedObject: AnyObject? {
@@ -78,6 +79,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     func loadDoc() {
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
+            mainTextView.font = Preference.font()
         }
     }
     
@@ -113,8 +115,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     //MARK: NSTextViewDelegate
     func textView(textView: NSTextView, doCommandBySelector commandSelector: Selector) -> Bool {
-        if commandSelector == Selector("insertTab:") {
-            return true
+        if commandSelector == #selector(NSResponder.insertTab(_:)) {
+            if (Preference.expandTab()) {
+                let tabWidth = Preference.tabWidth()
+                let spaces = String(count: tabWidth, repeatedValue: Character(" "))
+                textView.insertText(spaces)
+                return true
+            } else {
+                return false
+            }
         } else {
             return false
         }
