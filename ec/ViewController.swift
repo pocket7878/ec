@@ -21,16 +21,21 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         cmdPalettView.setDataSource(cmdPalett)
         cmdPalettView.setDelegate(cmdPalett)
         cmdPalettView.selectionDelegate = self
+        
         mainTextView.delegate = self
         mainTextView.usesFindBar = true
         mainTextView.incrementalSearchingEnabled = true
+        mainTextView.font = Preference.font()
+        mainTextView.automaticQuoteSubstitutionEnabled = false
+        mainTextView.lnv_setUpLineNumberView()
+        
         textFinder = NSTextFinder()
         textFinder.client = self
         textFinder.findBarContainer = mainTextView.enclosingScrollView
-        mainTextView.font = Preference.font()
     }
 
     override var representedObject: AnyObject? {
