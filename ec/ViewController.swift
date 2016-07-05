@@ -31,7 +31,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.incrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
-        mainTextView.lnv_setUpLineNumberView()
         
         textFinder = NSTextFinder()
         textFinder.client = self
