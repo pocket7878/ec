@@ -28,4 +28,8 @@ class Preference {
     class func tabWidth() -> Int {
         return NSUserDefaults.standardUserDefaults().integerForKey("tabSpace")
     }
+    
+    class func autoIndent() -> Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey("autoIndent")
+    }
 }

@@ -15,5 +15,11 @@ extension String {
             lines.append(line)
         }
         return lines
-    }    
+    }
+    
+    func indentRange(idx: Int) -> NSRange {
+        let nsStr = NSString(string: self)
+        let lineRange = nsStr.lineRangeForRange(NSMakeRange(idx, 0))
+        return nsStr.rangeOfString("^[ \\t]+", options: NSStringCompareOptions.RegularExpressionSearch, range: lineRange)
+    }
 }

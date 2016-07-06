@@ -97,6 +97,24 @@
                                     <action selector="tabWidthChanged:" target="aVI-Su-KG5" id="TNw-y7-Z14"/>
                                 </connections>
                             </stepper>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1c9-51-UgY">
+                                <rect key="frame" x="18" y="132" width="43" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Indent" id="fXe-KE-Hjl">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NTg-jD-WAx">
+                                <rect key="frame" x="18" y="108" width="88" height="18"/>
+                                <buttonCell key="cell" type="check" title="autoIndent" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c4F-VB-lsQ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="autoIndentCheckBoxChanged:" target="aVI-Su-KG5" id="gaX-sE-bGM"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="C69-GQ-9FQ" firstAttribute="top" secondItem="TLe-49-nMp" secondAttribute="bottom" constant="8" id="5UJ-ua-hca"/>
@@ -112,6 +130,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoIndentCheckBox" destination="NTg-jD-WAx" id="tSH-RB-hiU"/>
                         <outlet property="expandCheckBtn" destination="dHH-0J-5sx" id="WtL-Lh-Yn4"/>
                         <outlet property="fontNameLabel" destination="aAY-Zu-265" id="AkJ-eU-ekX"/>
                         <outlet property="tabWidthField" destination="d9f-aw-ThX" id="ncf-L6-1IS"/>

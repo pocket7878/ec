@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "fontSize": Int(systemFont.pointSize),
             "expandTab": false,
             "tabSpace": 4,
-            "autoIndent": false
+            "autoIndent": false,
         ]
         NSUserDefaults.standardUserDefaults().registerDefaults(appDefaults)
     }

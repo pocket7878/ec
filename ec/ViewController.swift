@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate {
 
-    @IBOutlet var mainTextView: NSTextView!
+    @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
     @IBOutlet weak var cmdPalettView: CmdPalettView!
     
@@ -25,11 +25,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.setDelegate(cmdPalett)
         cmdPalettView.selectionDelegate = self
         
-        mainTextView.delegate = self
         mainTextView.usesFindBar = true
         mainTextView.incrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
+        
     }
 
     override var representedObject: AnyObject? {
@@ -112,22 +112,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     func delete(row: Int) {
         cmdPalett.palett.removeAtIndex(row)
         cmdPalettView.reloadData()
-    }
-    
-    //MARK: NSTextViewDelegate
-    func textView(textView: NSTextView, doCommandBySelector commandSelector: Selector) -> Bool {
-        if commandSelector == #selector(NSResponder.insertTab(_:)) {
-            if (Preference.expandTab()) {
-                let tabWidth = Preference.tabWidth()
-                let spaces = String(count: tabWidth, repeatedValue: Character(" "))
-                textView.insertText(spaces)
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return false
-        }
     }
 }
 

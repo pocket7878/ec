@@ -16,6 +16,7 @@ class PreferenceViewController: NSViewController {
     @IBOutlet weak var tabWidthField: NSTextField!
     @IBOutlet weak var tabWidthStepper: NSStepper!
     @IBOutlet weak var expandCheckBtn: NSButton!
+    @IBOutlet weak var autoIndentCheckBox: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,11 @@ class PreferenceViewController: NSViewController {
         }
         tabWidthStepper.enabled = Preference.expandTab()
         tabWidthField.enabled = Preference.expandTab()
+        if Preference.autoIndent() {
+            autoIndentCheckBox.state = NSOnState
+        } else {
+            autoIndentCheckBox.state = NSOffState
+        }
     }
     
     @IBAction func changeFontBtnTouched(sender: AnyObject) {
@@ -74,4 +80,12 @@ class PreferenceViewController: NSViewController {
         }
     }
     
+    //MARK: AutoIndent
+    @IBAction func autoIndentCheckBoxChanged(sender: NSButton) {
+        if (sender.state == NSOnState) {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "autoIndent")
+        } else if (sender.state == NSOffState) {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "autoIndent")
+        }
+    }
 }
