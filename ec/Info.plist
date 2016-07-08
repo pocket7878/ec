@@ -11,11 +11,11 @@
 			<string>ECDocument</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.text</string>
+				<string>public.data</string>
+				<string>public.source-code</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).ECDocument</string>
@@ -41,11 +41,15 @@
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2016年 十亀眞怜. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>OSAScriptingDefinition</key>
+	<string>$(PRODUCT_NAME).sdef</string>
 </dict>
 </plist>

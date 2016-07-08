@@ -40,7 +40,11 @@ class ECDocument: NSDocument {
     }
     
     override func readFromURL(url: NSURL, ofType typeName: String) throws {
-        self.contentOfFile = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+        do {
+            self.contentOfFile = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+        } catch {
+            throw ECError.OpeningBinaryFile
+        }
     }
     /*
     override func readFromData(data: NSData, ofType typeName: String) throws {

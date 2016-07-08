@@ -12,12 +12,7 @@ import Cocoa
 
 typealias Dot = (Int, Int)
 
-enum ECError: ErrorType {
-    case PatternNotFound(String)
-    case AddrOutOfRange
-    case IlligalState
-    case SystemCmdExecuteError(String)
-}
+
 
 indirect enum Patch {
     case Insert(Int, String, Dot)
@@ -188,23 +183,30 @@ func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    return regex.matchesInString(String(edit.storage), options: [], range: NSMakeRange(0, edit.storage.characters.count)).map { (res) -> Dot in
-        (res.range.location, res.range.location + res.range.length)
+    return regex.matchesInString(
+        String(edit.storage),
+        options: [],
+        range: NSMakeRange(edit.dot.0, edit.dot.1 - edit.dot.0)).map { (res) -> Dot in
+            (res.range.location, res.range.location + res.range.length)
     }
 }
 
 func findAllMatchiesWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
     let pat = pat.pat
     let regex = try NSRegularExpression(pattern: pat, options: [])
-    return regex.matchesInString(String(edit.storage), options: [], range: NSMakeRange(0, edit.storage.characters.count)).map { (res) -> Dot in
+    return regex.matchesInString(
+        String(edit.storage),
+        options: [],
+        range: NSMakeRange(edit.dot.0, edit.dot.1 - edit.dot.0)).map { (res) -> Dot in
         let d = (res.range.location, res.range.location + res.range.length)
         return shiftDot(offset, dot: d)
     }
 }
 
+//TODO: Restrict to dot
 func findAllUnmatchWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
     let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: offset)
-    let lastIdx = offset + pat.pat.characters.count
+    let lastIdx = offset + dotText(edit).characters.count
     var rx = [(offset, offset)]
     rx.appendContentsOf(dx)
     rx.append((lastIdx, lastIdx))

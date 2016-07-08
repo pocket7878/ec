@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldOpenUntitledFile(sender: NSApplication) -> Bool {
-        return true
+        return false
     }
 
     @IBAction func openPreferenceWindow(sender: NSMenuItem) {

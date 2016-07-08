@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="Dictionary" xmlns:xi="http://www.w3.org/2003/XInclude">
+    <xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+    
+    <suite name="Ec suite" code="cEd1" description="Ec specific classes.">
+
+        <enumeration name="saveable file format" code="savf">
+            <enumerator name="Text" code="TXT " description="The plain text.">
+                <cocoa string-value="public.data"/>
+            </enumerator>
+        </enumeration>
+        
+        <class-extension extends="window" description="A Ec window.">
+            <cocoa class="NSWindow"/>
+            <access-group identifier="jp.pocket7878.ec" access="rw"/>
+        </class-extension>
+        
+        <class-extension extends="document" description="A Ec document.">
+            <cocoa class="ECDocument"/>
+            <access-group identifier="jp.pocket7878.ec" access="rw"/>
+            <property name="contentOfFile" code="PCnt" type="attribute run" access="rw" description="The contents of the document."/>
+        </class-extension>
+    </suite>
+    
+</dictionary>

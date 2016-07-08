@@ -8,7 +8,7 @@
 
 import Foundation
 import Cocoa
-import AppKitScripting
+import AppKit
 
 class Preference {
     class func font() -> NSFont {

@@ -30,6 +30,12 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
         
+        if let scrollView = mainTextView.enclosingScrollView {
+            var rulerView = LineNumberRulerView(textView: mainTextView)
+            scrollView.verticalRulerView = rulerView
+            scrollView.hasVerticalRuler = true
+            scrollView.rulersVisible = true
+        }
     }
 
     override var representedObject: AnyObject? {

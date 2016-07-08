@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "applyOffsetPatch(_:offset:patch:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "findAllMatchies(_:pat:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489226906.529055"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "selectLine(_:linum:)"
             landmarkType = "7">
             <Locations>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "selectLine(_:linum:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "selectLine(_:linum:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "selectForwardLine(_:linum:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,11 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "selectForwardLine(_:linum:)"
             landmarkType = "7">
             <Locations>
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489210635.673851"
+            timestampString = "489497401.581004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "selectBackwardLine(_:linum:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489228921.085607"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "519"
-            endingLineNumber = "519"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "evalCmdLine(_:cmdLine:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -264,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489211992.598872"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "runCommand(_:inputStr:wdir:args:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -280,11 +280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489228529.162185"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -296,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489228529.162185"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ViewController.swift"
-            timestampString = "489424691.997584"
+            timestampString = "489641498.877695"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "runCommand(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -342,11 +342,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ViewController.swift"
-            timestampString = "489424691.997584"
+            timestampString = "489641498.877695"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "loadDoc()"
             landmarkType = "5">
          </BreakpointContent>
@@ -358,13 +358,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "489415747.83347"
+            timestampString = "489554631.281761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "571"
-            endingLineNumber = "571"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
             landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed, Arg[3] = Owned To Guaranteed&gt; of ec.applyPatchesToTextView (__ObjC.NSTextView, dot : (Swift.Int, Swift.Int), patches : Swift.Array&lt;ec.Patch&gt;, topLevel : Swift.Bool) throws -&gt; (Swift.Int, (Swift.Int, Swift.Int))"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "489641523.987164"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "573"
+                  endingLineNumber = "573"
+                  offsetFromSymbolStart = "554">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[3] = Owned To Guaranteed, Arg[4] = Owned To Guaranteed&gt; of ec.(applyPatchesToTextView (__ObjC.NSTextView, dot : (Swift.Int, Swift.Int), patches : Swift.Array&lt;ec.Patch&gt;, topLevel : Swift.Bool) throws -&gt; (Swift.Int, (Swift.Int, Swift.Int))).(closure #1)"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "489641523.98727"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "573"
+                  endingLineNumber = "573"
+                  offsetFromSymbolStart = "3061">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

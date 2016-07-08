@@ -10,7 +10,8 @@ import Foundation
 import Cocoa
 import AppKit
 
-class ECTextView: NSTextView {
+class ECTextView: CodeTextView {
+    
     override func insertTab(sender: AnyObject?) {
         if (Preference.expandTab()) {
             let tabWidth = Preference.tabWidth()

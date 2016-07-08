@@ -24,13 +24,14 @@
 		69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */; };
 		69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */; };
 		69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECC1D2AB9980023A48E /* Preference.swift */; };
-		69C71ECF1D2B6F590023A48E /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; };
-		69C71ED01D2B773C0023A48E /* MMTabBarView.framework in Resources */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; };
-		69C71ED21D2B7A700023A48E /* MMTabBarView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ED71D2CA34B0023A48E /* ECTextView.swift */; };
 		69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EA1D256AE7003C04DD /* CmdParser.swift */; };
 		69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */; };
 		69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EE1D269BAC003C04DD /* StringExtension.swift */; };
+		69E58FCA1D2D1F6400D8220F /* ec.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 69E58FC91D2D1F6300D8220F /* ec.sdef */; };
+		69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCB1D2D229B00D8220F /* ECError.swift */; };
+		69E58FCE1D2EAA5900D8220F /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */; };
+		69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */; };
 		BB34E952C35D417988610B2C /* Pods_ecTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA36322443EB103FA0716171 /* Pods_ecTests.framework */; };
 		DF58C08244455014A4EEFC87 /* Pods_ec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */; };
 /* End PBXBuildFile section */
@@ -51,19 +52,6 @@
 			remoteInfo = ec;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		69C71ED11D2B7A630023A48E /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				69C71ED21D2B7A700023A48E /* MMTabBarView.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1780758AB037EDFFF6B2C76E /* Pods-ec.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ec.release.xcconfig"; path = "Pods/Target Support Files/Pods-ec/Pods-ec.release.xcconfig"; sourceTree = "<group>"; };
@@ -91,11 +79,14 @@
 		69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceWindow.swift; sourceTree = "<group>"; };
 		69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		69C71ECC1D2AB9980023A48E /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
-		69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MMTabBarView.framework; sourceTree = "<group>"; };
 		69C71ED71D2CA34B0023A48E /* ECTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECTextView.swift; sourceTree = "<group>"; };
 		69D0B6EA1D256AE7003C04DD /* CmdParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdParser.swift; sourceTree = "<group>"; };
 		69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEvaluator.swift; sourceTree = "<group>"; };
 		69D0B6EE1D269BAC003C04DD /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		69E58FC91D2D1F6300D8220F /* ec.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ec.sdef; sourceTree = "<group>"; };
+		69E58FCB1D2D229B00D8220F /* ECError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECError.swift; path = ../ECError.swift; sourceTree = "<group>"; };
+		69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
+		69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
 		7148515E9DC1AB02BAA64ECA /* Pods-ec.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ec.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ec/Pods-ec.debug.xcconfig"; sourceTree = "<group>"; };
 		88624340BA0D772C5C4BC848 /* Pods-ecTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ecTests/Pods-ecTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ecUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,7 +101,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF58C08244455014A4EEFC87 /* Pods_ec.framework in Frameworks */,
-				69C71ECF1D2B6F590023A48E /* MMTabBarView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +126,6 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				69C71ECE1D2B6F590023A48E /* MMTabBarView.framework */,
 				1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */,
 				BA36322443EB103FA0716171 /* Pods_ecTests.framework */,
 				8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */,
@@ -152,6 +141,7 @@
 				699A035A1D2234CC005A9FE7 /* ecUITests */,
 				699A033C1D2234CC005A9FE7 /* Products */,
 				B24CCC86396C32195D349E81 /* Pods */,
+				69E58FC81D2D1F3300D8220F /* Resources */,
 				66AAC8186CC6FFFD9346DB85 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -173,11 +163,14 @@
 				69C71EC61D2A69110023A48E /* CmdPalett */,
 				69C71EC51D2A68F60023A48E /* Cmd */,
 				69C71EC41D2A68ED0023A48E /* Preference */,
+				69E58FCB1D2D229B00D8220F /* ECError.swift */,
 				699A033E1D2234CC005A9FE7 /* AppDelegate.swift */,
 				699A03401D2234CC005A9FE7 /* ViewController.swift */,
 				69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */,
 				699A036F1D24C943005A9FE7 /* ECDocument.swift */,
 				69C71ED71D2CA34B0023A48E /* ECTextView.swift */,
+				69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */,
+				69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */,
 				699A03421D2234CC005A9FE7 /* Assets.xcassets */,
 				699A03441D2234CC005A9FE7 /* Main.storyboard */,
 				699A03471D2234CC005A9FE7 /* Info.plist */,
@@ -242,6 +235,14 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
+		69E58FC81D2D1F3300D8220F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69E58FC91D2D1F6300D8220F /* ec.sdef */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B24CCC86396C32195D349E81 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,7 +269,6 @@
 				699A03391D2234CC005A9FE7 /* Resources */,
 				0200806C4481344213E67836 /* [CP] Embed Pods Frameworks */,
 				C626633D54965092499BCFE1 /* [CP] Copy Pods Resources */,
-				69C71ED11D2B7A630023A48E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -368,10 +368,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69C71ED01D2B773C0023A48E /* MMTabBarView.framework in Resources */,
 				699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */,
 				699A03461D2234CC005A9FE7 /* Main.storyboard in Resources */,
 				69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */,
+				69E58FCA1D2D1F6400D8220F /* ec.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,12 +525,15 @@
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
 				69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */,
+				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */,
 				69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */,
 				69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */,
+				69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */,
 				699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */,
 				69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */,
+				69E58FCE1D2EAA5900D8220F /* LineNumberRulerView.swift in Sources */,
 				69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */,
 				699A036C1D240521005A9FE7 /* CmdPalettCellView.swift in Sources */,
 				69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */,
