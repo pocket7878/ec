@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -29,6 +29,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.incrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
+        mainTextView.delegate = self
         
         if let scrollView = mainTextView.enclosingScrollView {
             var rulerView = LineNumberRulerView(textView: mainTextView)
@@ -96,11 +97,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     //MARK: CmdPalettSelectionDelegate
     func find(sender: NSMenuItem, row: Int) {
-        /*
-        let textFinder = NSTextFinder()
-        textFinder.client = self
-        textFinder.findBarContainer = mainTextView.enclosingScrollView
- */
         let pboard = NSPasteboard(name: NSFindPboard)
         pboard.declareTypes([NSPasteboardTypeString], owner: nil)
         pboard.setString(cmdPalett.palett[row], forType: NSStringPboardType)
@@ -108,6 +104,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         sender.tag = NSTextFinderAction.SetSearchString.rawValue
         mainTextView.performFindPanelAction(sender)
         sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
+        mainTextView.performFindPanelAction(sender)
+        sender.tag = NSTextFinderAction.NextMatch.rawValue
         mainTextView.performFindPanelAction(sender)
     }
     
@@ -118,6 +116,58 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     func delete(row: Int) {
         cmdPalett.palett.removeAtIndex(row)
         cmdPalettView.reloadData()
+    }
+    
+    //MARK: NSTextViewDelegate
+    func textView(view: NSTextView, menu: NSMenu, forEvent event: NSEvent, atIndex charIndex: Int) -> NSMenu? {
+        let selectedNSRange = mainTextView.selectedRange()
+        if selectedNSRange.location != NSNotFound {
+            let menu = NSMenu()
+            let findMenuItem = NSMenuItem(
+                title: "Find",
+                action: #selector(ViewController.findSelectedText(_:)),
+                keyEquivalent: "")
+            let runMenuItem = NSMenuItem(
+                title: "Run",
+                action: #selector(ViewController.runSelectedText(_:)),
+                keyEquivalent: "")
+            menu.addItem(findMenuItem)
+            menu.addItem(runMenuItem)
+            return menu
+        } else {
+            return nil
+        }
+    }
+    
+    func selectedText() -> String? {
+        let selectedNSRange = mainTextView.selectedRange()
+        if selectedNSRange.location != NSNotFound {
+            let selectedRange = mainTextView.string!.startIndex.advancedBy(selectedNSRange.location) ..< mainTextView.string!.startIndex.advancedBy(selectedNSRange.location + selectedNSRange.length)
+            return mainTextView.string?.substringWithRange(selectedRange)
+        } else {
+            return nil
+        }
+    }
+    
+    func findSelectedText(sender: NSMenuItem) {
+        if let str = selectedText() {
+            let pboard = NSPasteboard(name: NSFindPboard)
+            pboard.declareTypes([NSPasteboardTypeString], owner: nil)
+            pboard.setString(str, forType: NSStringPboardType)
+            
+            sender.tag = NSTextFinderAction.SetSearchString.rawValue
+            mainTextView.performFindPanelAction(sender)
+            sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
+            mainTextView.performFindPanelAction(sender)
+            sender.tag = NSTextFinderAction.NextMatch.rawValue
+            mainTextView.performFindPanelAction(sender)
+        }
+    }
+    
+    func runSelectedText(sender: NSMenuItem) {
+        if let str = selectedText() {
+            runCommand(str)
+        }
     }
 }
 

@@ -308,7 +308,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ViewController.swift"
@@ -374,7 +374,7 @@
                   moduleName = "ec"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "489641523.987164"
+                  timestampString = "489652987.535652"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "573"
@@ -389,7 +389,7 @@
                   moduleName = "ec"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "489641523.98727"
+                  timestampString = "489652987.535763"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "573"
