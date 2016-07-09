@@ -96,7 +96,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: CmdPalettSelectionDelegate
-    func find(sender: NSMenuItem, row: Int) {
+    func find(sender: Tagger, row: Int) {
         let pboard = NSPasteboard(name: NSFindPboard)
         pboard.declareTypes([NSPasteboardTypeString], owner: nil)
         pboard.setString(cmdPalett.palett[row], forType: NSStringPboardType)
