@@ -35,4 +35,14 @@ class CmdPalettView: NSTableView {
         self.selectionDelegate?.run(row)
     }
     
+    override func keyDown(theEvent: NSEvent) {
+        if selectedRow >= 0 {
+            let modifierCharacters = theEvent.charactersIgnoringModifiers!.unicodeScalars
+            let key = Int(modifierCharacters[modifierCharacters.startIndex].value)
+            if (key == NSDeleteCharacter) {
+                self.selectionDelegate?.delete(selectedRow)
+            }
+        }
+    }
+    
 }
