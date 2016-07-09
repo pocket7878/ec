@@ -52,6 +52,44 @@ class ECTextView: CodeTextView {
         ]
     }
     
+    override func mouseDown(theEvent: NSEvent) {
+        NSLog("Moiuse Down")
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+            //Emulate other mouse Down
+            self.rightMouseDown(theEvent)
+        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            //Emulate other mouse down
+            self.otherMouseDown(theEvent)
+        } else {
+            super.mouseDown(theEvent)
+        }
+    }
+    
+    override func mouseUp(theEvent: NSEvent) {
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+            //Emulate other mouse Down
+            self.rightMouseUp(theEvent)
+        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            //Emulate other mouse down
+            self.otherMouseUp(theEvent)
+        } else {
+            super.mouseUp(theEvent)
+        }
+    }
+    
+    override func mouseDragged(theEvent: NSEvent) {
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+            //Emulate other mouse Down
+            self.rightMouseDragged(theEvent)
+        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            //Emulate other mouse down
+            self.otherMouseDragged(theEvent)
+        } else {
+            super.mouseDragged(theEvent)
+        }
+    }
+    
+    
     override func rightMouseUp(theEvent: NSEvent) {
         selecting = false
         setDefaultSelectionAttributes()
