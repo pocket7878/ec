@@ -24,15 +24,19 @@ class CmdPalettView: NSTableView {
     override func rightMouseDown(theEvent: NSEvent) {
         let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
         let row = self.rowAtPoint(mp)
-        self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-        self.selectionDelegate?.find(Tagger(), row: row)
+        if row >= 0 {
+            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            self.selectionDelegate?.find(Tagger(), row: row)
+        }
     }
     
     override func otherMouseDown(theEvent: NSEvent) {
         let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
         let row = self.rowAtPoint(mp)
-        self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-        self.selectionDelegate?.run(row)
+        if row >= 0 {
+            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            self.selectionDelegate?.run(row)
+        }
     }
     
     override func keyDown(theEvent: NSEvent) {

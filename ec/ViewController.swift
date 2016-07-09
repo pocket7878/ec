@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -30,6 +30,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.font = Preference.font()
         mainTextView.automaticQuoteSubstitutionEnabled = false
         mainTextView.delegate = self
+        mainTextView.selectionDelegate = self
         
         if let scrollView = mainTextView.enclosingScrollView {
             var rulerView = LineNumberRulerView(textView: mainTextView)
@@ -37,6 +38,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
             scrollView.hasVerticalRuler = true
             scrollView.rulersVisible = true
         }
+        
     }
 
     override var representedObject: AnyObject? {
@@ -118,27 +120,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.reloadData()
     }
     
-    //MARK: NSTextViewDelegate
-    func textView(view: NSTextView, menu: NSMenu, forEvent event: NSEvent, atIndex charIndex: Int) -> NSMenu? {
-        let selectedNSRange = mainTextView.selectedRange()
-        if selectedNSRange.location != NSNotFound {
-            let menu = NSMenu()
-            let findMenuItem = NSMenuItem(
-                title: "Find",
-                action: #selector(ViewController.findSelectedText(_:)),
-                keyEquivalent: "")
-            let runMenuItem = NSMenuItem(
-                title: "Run",
-                action: #selector(ViewController.runSelectedText(_:)),
-                keyEquivalent: "")
-            menu.addItem(findMenuItem)
-            menu.addItem(runMenuItem)
-            return menu
-        } else {
-            return nil
-        }
-    }
-    
     func selectedText() -> String? {
         let selectedNSRange = mainTextView.selectedRange()
         if selectedNSRange.location != NSNotFound {
@@ -149,25 +130,32 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
-    func findSelectedText(sender: NSMenuItem) {
-        if let str = selectedText() {
-            let pboard = NSPasteboard(name: NSFindPboard)
-            pboard.declareTypes([NSPasteboardTypeString], owner: nil)
-            pboard.setString(str, forType: NSStringPboardType)
-            
-            sender.tag = NSTextFinderAction.SetSearchString.rawValue
-            mainTextView.performFindPanelAction(sender)
-            sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
-            mainTextView.performFindPanelAction(sender)
-            sender.tag = NSTextFinderAction.NextMatch.rawValue
-            mainTextView.performFindPanelAction(sender)
-        }
+    func findString(str: String) {
+        let pboard = NSPasteboard(name: NSFindPboard)
+        pboard.declareTypes([NSPasteboardTypeString], owner: nil)
+        pboard.setString(str, forType: NSStringPboardType)
+        
+        let sender = Tagger()
+        sender.tag = NSTextFinderAction.SetSearchString.rawValue
+        mainTextView.performFindPanelAction(sender)
+        sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
+        mainTextView.performFindPanelAction(sender)
+        sender.tag = NSTextFinderAction.NextMatch.rawValue
+        mainTextView.performFindPanelAction(sender)
     }
     
-    func runSelectedText(sender: NSMenuItem) {
-        if let str = selectedText() {
-            runCommand(str)
-        }
+    func runString(str: String) {
+        runCommand(str)
+    }
+
+    
+    //ECTextViewSelectionDelegate
+    func onRightMouseSelection(str: String) {
+        findString(str)
+    }
+    
+    func onOtherMouseSelection(str: String) {
+        runString(str)
     }
 }
 
