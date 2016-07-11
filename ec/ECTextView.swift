@@ -52,6 +52,60 @@ class ECTextView: CodeTextView {
         ]
     }
     
+    //MARK: Expand Selection
+    func isAlnum(char: Character) -> Bool {
+        let symbolCharacterSet = NSCharacterSet(
+            charactersInString: "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~")
+        let whiteSpaceCharacterSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        if isChar(char, inSet: whiteSpaceCharacterSet) {
+            return false
+        } else if isChar(char, inSet: symbolCharacterSet) {
+            return false
+        }
+        return true
+    }
+    
+    func isChar(char: Character, inSet set: NSCharacterSet) -> Bool {
+        if String(char).rangeOfCharacterFromSet(set, options: [], range: nil) != nil {
+            return true
+        }
+        return false
+    }
+    
+    func expandSelection(charIdx: Int) -> NSRange? {
+        if let charview = self.string?.characters {
+            var topIndex = charview.startIndex.advancedBy(charIdx)
+            while topIndex != charview.startIndex {
+                let c = charview[topIndex]
+                if isAlnum(c) {
+                    topIndex = topIndex.predecessor()
+                } else {
+                    break
+                }
+            }
+            var bottomIndex = charview.startIndex.advancedBy(charIdx)
+            while bottomIndex != charview.endIndex {
+                let c = charview[bottomIndex]
+                if isAlnum(c) {
+                    bottomIndex = bottomIndex.successor()
+                } else {
+                    break
+                }
+            }
+            let loc = charview.startIndex.distanceTo(topIndex.successor())
+            if topIndex == bottomIndex {
+                return nil
+            } else {
+                let len = topIndex.distanceTo(bottomIndex.predecessor())
+                return NSMakeRange(loc, len)
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    
+    //MARK: Mouse Handlers
     override func mouseDown(theEvent: NSEvent) {
         NSLog("Moiuse Down")
         if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
@@ -89,16 +143,25 @@ class ECTextView: CodeTextView {
         }
     }
     
-    
     override func rightMouseUp(theEvent: NSEvent) {
         selecting = false
         setDefaultSelectionAttributes()
         let selectedRange = self.selectedRange()
         if selectedRange.location != NSNotFound {
-            if let str = self.string {
-                let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
-                self.setSelectedRange(NSMakeRange(firstIdx, 0))
-                self.selectionDelegate?.onRightMouseSelection(selectedStr)
+            if selectedRange.length > 0 {
+                if let str = self.string {
+                    let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
+                    self.setSelectedRange(NSMakeRange(firstIdx, 0))
+                    self.selectionDelegate?.onRightMouseSelection(selectedStr)
+                }
+            } else {
+                if let str = self.string {
+                    if let newRange = expandSelection(firstIdx) {
+                        self.setSelectedRange(newRange)
+                        let selectedStr = str.substringWithRange(str.startIndex.advancedBy(newRange.location) ..< str.startIndex.advancedBy(newRange.location + selectedRange.length))
+                        self.selectionDelegate?.onRightMouseSelection(selectedStr)
+                    }
+                }
             }
         }
     }
