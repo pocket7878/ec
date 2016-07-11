@@ -158,7 +158,7 @@ class ECTextView: CodeTextView {
                 if let str = self.string {
                     if let newRange = expandSelection(firstIdx) {
                         self.setSelectedRange(newRange)
-                        let selectedStr = str.substringWithRange(str.startIndex.advancedBy(newRange.location) ..< str.startIndex.advancedBy(newRange.location + selectedRange.length))
+                        let selectedStr = str.substringWithRange(str.startIndex.advancedBy(newRange.location) ..< str.startIndex.advancedBy(newRange.location + newRange.length))
                         self.selectionDelegate?.onRightMouseSelection(selectedStr)
                     }
                 }

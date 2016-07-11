@@ -361,6 +361,8 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
     let patch = try evalAddr(edit, addr: addr)
     if case Patch.MoveDot(let np1, let np2) = patch {
         return TextEdit(storage: edit.storage, dot: (np1, np2))
+    } else if case Patch.NoOp = patch {
+        return edit
     }
     throw ECError.IlligalState
 }

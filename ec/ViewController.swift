@@ -131,6 +131,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     func findString(str: String) {
+        /*
         let pboard = NSPasteboard(name: NSFindPboard)
         pboard.declareTypes([NSPasteboardTypeString], owner: nil)
         pboard.setString(str, forType: NSStringPboardType)
@@ -142,6 +143,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.performFindPanelAction(sender)
         sender.tag = NSTextFinderAction.NextMatch.rawValue
         mainTextView.performFindPanelAction(sender)
+ */
+        runCommand("/\(str)/")
     }
     
     func runString(str: String) {
