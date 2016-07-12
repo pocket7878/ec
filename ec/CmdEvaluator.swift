@@ -411,13 +411,13 @@ func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String])
 
     
     let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
-    if var string = String.fromCString(UnsafePointer(outdata.bytes)) {
+    if var string = NSString(data: outdata, encoding: NSUTF8StringEncoding) {
         string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
         output = string.componentsSeparatedByString("\n")
     }
     
     let errdata = errpipe.fileHandleForReading.readDataToEndOfFile()
-    if var string = String.fromCString(UnsafePointer(errdata.bytes)) {
+    if var string = NSString(data: errdata, encoding: NSUTF8StringEncoding) {
         string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
         error = string.componentsSeparatedByString("\n")
     }
