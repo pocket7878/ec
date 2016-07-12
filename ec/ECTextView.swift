@@ -20,6 +20,7 @@ class ECTextView: CodeTextView {
     //Right mouse
     
     var selecting: Bool = false
+    var dragged: Bool = false
     var firstIdx: Int!
     
     weak var selectionDelegate: ECTextViewSelectionDelegate?
@@ -152,10 +153,10 @@ class ECTextView: CodeTextView {
         let eventRect = self.window!.convertRectToScreen(NSMakeRect(eventLoc.x, eventLoc.y, 0, 0))
         let inSelectionRange = selectedRangeRect.contains(eventRect)
         if selectedRange.location != NSNotFound {
-            if selectedRange.length > 0 && inSelectionRange {
+            if selectedRange.length > 0 && (self.dragged || inSelectionRange) {
                 if let str = self.string {
                     let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
-                    self.setSelectedRange(NSMakeRange(firstIdx, 0))
+                    self.setSelectedRange(selectedRange)
                     self.selectionDelegate?.onRightMouseSelection(selectedStr)
                 }
             } else {
@@ -168,10 +169,12 @@ class ECTextView: CodeTextView {
                 }
             }
         }
+        self.dragged = false
     }
     
     override func rightMouseDown(theEvent: NSEvent) {
         self.selecting = true
+        self.dragged = false
         let winP = theEvent.locationInWindow
         let pp = self.convertPoint(winP, fromView: nil)
         let rangeStartIndex = self.characterIndexForInsertionAtPoint(pp)
@@ -180,6 +183,7 @@ class ECTextView: CodeTextView {
     }
     
     override func rightMouseDragged(theEvent: NSEvent) {
+        self.dragged = true
         let winP = theEvent.locationInWindow
         let pp = self.convertPoint(winP, fromView: nil)
         let cidx = self.characterIndexForInsertionAtPoint(pp)
