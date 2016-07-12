@@ -366,15 +366,25 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
     }
     throw ECError.IlligalState
 }
+
+func getShell() -> String {
+    let env = NSProcessInfo.processInfo().environment
+    if let value = env["SHELL"] {
+        return value
+    } else {
+        return "/bin/sh"
+    }
+}
+
 func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
     
     var output : [String] = []
     var error : [String] = []
     
     let task = NSTask()
-    var ax = [cmd]
+    var ax = ["-l", "-c", cmd]
     ax.appendContentsOf(args)
-    task.launchPath = "/usr/bin/env"
+    task.launchPath = getShell()
     task.arguments = ax
     if let wdir = wdir {
         task.currentDirectoryPath = wdir

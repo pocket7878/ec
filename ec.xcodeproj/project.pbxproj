@@ -161,18 +161,16 @@
 		699A033D1D2234CC005A9FE7 /* ec */ = {
 			isa = PBXGroup;
 			children = (
+				69D37BE71D35143C006E4A20 /* ECTextView */,
 				69C71EC71D2A69250023A48E /* Util */,
 				69C71EC61D2A69110023A48E /* CmdPalett */,
 				69C71EC51D2A68F60023A48E /* Cmd */,
 				69C71EC41D2A68ED0023A48E /* Preference */,
-				69E58FCB1D2D229B00D8220F /* ECError.swift */,
 				699A033E1D2234CC005A9FE7 /* AppDelegate.swift */,
 				699A03401D2234CC005A9FE7 /* ViewController.swift */,
+				69E58FCB1D2D229B00D8220F /* ECError.swift */,
 				69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */,
 				699A036F1D24C943005A9FE7 /* ECDocument.swift */,
-				69C71ED71D2CA34B0023A48E /* ECTextView.swift */,
-				69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */,
-				69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */,
 				699A03421D2234CC005A9FE7 /* Assets.xcassets */,
 				699A03441D2234CC005A9FE7 /* Main.storyboard */,
 				699A03471D2234CC005A9FE7 /* Info.plist */,
@@ -236,6 +234,16 @@
 				6954197F1D30BA360099C34D /* Tagger.swift */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		69D37BE71D35143C006E4A20 /* ECTextView */ = {
+			isa = PBXGroup;
+			children = (
+				69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */,
+				69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */,
+				69C71ED71D2CA34B0023A48E /* ECTextView.swift */,
+			);
+			name = ECTextView;
 			sourceTree = "<group>";
 		};
 		69E58FC81D2D1F3300D8220F /* Resources */ = {
