@@ -145,6 +145,16 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.performFindPanelAction(sender)
  */
         runCommand("/\(str)/")
+        
+        let selectedRange = mainTextView.selectedRange()
+        if selectedRange.location != NSNotFound {
+            mainTextView.scrollRangeToVisible(selectedRange)
+            let rect = mainTextView.firstRectForCharacterRange(selectedRange, actualRange: nil)
+            let pt = NSMakePoint(rect.origin.x, rect.origin.y)
+            let y = pt.y;
+            let screenY = CGDisplayBounds(CGMainDisplayID()).size.height - y
+            CGWarpMouseCursorPosition(CGPointMake(pt.x + rect.width / 2, screenY - rect.height / 2))
+        }
     }
     
     func runString(str: String) {

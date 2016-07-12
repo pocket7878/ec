@@ -40,14 +40,14 @@ class ECTextView: CodeTextView {
     
     func setRightSelectionAttributes() {
         self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: NSColor(red: 0.627, green: 0.0, blue: 0.0, alpha: 1.0),
+            NSBackgroundColorAttributeName: NSColor(red: 0.003, green: 0.356, blue: 0.0, alpha: 1.0),
             NSForegroundColorAttributeName: NSColor.whiteColor()
         ]
     }
     
     func setOtherSelectionAttributes() {
         self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: NSColor(red: 0.003, green: 0.356, blue: 0.0, alpha: 1.0),
+            NSBackgroundColorAttributeName: NSColor(red: 0.627, green: 0.0, blue: 0.0, alpha: 1.0),
             NSForegroundColorAttributeName: NSColor.whiteColor()
         ]
     }
@@ -170,8 +170,8 @@ class ECTextView: CodeTextView {
         self.selecting = true
         let winP = theEvent.locationInWindow
         let pp = self.convertPoint(winP, fromView: nil)
+        NSLog("\(pp)")
         let rangeStartIndex = self.characterIndexForInsertionAtPoint(pp)
-        self.setSelectedRange(NSMakeRange(rangeStartIndex, 0))
         self.firstIdx = rangeStartIndex
         setRightSelectionAttributes()
     }
