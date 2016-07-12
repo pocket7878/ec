@@ -99,16 +99,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     //MARK: CmdPalettSelectionDelegate
     func find(sender: Tagger, row: Int) {
-        let pboard = NSPasteboard(name: NSFindPboard)
-        pboard.declareTypes([NSPasteboardTypeString], owner: nil)
-        pboard.setString(cmdPalett.palett[row], forType: NSStringPboardType)
-        
-        sender.tag = NSTextFinderAction.SetSearchString.rawValue
-        mainTextView.performFindPanelAction(sender)
-        sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
-        mainTextView.performFindPanelAction(sender)
-        sender.tag = NSTextFinderAction.NextMatch.rawValue
-        mainTextView.performFindPanelAction(sender)
+        findString(cmdPalett.palett[row])
     }
     
     func run(row: Int) {
@@ -131,21 +122,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     func findString(str: String) {
-        /*
-        let pboard = NSPasteboard(name: NSFindPboard)
-        pboard.declareTypes([NSPasteboardTypeString], owner: nil)
-        pboard.setString(str, forType: NSStringPboardType)
-        
-        let sender = Tagger()
-        sender.tag = NSTextFinderAction.SetSearchString.rawValue
-        mainTextView.performFindPanelAction(sender)
-        sender.tag = NSTextFinderAction.ShowFindInterface.rawValue
-        mainTextView.performFindPanelAction(sender)
-        sender.tag = NSTextFinderAction.NextMatch.rawValue
-        mainTextView.performFindPanelAction(sender)
- */
         runCommand("/\(str)/")
-        
         let selectedRange = mainTextView.selectedRange()
         if selectedRange.location != NSNotFound {
             mainTextView.scrollRangeToVisible(selectedRange)
