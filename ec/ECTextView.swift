@@ -147,8 +147,12 @@ class ECTextView: CodeTextView {
         selecting = false
         setDefaultSelectionAttributes()
         let selectedRange = self.selectedRange()
+        let selectedRangeRect = self.firstRectForCharacterRange(selectedRange, actualRange: nil)
+        let eventLoc = theEvent.locationInWindow
+        let eventRect = self.window!.convertRectToScreen(NSMakeRect(eventLoc.x, eventLoc.y, 0, 0))
+        let inSelectionRange = selectedRangeRect.contains(eventRect)
         if selectedRange.location != NSNotFound {
-            if selectedRange.length > 0 {
+            if selectedRange.length > 0 && inSelectionRange {
                 if let str = self.string {
                     let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
                     self.setSelectedRange(NSMakeRange(firstIdx, 0))
@@ -170,7 +174,6 @@ class ECTextView: CodeTextView {
         self.selecting = true
         let winP = theEvent.locationInWindow
         let pp = self.convertPoint(winP, fromView: nil)
-        NSLog("\(pp)")
         let rangeStartIndex = self.characterIndexForInsertionAtPoint(pp)
         self.firstIdx = rangeStartIndex
         setRightSelectionAttributes()
