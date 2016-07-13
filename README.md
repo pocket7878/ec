@@ -18,3 +18,9 @@ Simple text editor inspired by plan9 text editors concepts.
 ![](https://raw.github.com/wiki/pocket7878/ec/imgs/main-window.png)
 
 More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
+
+## TODO
+
+- Suport mouse chording (cut, snarf, paste)
+- Plumbing like feature?
+- Jumping file link?
