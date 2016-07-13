@@ -141,9 +141,14 @@ func selectBackwardLine(edit: TextEdit, linum: Int) throws -> Patch {
 /*
  * Search func
  */
+
+let regexOptions: NSRegularExpressionOptions = [
+    NSRegularExpressionOptions.AnchorsMatchLines,
+]
+
 func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
-    let regex = try NSRegularExpression(pattern: pat, options: [])
+    let regex = try NSRegularExpression(pattern: pat, options: regexOptions)
     let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count - edit.dot.1)
     let backwardRange = NSMakeRange(0, edit.dot.0)
     if let firstMatchRange: NSRange = regex.firstMatchInString(edit.storage, options: [], range: forwardRange)?.range {
@@ -157,7 +162,7 @@ func searchForward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 
 func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
     let pat = pat.pat
-    let regex = try NSRegularExpression(pattern: pat, options: [])
+    let regex = try NSRegularExpression(pattern: pat, options: regexOptions)
     let forwardRange = NSMakeRange(edit.dot.1, edit.storage.characters.count - edit.dot.1)
     let backwardRange = NSMakeRange(0, edit.dot.0)
     let backwardMatchies = regex.matchesInString(String(edit.storage), options: [], range: backwardRange)
@@ -182,7 +187,7 @@ func searchBackward(edit: TextEdit, pat: PatternLike) throws -> Patch? {
 
 func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
     let pat = pat.pat
-    let regex = try NSRegularExpression(pattern: pat, options: [])
+    let regex = try NSRegularExpression(pattern: pat, options: regexOptions)
     return regex.matchesInString(
         String(edit.storage),
         options: [],
@@ -193,7 +198,7 @@ func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
 
 func findAllMatchiesWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
     let pat = pat.pat
-    let regex = try NSRegularExpression(pattern: pat, options: [])
+    let regex = try NSRegularExpression(pattern: pat, options: regexOptions)
     return regex.matchesInString(
         String(edit.storage),
         options: [],
@@ -442,7 +447,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         let dtxt = dotText(edit)
         do {
             let pattern = pat.pat
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let regex = try NSRegularExpression(pattern: pattern, options: regexOptions)
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count > 0) {
                 try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
@@ -456,7 +461,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         let dtxt = dotText(edit)
         do {
             let pattern = pat.pat
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let regex = try NSRegularExpression(pattern: pattern, options: regexOptions)
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count == 0) {
                 try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
