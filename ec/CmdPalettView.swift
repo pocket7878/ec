@@ -11,9 +11,9 @@ import Cocoa
 import AppKit
 
 protocol CmdPalettSelectionDelgate: class {
-    func find(sender: Tagger, row: Int)
-    func run(row: Int)
-    func delete(row: Int)
+    func onFindPalett(sender: Tagger, row: Int)
+    func onRunPalett(row: Int)
+    func onDeletePalett(row: Int)
 }
 
 
@@ -26,7 +26,7 @@ class CmdPalettView: NSTableView {
         let row = self.rowAtPoint(mp)
         if row >= 0 {
             self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-            self.selectionDelegate?.find(Tagger(), row: row)
+            self.selectionDelegate?.onFindPalett(Tagger(), row: row)
         }
     }
     
@@ -35,7 +35,7 @@ class CmdPalettView: NSTableView {
         let row = self.rowAtPoint(mp)
         if row >= 0 {
             self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-            self.selectionDelegate?.run(row)
+            self.selectionDelegate?.onRunPalett(row)
         }
     }
     
@@ -44,7 +44,7 @@ class CmdPalettView: NSTableView {
             let modifierCharacters = theEvent.charactersIgnoringModifiers!.unicodeScalars
             let key = Int(modifierCharacters[modifierCharacters.startIndex].value)
             if (key == NSDeleteCharacter) {
-                self.selectionDelegate?.delete(selectedRow)
+                self.selectionDelegate?.onDeletePalett(selectedRow)
             }
         }
     }

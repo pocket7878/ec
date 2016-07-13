@@ -48,37 +48,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
 
     override var representedObject: AnyObject? {
         didSet {
-            
-        // Update the view, if already loaded.
         }
     }
     
-    func runCommand(cmd: String) {
-        do {
-            var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                let fpath = fileUrl.path {
-                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
-            }
-            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
-            let currDot = mainTextView.selectedRange()
-            try runCmdLine(
-                TextEdit(
-                    storage: mainTextView.textStorage!.string,
-                    dot: (currDot.location, currDot.location + currDot.length)),
-                    textview: mainTextView,
-                    cmdLine: res.0, folderPath: fileFolderPath)
-        } catch {
-            if let nserror = error as? NSError {
-                let alert = NSAlert(error: nserror)
-                alert.runModal()
-            } else {
-                let alert = NSAlert()
-                alert.messageText = "\(error)"
-                alert.runModal()
-            }
-        }
-    }
+
 
     @IBAction func runBtnTouched(sender: NSButton) {
         runCommand(cmdTextView.textStorage!.string)
@@ -93,6 +66,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         findString(cmdTextView.string!)
     }
     
+    //MARK: Sync with ECDcoument
     func loadDoc() {
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
@@ -107,19 +81,20 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: CmdPalettSelectionDelegate
-    func find(sender: Tagger, row: Int) {
+    func onFindPalett(sender: Tagger, row: Int) {
         findString(cmdPalett.palett[row])
     }
     
-    func run(row: Int) {
+    func onRunPalett(row: Int) {
         runCommand(cmdPalett.palett[row])
     }
     
-    func delete(row: Int) {
+    func onDeletePalett(row: Int) {
         cmdPalett.palett.removeAtIndex(row)
         cmdPalettView.reloadData()
     }
     
+    //MARK: Utils
     func selectedText() -> String? {
         let selectedNSRange = mainTextView.selectedRange()
         if selectedNSRange.location != NSNotFound {
@@ -143,18 +118,40 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
-    func runString(str: String) {
-        runCommand(str)
+    func runCommand(cmd: String) {
+        do {
+            var fileFolderPath: String? = nil
+            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                let fpath = fileUrl.path {
+                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            }
+            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
+            let currDot = mainTextView.selectedRange()
+            try runCmdLine(
+                TextEdit(
+                    storage: mainTextView.textStorage!.string,
+                    dot: (currDot.location, currDot.location + currDot.length)),
+                textview: mainTextView,
+                cmdLine: res.0, folderPath: fileFolderPath)
+        } catch {
+            if let nserror = error as? NSError {
+                let alert = NSAlert(error: nserror)
+                alert.runModal()
+            } else {
+                let alert = NSAlert()
+                alert.messageText = "\(error)"
+                alert.runModal()
+            }
+        }
     }
-
     
-    //ECTextViewSelectionDelegate
+    //MARK: ECTextViewSelectionDelegate
     func onRightMouseSelection(str: String) {
         findString(str)
     }
     
     func onOtherMouseSelection(str: String) {
-        runString(str)
+        runCommand(str)
     }
 }
 
