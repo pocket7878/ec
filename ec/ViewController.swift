@@ -28,9 +28,14 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.usesFindBar = true
         mainTextView.incrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
-        mainTextView.automaticQuoteSubstitutionEnabled = false
         mainTextView.delegate = self
         mainTextView.selectionDelegate = self
+        mainTextView.automaticTextReplacementEnabled = false
+        mainTextView.automaticLinkDetectionEnabled = false
+        mainTextView.automaticDataDetectionEnabled = false
+        mainTextView.automaticDashSubstitutionEnabled = false
+        mainTextView.automaticQuoteSubstitutionEnabled = false
+        mainTextView.automaticSpellingCorrectionEnabled = false
         
         if let scrollView = mainTextView.enclosingScrollView {
             var rulerView = LineNumberRulerView(textView: mainTextView)

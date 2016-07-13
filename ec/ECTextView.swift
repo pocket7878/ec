@@ -118,7 +118,6 @@ class ECTextView: CodeTextView {
     
     //MARK: Mouse Handlers
     override func mouseDown(theEvent: NSEvent) {
-        NSLog("Moiuse Down")
         if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
             //Emulate other mouse Down
             self.rightMouseDown(theEvent)
