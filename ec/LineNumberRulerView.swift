@@ -130,8 +130,8 @@ class LineNumberRulerView: NSRulerView {
             var lastLineNum = 0
             
             // Support other newline characters
-            let regex = try! NSRegularExpression(pattern: "\n", options: .CaseInsensitive)
-            lineNum += regex.numberOfMatchesInString(text, options: [], range: NSMakeRange(0, characterCount))
+            let substr = text.substringToIndex(text.startIndex.advancedBy(characterCount))
+            lineNum += substr.lineCount
             
             var glyphIndex: Int
             for glyphIndex = glyphCount; glyphIndex < NSMaxRange(visibleGlyphRange); lineIndex++ {
