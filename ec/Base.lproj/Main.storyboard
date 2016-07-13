@@ -687,11 +687,11 @@
                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="53" horizontalPageScroll="10" verticalLineScroll="53" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlV-NF-3tx">
                                                 <rect key="frame" x="0.0" y="0.0" width="204" height="591"/>
                                                 <clipView key="contentView" id="h4h-zL-Q5F">
-                                                    <rect key="frame" x="1" y="1" width="202" height="589"/>
+                                                    <rect key="frame" x="2" y="0.0" width="202" height="588"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="51" rowSizeStyle="automatic" viewBased="YES" id="eHQ-Vn-P1l" customClass="CmdPalettView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="0.0"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="589"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -741,10 +741,10 @@
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Lg0-kd-yeC">
-                                                    <rect key="frame" x="1" y="575" width="200" height="15"/>
+                                                    <rect key="frame" x="1" y="575" width="202" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="leM-zg-g2v">
+                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.97353924066825637" horizontal="NO" id="leM-zg-g2v">
                                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -819,7 +819,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fqd-pT-1Mq">
-                                                                <rect key="frame" x="540" y="13" width="65" height="32"/>
+                                                                <rect key="frame" x="544" y="13" width="65" height="32"/>
                                                                 <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6gz-jc-uXe">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -857,8 +857,8 @@
                                                                 </scroller>
                                                             </scrollView>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6f9-ie-mea">
-                                                                <rect key="frame" x="605" y="17" width="70" height="24"/>
-                                                                <buttonCell key="cell" type="push" title="Look" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dxq-ya-HrU">
+                                                                <rect key="frame" x="609" y="17" width="66" height="24"/>
+                                                                <buttonCell key="cell" type="push" title="Find" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dxq-ya-HrU">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
