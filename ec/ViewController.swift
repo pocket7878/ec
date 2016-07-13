@@ -84,6 +84,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.reloadData()
     }
     
+    @IBAction func lookBtnTouched(sender: AnyObject) {
+        findString(cmdTextView.string!)
+    }
+    
     func loadDoc() {
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)

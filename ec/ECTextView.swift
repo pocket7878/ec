@@ -76,29 +76,39 @@ class ECTextView: CodeTextView {
     func expandSelection(charIdx: Int) -> NSRange? {
         if let charview = self.string?.characters {
             var topIndex = charview.startIndex.advancedBy(charIdx)
-            while topIndex != charview.startIndex {
+            while true {
                 let c = charview[topIndex]
                 if isAlnum(c) {
-                    topIndex = topIndex.predecessor()
+                    if topIndex == charview.startIndex {
+                        break
+                    } else {
+                        topIndex = topIndex.predecessor()
+                    }
                 } else {
+                    topIndex = topIndex.successor()
                     break
                 }
             }
             var bottomIndex = charview.startIndex.advancedBy(charIdx)
-            while bottomIndex != charview.endIndex {
+            while true {
                 let c = charview[bottomIndex]
                 if isAlnum(c) {
-                    bottomIndex = bottomIndex.successor()
+                    if bottomIndex == charview.endIndex {
+                        break
+                    } else {
+                        bottomIndex = bottomIndex.successor()
+                    }
                 } else {
+                    bottomIndex = bottomIndex.predecessor()
                     break
                 }
             }
-            let loc = charview.startIndex.distanceTo(topIndex.successor())
-            if topIndex == bottomIndex {
+            let loc = charview.startIndex.distanceTo(topIndex)
+            if topIndex >= bottomIndex {
                 return nil
             } else {
-                let len = topIndex.distanceTo(bottomIndex.predecessor())
-                return NSMakeRange(loc, len)
+                let len = topIndex.distanceTo(bottomIndex)
+                return NSMakeRange(loc, len + 1)
             }
         } else {
             return nil
