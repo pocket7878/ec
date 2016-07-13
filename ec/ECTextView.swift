@@ -238,6 +238,27 @@ class ECTextView: CodeTextView {
         }
     }
     
+    //MARK: Utils
+    func scrollToSelection() {
+        let selectedRange = self.selectedRange()
+        if selectedRange.location != NSNotFound {
+            self.scrollRangeToVisible(selectedRange)
+        }
+    }
+    
+    func moveMouseCursorToSelectedRange() {
+        let selectedRange = self.selectedRange()
+        if selectedRange.location != NSNotFound {
+            let rect = self.firstRectForCharacterRange(selectedRange, actualRange: nil)
+            let pt = NSMakePoint(rect.origin.x, rect.origin.y)
+            let y = pt.y;
+            let screenY = CGDisplayBounds(CGMainDisplayID()).size.height - y
+            CGWarpMouseCursorPosition(CGPointMake(pt.x + rect.width / 2, screenY - rect.height / 2))
+        }
+    }
+    
+    
+    //MARK: TextInsert Action Overrides
     override func insertTab(sender: AnyObject?) {
         if (Preference.expandTab()) {
             let tabWidth = Preference.tabWidth()

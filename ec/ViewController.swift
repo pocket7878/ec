@@ -106,15 +106,29 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     func findString(str: String) {
-        runCommand("/\(str)/")
-        let selectedRange = mainTextView.selectedRange()
-        if selectedRange.location != NSNotFound {
-            mainTextView.scrollRangeToVisible(selectedRange)
-            let rect = mainTextView.firstRectForCharacterRange(selectedRange, actualRange: nil)
-            let pt = NSMakePoint(rect.origin.x, rect.origin.y)
-            let y = pt.y;
-            let screenY = CGDisplayBounds(CGMainDisplayID()).size.height - y
-            CGWarpMouseCursorPosition(CGPointMake(pt.x + rect.width / 2, screenY - rect.height / 2))
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpressionOptions.IgnoreMetacharacters
+                ])
+            var selectedRange = mainTextView.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: forwardRange)?.range {
+                mainTextView.setSelectedRange(firstMatchRange)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            } else if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: backwardRange)?.range {
+                mainTextView.setSelectedRange(firstMatchRange)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
         }
     }
     
