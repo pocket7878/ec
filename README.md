@@ -9,7 +9,7 @@ Simple text editor inspired by plan9 text editors concepts.
 
 - Offer very simple text editing features in core.
 - Use mouse 
-- User can extends editor with external commands instead of plugin.
+- User can extend the editor with external commands instead of plugin.
 - Use Plan9 Sam's commands to edit text.
 - Use platform native toolkits instead of reimplement it.
 
