@@ -23,4 +23,4 @@ More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
 
 - Suport mouse chording (cut, snarf, paste)
 - Plumbing like feature?
-- Jumping file link?
+- Syntax highlighting?
