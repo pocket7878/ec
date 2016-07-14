@@ -48,8 +48,87 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
 
     override var representedObject: AnyObject? {
         didSet {
-            
-        // Update the view, if already loaded.
+        }
+    }
+    
+
+
+    @IBAction func runBtnTouched(sender: NSButton) {
+        runCommand(cmdTextView.textStorage!.string)
+    }
+
+    @IBAction func addBtnTouched(sender: NSButton) {
+        cmdPalett.addCmd(cmdTextView.string!)
+        cmdPalettView.reloadData()
+    }
+    
+    @IBAction func lookBtnTouched(sender: AnyObject) {
+        findString(cmdTextView.string!)
+    }
+    
+    //MARK: Sync with ECDcoument
+    func loadDoc() {
+        if let doc = self.doc {
+            mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
+            mainTextView.font = Preference.font()
+        }
+    }
+    
+    func updateDoc() {
+        if let doc = self.doc {
+            doc.contentOfFile = mainTextView.attributedString()
+        }
+    }
+    
+    //MARK: CmdPalettSelectionDelegate
+    func onFindPalett(sender: Tagger, row: Int) {
+        findString(cmdPalett.palett[row])
+    }
+    
+    func onRunPalett(row: Int) {
+        runCommand(cmdPalett.palett[row])
+    }
+    
+    func onDeletePalett(row: Int) {
+        cmdPalett.palett.removeAtIndex(row)
+        cmdPalettView.reloadData()
+    }
+    
+    //MARK: Utils
+    func selectedText() -> String? {
+        let selectedNSRange = mainTextView.selectedRange()
+        if selectedNSRange.location != NSNotFound {
+            let selectedRange = mainTextView.string!.startIndex.advancedBy(selectedNSRange.location) ..< mainTextView.string!.startIndex.advancedBy(selectedNSRange.location + selectedNSRange.length)
+            return mainTextView.string?.substringWithRange(selectedRange)
+        } else {
+            return nil
+        }
+    }
+    
+    func findString(str: String) {
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpressionOptions.IgnoreMetacharacters
+                ])
+            var selectedRange = mainTextView.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: forwardRange)?.range {
+                mainTextView.setSelectedRange(firstMatchRange)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            } else if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: backwardRange)?.range {
+                mainTextView.setSelectedRange(firstMatchRange)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
         }
     }
     
@@ -66,8 +145,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
                 TextEdit(
                     storage: mainTextView.textStorage!.string,
                     dot: (currDot.location, currDot.location + currDot.length)),
-                    textview: mainTextView,
-                    cmdLine: res.0, folderPath: fileFolderPath)
+                textview: mainTextView,
+                cmdLine: res.0, folderPath: fileFolderPath)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)
@@ -79,82 +158,14 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
             }
         }
     }
-
-    @IBAction func runBtnTouched(sender: NSButton) {
-        runCommand(cmdTextView.textStorage!.string)
-    }
-
-    @IBAction func addBtnTouched(sender: NSButton) {
-        cmdPalett.addCmd(cmdTextView.string!)
-        cmdPalettView.reloadData()
-    }
     
-    @IBAction func lookBtnTouched(sender: AnyObject) {
-        findString(cmdTextView.string!)
-    }
-    
-    func loadDoc() {
-        if let doc = self.doc {
-            mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
-            mainTextView.font = Preference.font()
-        }
-    }
-    
-    func updateDoc() {
-        if let doc = self.doc {
-            doc.contentOfFile = mainTextView.attributedString()
-        }
-    }
-    
-    //MARK: CmdPalettSelectionDelegate
-    func find(sender: Tagger, row: Int) {
-        findString(cmdPalett.palett[row])
-    }
-    
-    func run(row: Int) {
-        runCommand(cmdPalett.palett[row])
-    }
-    
-    func delete(row: Int) {
-        cmdPalett.palett.removeAtIndex(row)
-        cmdPalettView.reloadData()
-    }
-    
-    func selectedText() -> String? {
-        let selectedNSRange = mainTextView.selectedRange()
-        if selectedNSRange.location != NSNotFound {
-            let selectedRange = mainTextView.string!.startIndex.advancedBy(selectedNSRange.location) ..< mainTextView.string!.startIndex.advancedBy(selectedNSRange.location + selectedNSRange.length)
-            return mainTextView.string?.substringWithRange(selectedRange)
-        } else {
-            return nil
-        }
-    }
-    
-    func findString(str: String) {
-        runCommand("/\(str)/")
-        let selectedRange = mainTextView.selectedRange()
-        if selectedRange.location != NSNotFound {
-            mainTextView.scrollRangeToVisible(selectedRange)
-            let rect = mainTextView.firstRectForCharacterRange(selectedRange, actualRange: nil)
-            let pt = NSMakePoint(rect.origin.x, rect.origin.y)
-            let y = pt.y;
-            let screenY = CGDisplayBounds(CGMainDisplayID()).size.height - y
-            CGWarpMouseCursorPosition(CGPointMake(pt.x + rect.width / 2, screenY - rect.height / 2))
-        }
-    }
-    
-    func runString(str: String) {
-        runCommand(str)
-    }
-
-    
-    //ECTextViewSelectionDelegate
+    //MARK: ECTextViewSelectionDelegate
     func onRightMouseSelection(str: String) {
         findString(str)
     }
     
     func onOtherMouseSelection(str: String) {
-        runString(str)
+        runCommand(str)
     }
 }
 

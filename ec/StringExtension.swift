@@ -9,6 +9,15 @@
 import Foundation
 
 extension String {
+    
+    var lineCount: Int {
+        var cnt = 0
+        self.enumerateLines { (_, _) in
+            cnt += 1
+        }
+        return cnt
+    }
+    
     var lines: [String] {
         var lines = [String]()
         self.enumerateLines { (line, stop) in
