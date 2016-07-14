@@ -10,10 +10,13 @@ import Foundation
 import Cocoa
 import AppKit
 
-class CmdEditorWindow: NSWindow {
+class CmdEditorWindow: NSWindow, CmdEditDelegate {
+    
+    var row: Int?
+    weak var palett: CmdPalett?
+    
     override func cancelOperation(sender: AnyObject?) {
-        self.close()
-        NSApplication.sharedApplication().stopModal()
+        closeAndStopModal()
     }
     
     override func validateUserInterfaceItem(anItem: NSValidatedUserInterfaceItem) -> Bool {
@@ -23,5 +26,23 @@ class CmdEditorWindow: NSWindow {
         } else {
             return super.validateUserInterfaceItem(anItem)
         }
+    }
+    
+    func closeAndStopModal() {
+        self.close()
+        NSApplication.sharedApplication().stopModal()
+    }
+    
+    //MARK: CmdEditDelegate
+    func onCmdEditSave(newCmd: String) {
+        if let row = row,
+            let palett = palett {
+            palett.replaceCmd(newCmd, at: row)
+        }
+        closeAndStopModal()
+    }
+    
+    func onCmdEditCancel() {
+        closeAndStopModal()
     }
 }

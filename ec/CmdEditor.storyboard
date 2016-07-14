@@ -51,7 +51,7 @@ Gw
 </string>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="cancelBtnTouched:" target="aAC-nh-D45" id="yhX-lk-I6U"/>
+                                    <action selector="cancelBtnTouched:" target="aAC-nh-D45" id="8py-wA-IgA"/>
                                 </connections>
                             </button>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HE0-Ca-4K7">

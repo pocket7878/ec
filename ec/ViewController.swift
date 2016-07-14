@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -17,6 +17,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     var doc: ECDocument?
     
     let cmdPalett = CmdPalett()
+    
+    var editWC: NSWindowController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +40,13 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.automaticSpellingCorrectionEnabled = false
         
         if let scrollView = mainTextView.enclosingScrollView {
-            var rulerView = LineNumberRulerView(textView: mainTextView)
+            let rulerView = LineNumberRulerView(textView: mainTextView)
             scrollView.verticalRulerView = rulerView
             scrollView.hasVerticalRuler = true
             scrollView.rulersVisible = true
         }
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.syncCmdPalett), name: "CmdPalettChangedNotification", object: nil)
     }
 
     override var representedObject: AnyObject? {
@@ -52,6 +55,9 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
 
+    func syncCmdPalett() {
+        cmdPalettView.reloadData()
+    }
 
     @IBAction func runBtnTouched(sender: NSButton) {
         runCommand(cmdTextView.textStorage!.string)
@@ -59,7 +65,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
 
     @IBAction func addBtnTouched(sender: NSButton) {
         cmdPalett.addCmd(cmdTextView.string!)
-        cmdPalettView.reloadData()
     }
     
     @IBAction func lookBtnTouched(sender: AnyObject) {
@@ -81,6 +86,27 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: CmdPalettSelectionDelegate
+    func onEditPalett(row: Int) {
+        let cmd = cmdPalett.palett[row]
+        let storyBoard = NSStoryboard(name: "CmdEditor", bundle: nil)
+        let windowController = storyBoard.instantiateControllerWithIdentifier("CmdEditorWC") as! NSWindowController
+        editWC = windowController
+        if let win = windowController.window {
+            if let ceWin = win as? CmdEditorWindow {
+                ceWin.delegate = self
+                if
+                    let cvc = ceWin.contentViewController,
+                    let ceVC = cvc as? CmdEditorViewController {
+                    ceVC.editorTextView.textStorage?.setAttributedString(NSAttributedString(string: cmd))
+                    ceWin.row = row
+                    ceWin.palett = self.cmdPalett
+                    ceVC.delegate = ceWin
+                }
+            }
+        }
+        NSApplication.sharedApplication().runModalForWindow(windowController.window!)
+    }
+    
     func onFindPalett(sender: Tagger, row: Int) {
         findString(cmdPalett.palett[row])
     }
@@ -166,6 +192,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     func onOtherMouseSelection(str: String) {
         runCommand(str)
+    }
+    
+    //MARK: NSWindowDelegate
+    func windowWillClose(notification: NSNotification) {
+        NSApplication.sharedApplication().stopModal()
     }
 }
 

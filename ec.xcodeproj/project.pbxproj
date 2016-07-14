@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		506E02FCF30F0DE1E61C282C /* Pods_ecUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */; };
 		695419801D30BA360099C34D /* Tagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954197F1D30BA360099C34D /* Tagger.swift */; };
-		69561D171D371B500092A5C7 /* CmdEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D161D371B500092A5C7 /* CmdEditor.swift */; };
 		69561D191D371B7D0092A5C7 /* CmdEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */; };
 		69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */; };
 		69561D1E1D371D150092A5C7 /* CmdEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D1D1D371D150092A5C7 /* CmdEditorViewController.swift */; };
@@ -63,7 +62,6 @@
 		1A56B47DB41356C706C02CAF /* Pods-ecUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ecUITests/Pods-ecUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ec.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
-		69561D161D371B500092A5C7 /* CmdEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditor.swift; sourceTree = "<group>"; };
 		69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CmdEditor.storyboard; sourceTree = "<group>"; };
 		69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditorWindow.swift; sourceTree = "<group>"; };
 		69561D1D1D371D150092A5C7 /* CmdEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditorViewController.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 				699A03691D23FC84005A9FE7 /* CmdPalett.swift */,
 				69C71EBA1D289A260023A48E /* CmdPalettView.swift */,
 				699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */,
-				69561D161D371B500092A5C7 /* CmdEditor.swift */,
 			);
 			name = CmdPalett;
 			sourceTree = "<group>";
@@ -556,7 +553,6 @@
 				699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */,
 				699A036A1D23FC84005A9FE7 /* CmdPalett.swift in Sources */,
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
-				69561D171D371B500092A5C7 /* CmdEditor.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
 				69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */,
 				69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */,

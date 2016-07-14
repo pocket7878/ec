@@ -11,6 +11,7 @@ import Cocoa
 import AppKit
 
 protocol CmdPalettSelectionDelgate: class {
+    func onEditPalett(row: Int)
     func onFindPalett(sender: Tagger, row: Int)
     func onRunPalett(row: Int)
     func onDeletePalett(row: Int)
@@ -29,7 +30,7 @@ class CmdPalettView: NSTableView {
             let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
             let row = self.rowAtPoint(mp)
             if row >= 0 {
-                //TODO: Open Command Editor
+                self.selectionDelegate?.onEditPalett(row)
             }
         }
     }
