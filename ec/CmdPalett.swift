@@ -20,8 +20,16 @@ class CmdPalett: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return palett[row]
     }
     
+    func replaceCmd(cmd: String, at: Int) {
+        palett[at] = cmd
+        let notification = NSNotification(name: "CmdPalettChangedNotification", object: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
     func addCmd(cmd: String) {
         palett.append(cmd)
+        let notification = NSNotification(name: "CmdPalettChangedNotification", object: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
