@@ -20,6 +20,19 @@ protocol CmdPalettSelectionDelgate: class {
 class CmdPalettView: NSTableView {
     
     weak var selectionDelegate: CmdPalettSelectionDelgate?
+    var editorWC: NSWindowController?
+    
+    
+    override func mouseDown(theEvent: NSEvent) {
+        super.mouseDown(theEvent)
+        if theEvent.clickCount >= 2 {
+            let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            let row = self.rowAtPoint(mp)
+            if row >= 0 {
+                //TODO: Open Command Editor
+            }
+        }
+    }
     
     override func rightMouseDown(theEvent: NSEvent) {
         let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)

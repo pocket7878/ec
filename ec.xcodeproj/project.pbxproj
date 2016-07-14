@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		506E02FCF30F0DE1E61C282C /* Pods_ecUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */; };
 		695419801D30BA360099C34D /* Tagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954197F1D30BA360099C34D /* Tagger.swift */; };
+		69561D171D371B500092A5C7 /* CmdEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D161D371B500092A5C7 /* CmdEditor.swift */; };
+		69561D191D371B7D0092A5C7 /* CmdEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */; };
+		69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */; };
+		69561D1E1D371D150092A5C7 /* CmdEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D1D1D371D150092A5C7 /* CmdEditorViewController.swift */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -59,6 +63,10 @@
 		1A56B47DB41356C706C02CAF /* Pods-ecUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ecUITests/Pods-ecUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ec.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
+		69561D161D371B500092A5C7 /* CmdEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditor.swift; sourceTree = "<group>"; };
+		69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CmdEditor.storyboard; sourceTree = "<group>"; };
+		69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditorWindow.swift; sourceTree = "<group>"; };
+		69561D1D1D371D150092A5C7 /* CmdEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditorViewController.swift; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +141,16 @@
 				8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		69561D1A1D371CE10092A5C7 /* CmdEditor */ = {
+			isa = PBXGroup;
+			children = (
+				69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */,
+				69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */,
+				69561D1D1D371D150092A5C7 /* CmdEditorViewController.swift */,
+			);
+			name = CmdEditor;
 			sourceTree = "<group>";
 		};
 		699A03321D2234CC005A9FE7 = {
@@ -220,9 +238,11 @@
 		69C71EC61D2A69110023A48E /* CmdPalett */ = {
 			isa = PBXGroup;
 			children = (
+				69561D1A1D371CE10092A5C7 /* CmdEditor */,
 				699A03691D23FC84005A9FE7 /* CmdPalett.swift */,
 				69C71EBA1D289A260023A48E /* CmdPalettView.swift */,
 				699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */,
+				69561D161D371B500092A5C7 /* CmdEditor.swift */,
 			);
 			name = CmdPalett;
 			sourceTree = "<group>";
@@ -383,6 +403,7 @@
 				699A03461D2234CC005A9FE7 /* Main.storyboard in Resources */,
 				69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */,
 				69E58FCA1D2D1F6400D8220F /* ec.sdef in Resources */,
+				69561D191D371B7D0092A5C7 /* CmdEditor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,13 +556,16 @@
 				699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */,
 				699A036A1D23FC84005A9FE7 /* CmdPalett.swift in Sources */,
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
+				69561D171D371B500092A5C7 /* CmdEditor.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
 				69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */,
+				69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */,
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */,
 				69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */,
 				69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */,
+				69561D1E1D371D150092A5C7 /* CmdEditorViewController.swift in Sources */,
 				69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */,
 				699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */,
 				69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */,
