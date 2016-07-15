@@ -37,6 +37,7 @@ indirect enum Cmd {
     case CmdGroup([CmdLine])
     case PipeCmd(String)
     case RedirectCmd(String)
+    case ExternalCmd(String)
 }
 
 struct CmdLine {

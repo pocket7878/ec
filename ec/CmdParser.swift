@@ -152,11 +152,15 @@ let redirectCmdParser: GenericParser<String, (), Cmd> = StringParser.character("
     return GenericParser(result: Cmd.RedirectCmd(pat.pat))
     })
 
+let externalCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.ExternalCmd(pat.pat))
+    })
+
 let groupCmdParser: GenericParser<String, (), Cmd> = cmdLineParser.separatedBy(StringParser.endOfLine).between(StringParser.character("{"), StringParser.character("}")) >>- { cmds in
     return GenericParser(result: Cmd.CmdGroup(cmds))
 }
 
-let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> redirectCmdParser <|> groupCmdParser
+let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> redirectCmdParser <|> externalCmdParser <|> groupCmdParser
 
 let addrsParser: GenericParser<String, (), [Addr]> = addrParser.many
 
