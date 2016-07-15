@@ -47,4 +47,5 @@ struct CmdLine {
 enum ECCmd {
     case Edit(CmdLine)
     case Look(String)
+    case External(String)
 }

@@ -177,6 +177,13 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
                     cmdLine: cmdLine, folderPath: fileFolderPath)
             case ECCmd.Look(let str):
                 findString(str)
+            case .External(let str):
+                var fileFolderPath: String? = nil
+                if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                    let fpath = fileUrl.path {
+                    fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+                }
+                Util.runExternalCommand(str, fileFolderPath: fileFolderPath)
             }
         } catch {
             if let nserror = error as? NSError {

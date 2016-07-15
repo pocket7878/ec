@@ -36,6 +36,7 @@
 		69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCB1D2D229B00D8220F /* ECError.swift */; };
 		69E58FCE1D2EAA5900D8220F /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */; };
 		69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */; };
+		69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EA84F91D38FAA5004DEA38 /* Util.swift */; };
 		BB34E952C35D417988610B2C /* Pods_ecTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA36322443EB103FA0716171 /* Pods_ecTests.framework */; };
 		DF58C08244455014A4EEFC87 /* Pods_ec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ACC91E1C187EB566EDD48DE /* Pods_ec.framework */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,7 @@
 		69E58FCB1D2D229B00D8220F /* ECError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECError.swift; path = ../ECError.swift; sourceTree = "<group>"; };
 		69E58FCD1D2EAA5900D8220F /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
 		69E58FCF1D2EAA7E00D8220F /* CodeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
+		69EA84F91D38FAA5004DEA38 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		7148515E9DC1AB02BAA64ECA /* Pods-ec.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ec.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ec/Pods-ec.debug.xcconfig"; sourceTree = "<group>"; };
 		88624340BA0D772C5C4BC848 /* Pods-ecTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ecTests/Pods-ecTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8F6728A958C02A7AC8BD4B18 /* Pods_ecUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ecUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,6 +251,7 @@
 			children = (
 				69D0B6EE1D269BAC003C04DD /* StringExtension.swift */,
 				6954197F1D30BA360099C34D /* Tagger.swift */,
+				69EA84F91D38FAA5004DEA38 /* Util.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */,
+				69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */,
 				69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */,
 				69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */,
 				69561D1E1D371D150092A5C7 /* CmdEditorViewController.swift in Sources */,

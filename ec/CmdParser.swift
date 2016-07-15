@@ -180,8 +180,17 @@ let findCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("F
 }
 
 /*
+ ******************************
+ * External Command
+ ******************************
+ */
+let externalCommandParser: GenericParser<String, (), ECCmd> = StringParser.noneOf("\n").many.stringValue >>- { str in
+    return GenericParser(result: ECCmd.External(str))
+}
+
+/*
  ***************************
  * EC Command
  ***************************
  */
-let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|> findCommandParser
+let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|> findCommandParser.attempt <|> externalCommandParser
