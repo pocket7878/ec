@@ -473,7 +473,8 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             return [Patch.NoOp]
         }
     case .ExternalCmd(let cmd):
-        Util.runExternalCommand(cmd, fileFolderPath: folderPath)
+        let dotStr = dotText(edit)
+        Util.runExternalCommand(cmd, inputString: dotStr, fileFolderPath: folderPath)
         return [Patch.NoOp]
     }
     throw ECError.IlligalState

@@ -70,12 +70,28 @@ class Util {
         return (output, error, status)
     }
     
-    class func runExternalCommand(command: String, fileFolderPath: String?) {
+    class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to activate", wdir: fileFolderPath, args: [])
-        if let wdir = fileFolderPath {
-            Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script (\"cd \(wdir) && \(command)\")", wdir: fileFolderPath, args: [])
-        } else {
-            Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script (\"\(command)\")", wdir: fileFolderPath, args: [])
+        var inputFileName: String? = nil
+        if let inputStr = inputString {
+            //Create Temporary file and write inputStr to it
+            let tempDir = NSTemporaryDirectory()
+            let randomFileName = "\(tempDir)/\(NSDate().timeIntervalSince1970)-temp"
+            inputFileName = randomFileName
+            do {
+                try inputStr.writeToFile(randomFileName, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch {
+                NSLog("\(error)")
+            }
         }
+        var cmdString = ""
+        if let wdir = fileFolderPath {
+            cmdString = "cd \(wdir) && "
+        }
+        cmdString = "\(cmdString) \(command)"
+        if let inFile = inputFileName {
+            cmdString = "\(cmdString) < \(inFile)"
+        }
+        Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")", wdir: fileFolderPath, args: [])
     }
 }

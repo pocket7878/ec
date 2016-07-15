@@ -183,7 +183,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
                     let fpath = fileUrl.path {
                     fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
                 }
-                Util.runExternalCommand(str, fileFolderPath: fileFolderPath)
+                Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
         } catch {
             if let nserror = error as? NSError {
