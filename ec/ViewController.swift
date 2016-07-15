@@ -160,19 +160,24 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     func runCommand(cmd: String) {
         do {
-            var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                let fpath = fileUrl.path {
-                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            let res = try ecCmdParser.run(userState: (), sourceName: "cmdText", input: cmd)
+            switch(res.0) {
+            case ECCmd.Edit(let cmdLine):
+                var fileFolderPath: String? = nil
+                if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                    let fpath = fileUrl.path {
+                    fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+                }
+                let currDot = mainTextView.selectedRange()
+                try runCmdLine(
+                    TextEdit(
+                        storage: mainTextView.textStorage!.string,
+                        dot: (currDot.location, currDot.location + currDot.length)),
+                    textview: mainTextView,
+                    cmdLine: cmdLine, folderPath: fileFolderPath)
+            case ECCmd.Look(let str):
+                findString(str)
             }
-            let res = try cmdLineParser.run(userState: (), sourceName: "cmdText", input: cmd)
-            let currDot = mainTextView.selectedRange()
-            try runCmdLine(
-                TextEdit(
-                    storage: mainTextView.textStorage!.string,
-                    dot: (currDot.location, currDot.location + currDot.length)),
-                textview: mainTextView,
-                cmdLine: res.0, folderPath: fileFolderPath)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)

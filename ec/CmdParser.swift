@@ -10,6 +10,12 @@ import Foundation
 import SwiftParsec
 
 /*
+ *********************************
+ * Edit Command Parser
+ *********************************
+ */
+
+/*
  * Parsing pattern like
  */
 let patternLikeParser: GenericParser<String, (), PatternLike> = (StringParser.character("/") *> (StringParser.noneOf("/").many.stringValue) <* (StringParser.character("/") <?> "Unclosed Pattern Slash")) >>- { patternStr in
@@ -159,3 +165,23 @@ let cmdLineParser: GenericParser<String, (), CmdLine> = (StringParser.spaces *> 
         return GenericParser(result: CmdLine(adders: addrs, cmd: cmd))
         }) <|> GenericParser(result: CmdLine(adders: addrs, cmd: nil))
 }
+
+let editCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Edit") *> StringParser.spaces *> cmdLineParser >>- { cmdLine in
+    return GenericParser(result: ECCmd.Edit(cmdLine))
+}
+
+/*
+ *************************************
+ * Look Command
+ *************************************
+ */
+let findCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Find") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
+    return GenericParser(result: ECCmd.Look(str))
+}
+
+/*
+ ***************************
+ * EC Command
+ ***************************
+ */
+let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|> findCommandParser
