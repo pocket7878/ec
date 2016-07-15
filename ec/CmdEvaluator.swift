@@ -372,66 +372,9 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
     throw ECError.IlligalState
 }
 
-func getShell() -> String {
-    let env = NSProcessInfo.processInfo().environment
-    if let value = env["SHELL"] {
-        return value
-    } else {
-        return "/bin/sh"
-    }
-}
 
-func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
-    
-    var output : [String] = []
-    var error : [String] = []
-    
-    let task = NSTask()
-    var ax = ["-l", "-c", cmd]
-    ax.appendContentsOf(args)
-    task.launchPath = getShell()
-    task.arguments = ax
-    if let wdir = wdir {
-        task.currentDirectoryPath = wdir
-    } else {
-        task.currentDirectoryPath = "~/"
-    }
-    
-    if let instr = inputStr,
-        inData = instr.dataUsingEncoding(NSUTF8StringEncoding) {
-        let inpipe = NSPipe()
-        task.standardInput = inpipe
-        let handle = inpipe.fileHandleForWriting
-        handle.writeData(inData)
-        handle.closeFile()
-    }
-    
-    let outpipe = NSPipe()
-    task.standardOutput = outpipe
-    let errpipe = NSPipe()
-    task.standardError = errpipe
-    
-    task.launch()
-    
 
-    
-    let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
-    if var string = NSString(data: outdata, encoding: NSUTF8StringEncoding) {
-        string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-        output = string.componentsSeparatedByString("\n")
-    }
-    
-    let errdata = errpipe.fileHandleForReading.readDataToEndOfFile()
-    if var string = NSString(data: errdata, encoding: NSUTF8StringEncoding) {
-        string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-        error = string.componentsSeparatedByString("\n")
-    }
-    
-    task.waitUntilExit()
-    let status = task.terminationStatus
-    
-    return (output, error, status)
-}
+
 
 func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
     switch(cmd) {
@@ -501,7 +444,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             for i in 1..<cx.count {
                 args.append(cx[i])
             }
-            let res = runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
+            let res = Util.runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
             if res.exitCode == 0 {
                 let str = res.0.joinWithSeparator("\n")
                 return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
@@ -519,7 +462,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             for i in 1..<cx.count {
                 args.append(cx[i])
             }
-            let res = runCommand(c, inputStr: nil, wdir: folderPath, args: args)
+            let res = Util.runCommand(c, inputStr: nil, wdir: folderPath, args: args)
             if res.exitCode == 0 {
                 let str = res.0.joinWithSeparator("\n")
                 return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
@@ -529,6 +472,10 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         } else {
             return [Patch.NoOp]
         }
+    case .ExternalCmd(let cmd):
+        let dotStr = dotText(edit)
+        Util.runExternalCommand(cmd, inputString: dotStr, fileFolderPath: folderPath)
+        return [Patch.NoOp]
     }
     throw ECError.IlligalState
 }

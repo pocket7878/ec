@@ -257,6 +257,7 @@ class ECTextView: CodeTextView {
         }
     }
     
+
     
     //MARK: TextInsert Action Overrides
     override func insertTab(sender: AnyObject?) {

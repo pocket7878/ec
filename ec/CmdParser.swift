@@ -10,6 +10,12 @@ import Foundation
 import SwiftParsec
 
 /*
+ *********************************
+ * Edit Command Parser
+ *********************************
+ */
+
+/*
  * Parsing pattern like
  */
 let patternLikeParser: GenericParser<String, (), PatternLike> = (StringParser.character("/") *> (StringParser.noneOf("/").many.stringValue) <* (StringParser.character("/") <?> "Unclosed Pattern Slash")) >>- { patternStr in
@@ -146,11 +152,15 @@ let redirectCmdParser: GenericParser<String, (), Cmd> = StringParser.character("
     return GenericParser(result: Cmd.RedirectCmd(pat.pat))
     })
 
+let externalCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.ExternalCmd(pat.pat))
+    })
+
 let groupCmdParser: GenericParser<String, (), Cmd> = cmdLineParser.separatedBy(StringParser.endOfLine).between(StringParser.character("{"), StringParser.character("}")) >>- { cmds in
     return GenericParser(result: Cmd.CmdGroup(cmds))
 }
 
-let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> redirectCmdParser <|> groupCmdParser
+let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> redirectCmdParser <|> externalCmdParser <|> groupCmdParser
 
 let addrsParser: GenericParser<String, (), [Addr]> = addrParser.many
 
@@ -159,3 +169,32 @@ let cmdLineParser: GenericParser<String, (), CmdLine> = (StringParser.spaces *> 
         return GenericParser(result: CmdLine(adders: addrs, cmd: cmd))
         }) <|> GenericParser(result: CmdLine(adders: addrs, cmd: nil))
 }
+
+let editCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Edit") *> StringParser.spaces *> cmdLineParser >>- { cmdLine in
+    return GenericParser(result: ECCmd.Edit(cmdLine))
+}
+
+/*
+ *************************************
+ * Look Command
+ *************************************
+ */
+let findCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Find") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
+    return GenericParser(result: ECCmd.Look(str))
+}
+
+/*
+ ******************************
+ * External Command
+ ******************************
+ */
+let externalCommandParser: GenericParser<String, (), ECCmd> = StringParser.noneOf("\n").many.stringValue >>- { str in
+    return GenericParser(result: ECCmd.External(str))
+}
+
+/*
+ ***************************
+ * EC Command
+ ***************************
+ */
+let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|> findCommandParser.attempt <|> externalCommandParser

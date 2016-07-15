@@ -37,9 +37,16 @@ indirect enum Cmd {
     case CmdGroup([CmdLine])
     case PipeCmd(String)
     case RedirectCmd(String)
+    case ExternalCmd(String)
 }
 
 struct CmdLine {
     let adders: [Addr]
     let cmd: Cmd?
+}
+
+enum ECCmd {
+    case Edit(CmdLine)
+    case Look(String)
+    case External(String)
 }
