@@ -18,6 +18,15 @@ class Util {
         }
     }
     
+    class func appInstalled(appName: String) -> Bool {
+        let res = Util.runCommand("osascript", inputStr: "id of app \"\(appName)\"", wdir: nil, args: [])
+        if res.exitCode == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     class func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
         
         var output : [String] = []
@@ -70,7 +79,40 @@ class Util {
         return (output, error, status)
     }
     
-    class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
+    private class func runExternalCommandIniTerm(command: String, inputString: String?, fileFolderPath: String?) {
+        var inputFileName: String? = nil
+        if let inputStr = inputString {
+            //Create Temporary file and write inputStr to it
+            let tempDir = NSTemporaryDirectory()
+            let randomFileName = "\(tempDir)/\(NSDate().timeIntervalSince1970)-temp"
+            inputFileName = randomFileName
+            do {
+                try inputStr.writeToFile(randomFileName, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch {
+                NSLog("\(error)")
+            }
+        }
+        var cmdString = ""
+        if let wdir = fileFolderPath {
+            cmdString = "cd \(wdir) && "
+        }
+        cmdString = "\(cmdString) \(command)"
+        if let inFile = inputFileName {
+            cmdString = "\(cmdString) < \(inFile)"
+        }
+        var script = "tell application \"iTerm\"\n"
+        script += "\tactivate\n"
+        script += "\tset newWindow to (create window with default profile)\n"
+        script += "\ttell newWindow\n"
+        script += "\t\ttell current session\n"
+        script += "\t\t\twrite text \"\(cmdString)\"\n"
+        script += "\t\tend tell\n"
+        script += "\tend tell\n"
+        script += "end tell"
+        Util.runCommand("osascript", inputStr: script, wdir: fileFolderPath, args: [])
+    }
+    
+    private class func runExternalCommandInTerminal(command: String, inputString: String?, fileFolderPath: String?) {
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to activate", wdir: fileFolderPath, args: [])
         var inputFileName: String? = nil
         if let inputStr = inputString {
@@ -93,5 +135,13 @@ class Util {
             cmdString = "\(cmdString) < \(inFile)"
         }
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")", wdir: fileFolderPath, args: [])
+    }
+
+    class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
+        if Util.appInstalled("iTerm") {
+            Util.runExternalCommandIniTerm(command, inputString: inputString, fileFolderPath: fileFolderPath)
+        } else {
+            Util.runExternalCommandInTerminal(command, inputString: inputString, fileFolderPath: fileFolderPath)
+        }
     }
 }
