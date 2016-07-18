@@ -25,6 +25,13 @@ indirect enum Addr {
     case Eof
 }
 
+enum ExternalExecType {
+    case Pipe
+    case Input
+    case Output
+    case None
+}
+
 indirect enum Cmd {
     case ACmd(String)
     case ICmd(String)
@@ -35,9 +42,7 @@ indirect enum Cmd {
     case VCmd(PatternLike, CmdLine)
     case YCmd(PatternLike, CmdLine)
     case CmdGroup([CmdLine])
-    case PipeCmd(String)
-    case RedirectCmd(String)
-    case ExternalCmd(String)
+    case External(String, ExternalExecType)
 }
 
 struct CmdLine {
@@ -48,5 +53,5 @@ struct CmdLine {
 enum ECCmd {
     case Edit(CmdLine)
     case Look(String)
-    case External(String)
+    case External(String, ExternalExecType)
 }

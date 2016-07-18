@@ -9,12 +9,7 @@
 import Foundation
 import SwiftParsec
 
-/*
- *********************************
- * Edit Command Parser
- *********************************
- */
-
+//MARK: Edit Command
 /*
  * Parsing pattern like
  */
@@ -145,22 +140,22 @@ let vCmdParser: GenericParser<String, (), Cmd> = StringParser.character("v") *> 
     })
 
 let pipeCmdParser: GenericParser<String, (), Cmd> = StringParser.character("|") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.PipeCmd(pat.pat))
+    return GenericParser(result: Cmd.External(pat.pat, .Pipe))
     })
 
-let redirectCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.RedirectCmd(pat.pat))
+let inputCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.External(pat.pat, .Input))
     })
 
-let externalCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.ExternalCmd(pat.pat))
+let outputCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: Cmd.External(pat.pat, .Output))
     })
 
 let groupCmdParser: GenericParser<String, (), Cmd> = cmdLineParser.separatedBy(StringParser.endOfLine).between(StringParser.character("{"), StringParser.character("}")) >>- { cmds in
     return GenericParser(result: Cmd.CmdGroup(cmds))
 }
 
-let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> redirectCmdParser <|> externalCmdParser <|> groupCmdParser
+let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cCmdParser <|> dCmdParser <|> xCmdParser <|> yCmdParser <|> gCmdParser <|> vCmdParser <|> pipeCmdParser <|> inputCmdParser <|> outputCmdParser <|> groupCmdParser
 
 let addrsParser: GenericParser<String, (), [Addr]> = addrParser.many
 
@@ -174,27 +169,37 @@ let editCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("E
     return GenericParser(result: ECCmd.Edit(cmdLine))
 }
 
-/*
- *************************************
- * Look Command
- *************************************
- */
+//MARK: Find Command
 let findCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Find") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
     return GenericParser(result: ECCmd.Look(str))
 }
 
-/*
- ******************************
- * External Command
- ******************************
- */
-let externalCommandParser: GenericParser<String, (), ECCmd> = StringParser.noneOf("\n").many.stringValue >>- { str in
-    return GenericParser(result: ECCmd.External(str))
-}
+//MARK: External Command
+let systemCommandParser: GenericParser<String, (), ECCmd> = (StringParser.noneOf("\n").many.stringValue >>- { str in
+    return GenericParser(result: ECCmd.External(str, .None))
+})
+
+//Mark: Pipe Command
+let pipeCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("|") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: ECCmd.External(pat.pat, .Pipe))
+    })
+
+let inputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: ECCmd.External(pat.pat, .Input))
+    })
+
+let outputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
+    return GenericParser(result: ECCmd.External(pat.pat, .Output))
+    })
 
 /*
  ***************************
  * EC Command
  ***************************
  */
-let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|> findCommandParser.attempt <|> externalCommandParser
+let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|>
+    findCommandParser.attempt <|>
+    pipeCommandParser.attempt <|>
+    inputCommandParser.attempt <|>
+    outputCommandParser.attempt <|>
+    systemCommandParser.attempt

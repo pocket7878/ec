@@ -158,33 +158,42 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
+    func runECCmd(cmd: ECCmd) throws {
+        switch(cmd) {
+        case ECCmd.Edit(let cmdLine):
+            var fileFolderPath: String? = nil
+            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                let fpath = fileUrl.path {
+                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            }
+            let currDot = mainTextView.selectedRange()
+            try runCmdLine(
+                TextEdit(
+                    storage: mainTextView.textStorage!.string,
+                    dot: (currDot.location, currDot.location + currDot.length)),
+                textview: mainTextView,
+                cmdLine: cmdLine, folderPath: fileFolderPath)
+        case ECCmd.Look(let str):
+            findString(str)
+        case .External(let str, let execType):
+            var fileFolderPath: String? = nil
+            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+                let fpath = fileUrl.path {
+                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            }
+            switch(execType) {
+            case .Pipe, .Input, .Output:
+                try runECCmd(ECCmd.Edit(CmdLine(adders: [], cmd: Cmd.External(str, execType))))
+            case .None:
+                Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
+            }
+        }
+    }
+
     func runCommand(cmd: String) {
         do {
             let res = try ecCmdParser.run(userState: (), sourceName: "cmdText", input: cmd)
-            switch(res.0) {
-            case ECCmd.Edit(let cmdLine):
-                var fileFolderPath: String? = nil
-                if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                    let fpath = fileUrl.path {
-                    fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
-                }
-                let currDot = mainTextView.selectedRange()
-                try runCmdLine(
-                    TextEdit(
-                        storage: mainTextView.textStorage!.string,
-                        dot: (currDot.location, currDot.location + currDot.length)),
-                    textview: mainTextView,
-                    cmdLine: cmdLine, folderPath: fileFolderPath)
-            case ECCmd.Look(let str):
-                findString(str)
-            case .External(let str):
-                var fileFolderPath: String? = nil
-                if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                    let fpath = fileUrl.path {
-                    fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
-                }
-                Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
-            }
+            try runECCmd(res.0)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)
