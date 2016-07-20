@@ -8,6 +8,13 @@
 
 import Foundation
 
+enum NewLineType {
+    case LF
+    case CRLF
+    case CR
+    case None
+}
+
 extension String {
     
     var lineCount: Int {
@@ -31,4 +38,53 @@ extension String {
         let lineRange = nsStr.lineRangeForRange(NSMakeRange(idx, 0))
         return nsStr.rangeOfString("^[ \\t]+", options: NSStringCompareOptions.RegularExpressionSearch, range: lineRange)
     }
+    
+    //MARK: New Line
+    
+    func newLineCharacterForType(type: NewLineType) -> String {
+        switch(type) {
+        case .CR:
+            return "\r"
+        case .CRLF:
+            return "\r\n"
+        case .LF:
+            return "\n"
+        case .None:
+            return ""
+        }
+    }
+    
+    func detectNewLineType() -> NewLineType {
+        //New Line Character set
+        let newLineCharacterSet = NSCharacterSet(charactersInString: "\n\r")
+        let characterView = self.characters
+        if let newLineRange = self.rangeOfCharacterFromSet(newLineCharacterSet) {
+            let matchedChar = characterView[newLineRange.startIndex]
+            switch(matchedChar) {
+            case "\n":
+                return .LF
+            case "\r\n":
+                    return .CRLF
+            case "\r":
+                return .CR
+            default:
+                return .None
+            }
+        } else {
+            return .None
+        }
+    }
+    
+    func stringByReplaceNewLineCharacterWith(type: NewLineType) -> String {
+        return self.stringByReplacingOccurrencesOfString(
+            "\\r\\n|[\\n\\r]",
+            withString: self.newLineCharacterForType(type),
+            options: NSStringCompareOptions.RegularExpressionSearch,
+            range: self.characters.startIndex ..< self.characters.endIndex)
+    }
+    
+    func stringByRemovingNewLineCharacters() -> String {
+        return self.stringByReplaceNewLineCharacterWith(.None)
+    }
+    
 }

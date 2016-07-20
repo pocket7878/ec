@@ -12,6 +12,7 @@ import Cocoa
 
 class ECDocument: NSDocument {
     
+    var newLineType: NewLineType = NewLineType.LF
     var contentOfFile: NSAttributedString = NSAttributedString(string: "")
     
     override class func autosavesInPlace() -> Bool {
@@ -32,8 +33,11 @@ class ECDocument: NSDocument {
                 vc.updateDoc()
             }
         }
+        
+        var str = self.contentOfFile.string
+        str = str.stringByReplaceNewLineCharacterWith(self.newLineType)
 
-        if let d = self.contentOfFile.string.dataUsingEncoding(NSUTF8StringEncoding) {
+        if let d = str.dataUsingEncoding(NSUTF8StringEncoding) {
             return d
         }
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
@@ -41,19 +45,14 @@ class ECDocument: NSDocument {
     
     override func readFromURL(url: NSURL, ofType typeName: String) throws {
         do {
-            self.contentOfFile = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+            let attrStr = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+            let newLineType = attrStr.string.detectNewLineType()
+            if newLineType != .None {
+                self.newLineType = newLineType
+            }
+            self.contentOfFile = attrStr
         } catch {
             throw ECError.OpeningBinaryFile
         }
     }
-    /*
-    override func readFromData(data: NSData, ofType typeName: String) throws {
-        do {
-            let fileContents = try NSAttributedString(data: data, options: [:], documentAttributes: nil)
-            self.contentOfFile = fileContents
-        } catch {
-            throw error
-        }
-    }
- */
 }

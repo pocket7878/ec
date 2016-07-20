@@ -691,7 +691,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="51" rowSizeStyle="automatic" viewBased="YES" id="eHQ-Vn-P1l" customClass="CmdPalettView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="589"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="0.0"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -866,21 +866,46 @@
                                                                     <action selector="lookBtnTouched:" target="XfG-lQ-9wD" id="9nE-rC-dsv"/>
                                                                 </connections>
                                                             </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gyr-kQ-hje">
+                                                                <rect key="frame" x="18" y="22" width="64" height="17"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NewLine: " id="cE9-uN-mNG">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RJa-6r-H15">
+                                                                <rect key="frame" x="80" y="22" width="77" height="17"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="73" id="m9M-Bm-c8f"/>
+                                                                </constraints>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="I9u-Uz-Lp2">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstItem="6f9-ie-mea" firstAttribute="centerY" secondItem="fqd-pT-1Mq" secondAttribute="centerY" id="26z-JE-zGG"/>
                                                             <constraint firstAttribute="bottom" secondItem="fqd-pT-1Mq" secondAttribute="bottom" constant="20" id="6f5-2y-lqs"/>
                                                             <constraint firstAttribute="trailing" secondItem="MsH-bM-FoD" secondAttribute="trailing" id="7by-ma-bgO"/>
                                                             <constraint firstItem="GZs-Ht-lWc" firstAttribute="leading" secondItem="6f9-ie-mea" secondAttribute="trailing" constant="4" id="DHe-SQ-dKX"/>
+                                                            <constraint firstAttribute="bottom" secondItem="RJa-6r-H15" secondAttribute="bottom" constant="22" id="DM0-Aa-Xjc"/>
+                                                            <constraint firstItem="gyr-kQ-hje" firstAttribute="top" secondItem="MsH-bM-FoD" secondAttribute="bottom" constant="22" id="MLD-0N-rjn"/>
                                                             <constraint firstAttribute="bottom" secondItem="6f9-ie-mea" secondAttribute="bottom" constant="24" id="Q6I-iR-Sio"/>
                                                             <constraint firstItem="GZs-Ht-lWc" firstAttribute="centerY" secondItem="fqd-pT-1Mq" secondAttribute="centerY" id="UHb-NA-o8j"/>
+                                                            <constraint firstItem="gyr-kQ-hje" firstAttribute="leading" secondItem="bNd-06-d7Y" secondAttribute="leading" constant="20" id="UUQ-e9-ZBn"/>
+                                                            <constraint firstItem="RJa-6r-H15" firstAttribute="top" secondItem="MsH-bM-FoD" secondAttribute="bottom" constant="22" id="XJy-UQ-Cgd"/>
                                                             <constraint firstItem="GZs-Ht-lWc" firstAttribute="leading" secondItem="6f9-ie-mea" secondAttribute="trailing" constant="4" id="cth-LP-n5z"/>
                                                             <constraint firstItem="MsH-bM-FoD" firstAttribute="leading" secondItem="bNd-06-d7Y" secondAttribute="leading" id="fLn-yV-hSr"/>
                                                             <constraint firstItem="MsH-bM-FoD" firstAttribute="top" secondItem="bNd-06-d7Y" secondAttribute="top" id="hKe-Zh-IN0"/>
+                                                            <constraint firstAttribute="bottom" secondItem="gyr-kQ-hje" secondAttribute="bottom" constant="22" id="iIw-cC-RL3"/>
                                                             <constraint firstItem="fqd-pT-1Mq" firstAttribute="top" secondItem="MsH-bM-FoD" secondAttribute="bottom" constant="20" id="mIq-ZN-w7K"/>
                                                             <constraint firstAttribute="trailing" secondItem="GZs-Ht-lWc" secondAttribute="trailing" constant="20" id="ndz-b7-wqb"/>
                                                             <constraint firstAttribute="bottom" secondItem="GZs-Ht-lWc" secondAttribute="bottom" constant="20" id="t4G-FY-FpU"/>
                                                             <constraint firstItem="6f9-ie-mea" firstAttribute="leading" secondItem="fqd-pT-1Mq" secondAttribute="trailing" constant="12" id="u3k-QB-e12"/>
+                                                            <constraint firstItem="RJa-6r-H15" firstAttribute="leading" secondItem="gyr-kQ-hje" secondAttribute="trailing" constant="2" id="yMj-H5-xEQ"/>
                                                         </constraints>
                                                     </customView>
                                                 </subviews>
@@ -915,6 +940,7 @@
                         <outlet property="cmdPalettView" destination="eHQ-Vn-P1l" id="SbQ-We-Abp"/>
                         <outlet property="cmdTextView" destination="6Mp-Fe-g5s" id="1gT-gN-HL0"/>
                         <outlet property="mainTextView" destination="tLw-h6-gGh" id="K32-wy-85q"/>
+                        <outlet property="newLineTypeLabel" destination="RJa-6r-H15" id="dm0-ZP-N0g"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

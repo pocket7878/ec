@@ -435,47 +435,52 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
         return try clx.flatMap({ (cl) -> [Patch] in
             try evalCmdLine(edit, cmdLine: cl, folderPath: folderPath)
         })
-    case .PipeCmd(let cmd):
-        let dstr = dotText(edit)
-        let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if cx.count > 0 {
-            let c: String = cx[0]
-            var args: [String] = []
-            for i in 1..<cx.count {
-                args.append(cx[i])
-            }
-            let res = Util.runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
-            if res.exitCode == 0 {
-                let str = res.0.joinWithSeparator("\n")
-                return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+    case .External(let cmd, let execType):
+        switch(execType) {
+        case .Pipe:
+            let dstr = dotText(edit)
+            let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if cx.count > 0 {
+                let c: String = cx[0]
+                var args: [String] = []
+                for i in 1..<cx.count {
+                    args.append(cx[i])
+                }
+                let res = Util.runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
+                if res.exitCode == 0 {
+                    let str = res.0.joinWithSeparator("\n")
+                    return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+                } else {
+                    throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+                }
             } else {
-                throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+                return [Patch.NoOp]
             }
-        } else {
-            return [Patch.NoOp]
-        }
-    case .RedirectCmd(let cmd):
-        let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if cx.count > 0 {
-            let c: String = cx[0]
-            var args: [String] = []
-            for i in 1..<cx.count {
-                args.append(cx[i])
-            }
-            let res = Util.runCommand(c, inputStr: nil, wdir: folderPath, args: args)
-            if res.exitCode == 0 {
-                let str = res.0.joinWithSeparator("\n")
-                return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+        case .Input:
+            let cx: [String] = cmd.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if cx.count > 0 {
+                let c: String = cx[0]
+                var args: [String] = []
+                for i in 1..<cx.count {
+                    args.append(cx[i])
+                }
+                let res = Util.runCommand(c, inputStr: nil, wdir: folderPath, args: args)
+                if res.exitCode == 0 {
+                    let str = res.0.joinWithSeparator("\n")
+                    return [Patch.Replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
+                } else {
+                    throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+                }
             } else {
-                throw ECError.SystemCmdExecuteError(res.error.joinWithSeparator("\n"))
+                return [Patch.NoOp]
             }
-        } else {
+        case .Output:
+            let dotStr = dotText(edit)
+            Util.runExternalCommand(cmd, inputString: dotStr, fileFolderPath: folderPath)
             return [Patch.NoOp]
+        default:
+            throw ECError.IlligalState
         }
-    case .ExternalCmd(let cmd):
-        let dotStr = dotText(edit)
-        Util.runExternalCommand(cmd, inputString: dotStr, fileFolderPath: folderPath)
-        return [Patch.NoOp]
     }
     throw ECError.IlligalState
 }

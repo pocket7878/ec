@@ -257,9 +257,29 @@ class ECTextView: CodeTextView {
         }
     }
     
-
+    
     
     //MARK: TextInsert Action Overrides
+    override func shouldChangeTextInRange(affectedCharRange: NSRange, replacementString: String?) -> Bool {
+        return true
+        guard let replacementString = replacementString else 
+        {
+            return true
+        }
+        
+        if replacementString.isEmpty || self.undoManager?.undoing ?? false || replacementString == "\n" {
+            return true
+        }
+        
+        let nl = replacementString.detectNewLineType()
+        if nl != .None || nl != .LF {
+            let newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
+            return self.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
+        }
+        
+        return true
+    }
+    
     override func insertTab(sender: AnyObject?) {
         if (Preference.expandTab()) {
             let tabWidth = Preference.tabWidth()

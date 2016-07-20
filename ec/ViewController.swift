@@ -13,6 +13,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
     @IBOutlet weak var cmdPalettView: CmdPalettView!
+    @IBOutlet weak var newLineTypeLabel: NSTextField!
     
     var doc: ECDocument?
     
@@ -76,6 +77,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
             mainTextView.font = Preference.font()
+            self.newLineTypeLabel.stringValue = "\(doc.newLineType)"
         }
     }
     
