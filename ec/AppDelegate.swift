@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let windowController = storyBoard.instantiateControllerWithIdentifier("PreferenceWC") as! NSWindowController
         prefWC = windowController
         windowController.showWindow(nil)
+        windowController.becomeFirstResponder()
     }
 }
 

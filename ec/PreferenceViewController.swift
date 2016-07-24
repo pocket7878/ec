@@ -43,8 +43,8 @@ class PreferenceViewController: NSViewController {
     }
     
     @IBAction func changeFontBtnTouched(sender: AnyObject) {
-        let fontPanel = NSFontManager.sharedFontManager().fontPanel(true)
-        fontPanel?.makeKeyAndOrderFront(self)
+        self.view.window?.makeFirstResponder(self)
+        NSFontManager.sharedFontManager().orderFrontFontPanel(self)
     }
     
     override func changeFont(sender: AnyObject?) {
