@@ -11,6 +11,4 @@ import Cocoa
 import AppKit
 
 class PreferenceWindowController: NSWindowController {
-    override func changeFont(sender: AnyObject?) {
-    }
 }
