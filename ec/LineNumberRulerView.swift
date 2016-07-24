@@ -122,6 +122,8 @@ class LineNumberRulerView: NSRulerView {
             
             let visibleGlyphRange = layoutManager.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
             
+            guard visibleGlyphRange.location != NSNotFound else { return }
+            
             // Counter
             let characterCount = layoutManager.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
             var glyphCount = visibleGlyphRange.location
