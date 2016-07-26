@@ -261,7 +261,6 @@ class ECTextView: CodeTextView {
     
     //MARK: TextInsert Action Overrides
     override func shouldChangeTextInRange(affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        return true
         guard let replacementString = replacementString else 
         {
             return true
@@ -274,7 +273,7 @@ class ECTextView: CodeTextView {
         let nl = replacementString.detectNewLineType()
         if nl != .None || nl != .LF {
             let newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
-            return self.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
+            return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
         }
         
         return true
