@@ -196,25 +196,11 @@ func findAllMatchies(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
     }
 }
 
-func findAllMatchiesWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
-    let pat = pat.pat
-    let regex = try NSRegularExpression(pattern: pat, options: regexOptions)
-    return regex.matchesInString(
-        String(edit.storage),
-        options: [],
-        range: NSMakeRange(edit.dot.0, edit.dot.1 - edit.dot.0)).map { (res) -> Dot in
-        let d = (res.range.location, res.range.location + res.range.length)
-        return shiftDot(offset, dot: d)
-    }
-}
-
-//TODO: Restrict to dot
-func findAllUnmatchWithOffset(edit: TextEdit, pat: PatternLike, offset: Int) throws -> [Dot] {
-    let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: offset)
-    let lastIdx = offset + dotText(edit).characters.count
-    var rx = [(offset, offset)]
+func findAllUnmatch(edit: TextEdit, pat: PatternLike) throws -> [Dot] {
+    let dx = try findAllMatchies(edit, pat: pat)
+    var rx = [(edit.dot.0, edit.dot.0)]
     rx.appendContentsOf(dx)
-    rx.append((lastIdx, lastIdx))
+    rx.append((edit.dot.1, edit.dot.1))
     var px: [(Dot, Dot)] = []
     for i in 0..<(rx.count - 1) {
         px.append((rx[i], rx[i + 1]))
@@ -415,7 +401,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             throw ECError.IlligalState
         }
     case .XCmd(let pat, let cli):
-        let dx = try findAllMatchiesWithOffset(edit, pat: pat, offset: edit.dot.0)
+        let dx = try findAllMatchies(edit, pat: pat)
         return try dx.flatMap({ (let d) -> [Patch] in
             try evalCmdLine(
                 TextEdit(storage: edit.storage.copy() as! String, dot: d),
@@ -423,7 +409,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
                 folderPath: folderPath)
         })
     case .YCmd(let pat, let cli):
-        let dx = try findAllUnmatchWithOffset(edit, pat: pat, offset: edit.dot.0)
+        let dx = try findAllUnmatch(edit, pat: pat)
         return try dx.flatMap({ (let d) -> [Patch] in
             try evalCmdLine(
                 TextEdit(storage: edit.storage.copy() as! String, dot: d),
