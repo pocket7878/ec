@@ -379,7 +379,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             let regex = try NSRegularExpression(pattern: pattern, options: regexOptions)
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count > 0) {
-                try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
+                return try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
             } else {
                 return [Patch.NoOp]
             }
@@ -393,7 +393,7 @@ func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
             let regex = try NSRegularExpression(pattern: pattern, options: regexOptions)
             let matchies = regex.matchesInString(dtxt, options: [], range: NSMakeRange(0, dtxt.characters.count))
             if (matchies.count == 0) {
-                try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
+                return try evalCmdLine(edit, cmdLine: cmd, folderPath: folderPath)
             } else {
                 return [Patch.NoOp]
             }
@@ -533,6 +533,7 @@ func applyPatchesToTextView(textview: NSTextView, dot: Dot, patches: [Patch], to
 }
 
 func runCmdLine(edit: TextEdit, textview: NSTextView, cmdLine: CmdLine, folderPath: String?) throws {
+    NSLog("\(cmdLine)")
     if cmdLine.cmd != nil {
         let px = try evalCmdLine(edit, cmdLine: cmdLine, folderPath: folderPath)
         try applyPatchesToTextView(textview, dot: edit.dot, patches: px, topLevel: true)
