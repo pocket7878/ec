@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491231486.347157"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
             <Locations>
@@ -264,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491231486.347157"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "471"
-            endingLineNumber = "471"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
             <Locations>
@@ -386,11 +386,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491231486.347157"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1247,11 +1247,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491231730.091526"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1263,11 +1263,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491274419.62023"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "537"
-            endingLineNumber = "537"
+            startingLineNumber = "534"
+            endingLineNumber = "534"
             landmarkName = "runCmdLine(_:textview:cmdLine:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1279,11 +1279,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491274300.579112"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1295,11 +1295,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491274477.190435"
+            timestampString = "491398555.511708"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>

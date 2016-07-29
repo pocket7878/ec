@@ -359,9 +359,6 @@ func applyAddr(edit: TextEdit, addr: Addr) throws -> TextEdit {
 }
 
 
-
-
-
 func evalCmd(edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] {
     switch(cmd) {
     case .ACmd(let str):
