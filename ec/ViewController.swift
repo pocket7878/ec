@@ -211,7 +211,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     //MARK: ECTextViewSelectionDelegate
     func onFileAddrSelection(fileAddr: FileAddr) {
-        //TODO: Open File Addr document
         NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
             NSURL.fileURLWithPath(fileAddr.filepath),
             display: false) { (newdoc, alreadyp, _) in

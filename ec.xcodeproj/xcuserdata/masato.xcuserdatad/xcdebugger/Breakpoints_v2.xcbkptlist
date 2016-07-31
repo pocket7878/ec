@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/AppDelegate.swift"
-            timestampString = "489373793.82729"
+            timestampString = "491659874.18877"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "applicationShouldOpenUntitledFile(_:)"
             landmarkType = "5">
          </BreakpointContent>

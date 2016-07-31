@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 class Util {
     class func getShell() -> String {
@@ -25,6 +26,50 @@ class Util {
         } else {
             return false
         }
+    }
+    
+    class func runCommandWithoutSeparateOutAndError(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], exitCode: Int32) {
+        
+        var output : [String] = []
+        
+        let task = NSTask()
+        var ax = ["-l", "-c", cmd]
+        ax.appendContentsOf(args)
+        task.launchPath = Util.getShell()
+        task.arguments = ax
+        if let wdir = wdir {
+            task.currentDirectoryPath = wdir
+        } else {
+            task.currentDirectoryPath = "~/"
+        }
+        
+        if let instr = inputStr,
+            inData = instr.dataUsingEncoding(NSUTF8StringEncoding) {
+            let inpipe = NSPipe()
+            task.standardInput = inpipe
+            let handle = inpipe.fileHandleForWriting
+            handle.writeData(inData)
+            handle.closeFile()
+        }
+        
+        let outpipe = NSPipe()
+        task.standardOutput = outpipe
+        task.standardError = outpipe
+        
+        task.launch()
+        
+        
+        
+        let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
+        if var string = NSString(data: outdata, encoding: NSUTF8StringEncoding) {
+            string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
+            output = string.componentsSeparatedByString("\n")
+        }
+        
+        task.waitUntilExit()
+        let status = task.terminationStatus
+        
+        return (output, status)
     }
     
     class func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
@@ -138,10 +183,21 @@ class Util {
     }
 
     class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
+        /*
         if Util.appInstalled("iTerm") {
             Util.runExternalCommandIniTerm(command, inputString: inputString, fileFolderPath: fileFolderPath)
         } else {
             Util.runExternalCommandInTerminal(command, inputString: inputString, fileFolderPath: fileFolderPath)
+        }*/
+        let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
+        let windowController = storyBoard.instantiateControllerWithIdentifier("ExternalCommandWC") as! NSWindowController
+        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.commandWCs.append(windowController)
         }
+        if let vc = windowController.contentViewController as? ExternalCommandViewController {
+            vc.executeCommand(fileFolderPath, command: command)
+        }
+        windowController.showWindow(nil)
+        windowController.becomeFirstResponder()
     }
 }
