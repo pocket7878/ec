@@ -25,6 +25,11 @@ indirect enum Addr {
     case Eof
 }
 
+struct FileAddr {
+    let filepath: String
+    let addr: Addr?
+}
+
 enum ExternalExecType {
     case Pipe
     case Input

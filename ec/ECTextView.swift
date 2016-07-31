@@ -11,8 +11,13 @@ import Cocoa
 import AppKit
 
 protocol ECTextViewSelectionDelegate: class {
+    func onFileAddrSelection(fileAddr: FileAddr)
     func onRightMouseSelection(str: String)
     func onOtherMouseSelection(str: String)
+}
+
+protocol WorkingFolderDataSource: class {
+    func workingFolder() -> String?
 }
 
 class ECTextView: CodeTextView {
@@ -24,6 +29,7 @@ class ECTextView: CodeTextView {
     var firstIdx: Int!
     
     weak var selectionDelegate: ECTextViewSelectionDelegate?
+    weak var workingFolderDataSource: WorkingFolderDataSource?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -54,6 +60,13 @@ class ECTextView: CodeTextView {
     }
     
     //MARK: Expand Selection
+    func isChar(char: Character, inSet set: NSCharacterSet) -> Bool {
+        if String(char).rangeOfCharacterFromSet(set, options: [], range: nil) != nil {
+            return true
+        }
+        return false
+    }
+    
     func isAlnum(char: Character) -> Bool {
         let symbolCharacterSet = NSCharacterSet(
             charactersInString: "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~")
@@ -66,19 +79,41 @@ class ECTextView: CodeTextView {
         return true
     }
     
-    func isChar(char: Character, inSet set: NSCharacterSet) -> Bool {
-        if String(char).rangeOfCharacterFromSet(set, options: [], range: nil) != nil {
+    func isAddrChar(char: Character) -> Bool {
+        let characterSet = NSCharacterSet(charactersInString: "0123456789+-/$.#,;?")
+        if isChar(char, inSet: characterSet)  {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func isRegexChar(char: Character) -> Bool {
+        if (isAlnum(char)) {
+            return true
+        }
+        if (isChar(char, inSet: NSCharacterSet(charactersInString: "^+-.*?#,;[]()$"))) {
             return true
         }
         return false
     }
     
-    func expandSelection(charIdx: Int) -> NSRange? {
+    func isFileChar(char: Character) -> Bool {
+        if (isAlnum(char)) {
+            return true
+        }
+        if (isChar(char, inSet: NSCharacterSet(charactersInString: ".-+/:"))) {
+            return true
+        }
+        return false
+    }
+    
+    func expandFile(charIdx: Int) -> FileAddr? {
         if let charview = self.string?.characters {
             var topIndex = charview.startIndex.advancedBy(charIdx)
             while true {
                 let c = charview[topIndex]
-                if isAlnum(c) {
+                if isFileChar(c) {
                     if topIndex == charview.startIndex {
                         break
                     } else {
@@ -92,7 +127,102 @@ class ECTextView: CodeTextView {
             var bottomIndex = charview.startIndex.advancedBy(charIdx)
             while true {
                 let c = charview[bottomIndex]
-                if isAlnum(c) {
+                if isFileChar(c) {
+                    if bottomIndex == charview.endIndex {
+                        break
+                    } else {
+                        bottomIndex = bottomIndex.successor()
+                    }
+                } else {
+                    bottomIndex = bottomIndex.predecessor()
+                    break
+                }
+            }
+            let loc = charview.startIndex.distanceTo(topIndex)
+            if topIndex >= bottomIndex {
+                return nil
+            } else {
+                var q0 = topIndex
+                var q1 = topIndex
+                //Separate before colon and after colon
+                for var i in topIndex ... bottomIndex {
+                    let c = charview[i]
+                    q1 = i
+                    if c == ":" {
+                        if i == topIndex {
+                            return nil
+                        } else {
+                            q1 = i.predecessor()
+                            break
+                        }
+                    }
+                }
+                var filename = self.string?.substringWithRange(q0 ... q1)
+                var addrStr: String? = nil
+                var amin = q1.advancedBy(2)
+                var amax: String.CharacterView.Index? = nil
+                if amin <= bottomIndex {
+                    for var i in amin ... bottomIndex {
+                        let c = charview[i]
+                        amax = i
+                        if !(isAddrChar(c) || isRegexChar(c)) {
+                            amax = amax?.predecessor()
+                            break
+                        }
+                    }
+                    addrStr = self.string?.substringWithRange(amin ... amax!)
+                }
+                if let filename = filename,
+                    let workingFolder = workingFolderDataSource?.workingFolder() {
+                    let fileManager = NSFileManager.defaultManager()
+                    let filePath = NSString(string: workingFolder).stringByAppendingPathComponent(filename)
+                    if fileManager.fileExistsAtPath(filePath) {
+                        if let addrStr = addrStr {
+                            do {
+                                let res = try addrParser.run(
+                                    userState: (),
+                                    sourceName: "addrStr",
+                                    input: addrStr)
+                                let addr = res.0
+                                return FileAddr(filepath: filePath, addr: addr)
+                            } catch {
+                                return nil
+                            }
+                        } else {
+                            return FileAddr(filepath: filePath, addr: nil)
+                        }
+                    } else {
+                        return nil
+                    }
+                } else {
+                    return nil
+                }
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    func expandSelectionBy(charIdx: Int, checker: Character -> Bool) -> NSRange? {
+        if let charview = self.string?.characters {
+            var topIndex = charview.startIndex.advancedBy(charIdx)
+            while true {
+                let c = charview[topIndex]
+                if checker(c) {
+                    if topIndex == charview.startIndex {
+                        break
+                    } else {
+                        topIndex = topIndex.predecessor()
+                    }
+                } else {
+                    topIndex = topIndex.successor()
+                    break
+                }
+            }
+            var bottomIndex = charview.startIndex.advancedBy(charIdx)
+            while true {
+                let c = charview[bottomIndex]
+                if checker(c) {
                     if bottomIndex == charview.endIndex {
                         break
                     } else {
@@ -112,6 +242,17 @@ class ECTextView: CodeTextView {
             }
         } else {
             return nil
+        }
+    }
+    
+    func expandSelection(charIdx: Int) -> NSRange? {
+        if let fileAddr = expandFile(charIdx) {
+            self.selectionDelegate?.onFileAddrSelection(fileAddr)
+            return nil
+        } else {
+            return expandSelectionBy(charIdx, checker: { (c) -> Bool in
+                return self.isAlnum(c)
+            })
         }
     }
     

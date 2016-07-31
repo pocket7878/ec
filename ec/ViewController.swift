@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -39,6 +39,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.automaticDashSubstitutionEnabled = false
         mainTextView.automaticQuoteSubstitutionEnabled = false
         mainTextView.automaticSpellingCorrectionEnabled = false
+        mainTextView.workingFolderDataSource = self
         
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
@@ -209,6 +210,41 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: ECTextViewSelectionDelegate
+    func onFileAddrSelection(fileAddr: FileAddr) {
+        NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
+            NSURL.fileURLWithPath(fileAddr.filepath),
+            display: false) { (newdoc, alreadyp, _) in
+                if let newdoc = newdoc {
+                    if let newfileUrl = newdoc.fileURL where newfileUrl.fileURL,
+                        let newfpath = newfileUrl.path,
+                        let fileUrl = self.doc?.fileURL where fileUrl.fileURL,
+                        let fpath = fileUrl.path {
+                        if newfpath == fpath {
+                            //Same file. then just execute addr command
+                            if let ecdoc = newdoc as? ECDocument,
+                                let addr = fileAddr.addr {
+                                do {
+                                    try self.runECCmd(ECCmd.Edit(CmdLine(adders: [addr], cmd: nil)))
+                                } catch {
+                                    NSLog("Failed to run addr")
+                                }
+                            }
+                        } else {
+                            if let ecdoc = newdoc as? ECDocument {
+                                ecdoc.jumpAddr = fileAddr.addr
+                            }
+                            if !alreadyp {
+                                newdoc.makeWindowControllers()
+                            }
+                            newdoc.showWindows()
+                        }
+                    }
+                } else {
+                    NSLog("Failed to open file")
+                }
+        }
+    }
+    
     func onRightMouseSelection(str: String) {
         findString(str)
     }
@@ -220,6 +256,16 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     //MARK: NSWindowDelegate
     func windowWillClose(notification: NSNotification) {
         NSApplication.sharedApplication().stopModal()
+    }
+    
+    //MARK: WorkingFolderDataSource
+    func workingFolder() -> String? {
+        var fileFolderPath: String? = nil
+        if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+            let fpath = fileUrl.path {
+            fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+        }
+        return fileFolderPath
     }
 }
 
