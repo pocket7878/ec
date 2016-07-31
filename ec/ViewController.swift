@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -39,6 +39,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.automaticDashSubstitutionEnabled = false
         mainTextView.automaticQuoteSubstitutionEnabled = false
         mainTextView.automaticSpellingCorrectionEnabled = false
+        mainTextView.workingFolderDataSource = self
         
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
@@ -220,6 +221,16 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     //MARK: NSWindowDelegate
     func windowWillClose(notification: NSNotification) {
         NSApplication.sharedApplication().stopModal()
+    }
+    
+    //MARK: WorkingFolderDataSource
+    func workingFolder() -> String? {
+        var fileFolderPath: String? = nil
+        if let fileUrl = doc?.fileURL where fileUrl.fileURL,
+            let fpath = fileUrl.path {
+            fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+        }
+        return fileFolderPath
     }
 }
 

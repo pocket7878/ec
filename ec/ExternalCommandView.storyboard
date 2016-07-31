@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="gFy-DS-whd">
+            <objects>
+                <windowController id="rNB-3g-007" sceneMemberID="viewController">
+                    <window key="window" title="ExternalCommand" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ssk-OD-gxd">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="294" y="313" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+                    </window>
+                    <connections>
+                        <segue destination="lNs-Xc-A2Q" kind="relationship" relationship="window.shadowedContentViewController" id="pfL-Rn-uGj"/>
+                    </connections>
+                </windowController>
+                <customObject id="hmi-JH-B3r" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1116" y="377"/>
+        </scene>
+        <!--External Command View Controller-->
+        <scene sceneID="8Z0-hj-u3M">
+            <objects>
+                <viewController id="lNs-Xc-A2Q" customClass="ExternalCommandViewController" customModule="ec" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="HX9-kf-bBp">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSo-bS-wxz">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <clipView key="contentView" id="fNU-Kx-vCI">
+                                    <rect key="frame" x="1" y="1" width="463" height="268"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="uyu-8W-56a">
+                                            <rect key="frame" x="0.0" y="0.0" width="463" height="268"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="463" height="268"/>
+                                            <size key="maxSize" width="480" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="463" height="268"/>
+                                            <size key="maxSize" width="480" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="nZM-kT-aRE">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="PTf-vT-6Qo">
+                                    <rect key="frame" x="464" y="1" width="15" height="268"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="WSo-bS-wxz" firstAttribute="top" secondItem="HX9-kf-bBp" secondAttribute="top" id="2eM-9b-E9I"/>
+                            <constraint firstAttribute="trailing" secondItem="WSo-bS-wxz" secondAttribute="trailing" id="GFY-6G-n8b"/>
+                            <constraint firstItem="WSo-bS-wxz" firstAttribute="leading" secondItem="HX9-kf-bBp" secondAttribute="leading" id="fWq-Ec-6s6"/>
+                            <constraint firstAttribute="bottom" secondItem="WSo-bS-wxz" secondAttribute="bottom" id="tWn-Rq-2Cq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="commandOutputView" destination="uyu-8W-56a" id="zWU-ug-JHZ"/>
+                    </connections>
+                </viewController>
+                <customObject id="ggV-PE-9vN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1198" y="798"/>
+        </scene>
+    </scenes>
+</document>
