@@ -153,7 +153,7 @@ class ECTextView: CodeTextView {
                             return nil
                         } else {
                             q1 = i.predecessor()
-                            break;
+                            break
                         }
                     }
                 }
@@ -161,7 +161,7 @@ class ECTextView: CodeTextView {
                 var addrStr: String? = nil
                 var amin = q1.advancedBy(2)
                 var amax: String.CharacterView.Index? = nil
-                if amin < bottomIndex {
+                if amin <= bottomIndex {
                     for var i in amin ... bottomIndex {
                         let c = charview[i]
                         amax = i

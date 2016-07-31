@@ -214,13 +214,34 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         //TODO: Open File Addr document
         NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
             NSURL.fileURLWithPath(fileAddr.filepath),
-            display: false) { (doc, _, _) in
-                if let doc = doc {
-                    if let ecdoc = doc as? ECDocument {
-                        ecdoc.jumpAddr = fileAddr.addr
+            display: false) { (newdoc, alreadyp, _) in
+                if let newdoc = newdoc {
+                    if let newfileUrl = newdoc.fileURL where newfileUrl.fileURL,
+                        let newfpath = newfileUrl.path,
+                        let fileUrl = self.doc?.fileURL where fileUrl.fileURL,
+                        let fpath = fileUrl.path {
+                        if newfpath == fpath {
+                            //Same file. then just execute addr command
+                            if let ecdoc = newdoc as? ECDocument,
+                                let addr = fileAddr.addr {
+                                do {
+                                    try self.runECCmd(ECCmd.Edit(CmdLine(adders: [addr], cmd: nil)))
+                                } catch {
+                                    NSLog("Failed to run addr")
+                                }
+                            }
+                        } else {
+                            if let ecdoc = newdoc as? ECDocument {
+                                ecdoc.jumpAddr = fileAddr.addr
+                            }
+                            if !alreadyp {
+                                newdoc.makeWindowControllers()
+                            }
+                            newdoc.showWindows()
+                        }
                     }
-                    doc.makeWindowControllers()
-                    doc.showWindows()
+                } else {
+                    NSLog("Failed to open file")
                 }
         }
     }

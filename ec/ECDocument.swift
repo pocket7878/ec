@@ -26,13 +26,19 @@ class ECDocument: NSDocument {
         (windowController.contentViewController as? ViewController)?.doc = self
         (windowController.contentViewController as? ViewController)?.loadDoc()
         self.addWindowController(windowController)
-        if let jumpAddr = self.jumpAddr,
-            let vc = windowController.contentViewController as? ViewController {
-            do {
-                try vc.runECCmd(ECCmd.Edit(CmdLine(adders: [jumpAddr], cmd: nil)))
-                self.jumpAddr = nil
-            } catch {
-                NSLog("Failed to execute addr command")
+    }
+    
+    override func showWindows() {
+        super.showWindows()
+        for win in self.windowControllers {
+            if let jumpAddr = self.jumpAddr,
+                let vc = win.contentViewController as? ViewController {
+                do {
+                    try vc.runECCmd(ECCmd.Edit(CmdLine(adders: [jumpAddr], cmd: nil)))
+                    self.jumpAddr = nil
+                } catch {
+                    NSLog("Failed to execute addr command")
+                }
             }
         }
     }
