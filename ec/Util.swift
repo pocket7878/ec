@@ -183,12 +183,6 @@ class Util {
     }
 
     class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
-        /*
-        if Util.appInstalled("iTerm") {
-            Util.runExternalCommandIniTerm(command, inputString: inputString, fileFolderPath: fileFolderPath)
-        } else {
-            Util.runExternalCommandInTerminal(command, inputString: inputString, fileFolderPath: fileFolderPath)
-        }*/
         let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
         let windowController = storyBoard.instantiateControllerWithIdentifier("ExternalCommandWC") as! NSWindowController
         if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
@@ -196,6 +190,16 @@ class Util {
         }
         if let vc = windowController.contentViewController as? ExternalCommandViewController {
             vc.executeCommand(fileFolderPath, command: command)
+            if let win = windowController.window {
+                var winTitle = ""
+                if let wdir = fileFolderPath {
+                    winTitle = "\(wdir) \(command)+Errors"
+                } else {
+                    winTitle = "\(command)+Errors"
+                }
+                win.title = winTitle
+                win.delegate = vc
+            }
         }
         windowController.showWindow(nil)
         windowController.becomeFirstResponder()

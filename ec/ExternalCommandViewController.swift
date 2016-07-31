@@ -10,10 +10,12 @@ import Foundation
 import Cocoa
 import AppKit
 
-class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource {
+class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
     
     @IBOutlet var commandOutputView: ECTextView!
     
+    var cmdTask: NSTask!
+    var outPipe: NSPipe!
     var workingDir: String?
     
     override func viewDidLoad() {
@@ -31,14 +33,51 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         commandOutputView.automaticQuoteSubstitutionEnabled = false
         commandOutputView.automaticSpellingCorrectionEnabled = false
         commandOutputView.workingFolderDataSource = self
+        
     }
     
     func executeCommand(workingDir: String?, command: String) {
         //Clear whole text and run command
-        self.commandOutputView.textStorage?.setAttributedString(NSAttributedString(string: ""))
+        self.commandOutputView.textStorage?.setAttributedString(
+            NSAttributedString(string: ""))
         self.workingDir = workingDir
-        let res = Util.runCommandWithoutSeparateOutAndError(command, inputStr: nil, wdir: workingDir, args: [])
-        self.commandOutputView.textStorage?.setAttributedString(NSAttributedString(string: res.output.joinWithSeparator("\n")))
+        
+        var output : [String] = []
+        
+        cmdTask = NSTask()
+        var ax = ["-l", "-c", command]
+        cmdTask.launchPath = Util.getShell()
+        cmdTask.arguments = ax
+        if let wdir = workingDir {
+            cmdTask.currentDirectoryPath = wdir
+        } else {
+            cmdTask.currentDirectoryPath = "~/"
+        }
+        
+        outPipe = NSPipe()
+        cmdTask.standardOutput = outPipe
+        cmdTask.standardError = outPipe
+        
+        cmdTask.launch()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(ExternalCommandViewController.notificationReadedData(_:)), name: NSFileHandleReadCompletionNotification, object: nil)
+        outPipe.fileHandleForReading.readInBackgroundAndNotify()
+    }
+    
+    func notificationReadedData(notification: NSNotification) {
+        var output: NSData = notification.userInfo![NSFileHandleNotificationDataItem] as! NSData
+        var outputStr: NSString = NSString(data: output, encoding: NSUTF8StringEncoding)!
+        if cmdTask.running {
+            outPipe.fileHandleForReading.readInBackgroundAndNotify()
+        } else {
+            NSNotificationCenter.defaultCenter().removeObserver(self,
+                                                                name: NSFileHandleReadCompletionNotification, object: nil)
+        }
+        var outAttrStr = NSMutableAttributedString(string: String(outputStr))
+        outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.whiteColor()], range: NSMakeRange(0, output.length))
+        self.commandOutputView.textStorage?.appendAttributedString(outAttrStr)
+        self.commandOutputView.scrollToEndOfDocument(nil)
     }
 
     //MARK: Utils
@@ -149,5 +188,18 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     //MARK: WorkingFolderDataSource
     func workingFolder() -> String? {
         return self.workingDir
+    }
+    
+    //NSWindowDelegate
+    func windowWillClose(notification: NSNotification) {
+        cleaning()
+    }
+    
+    func cleaning() {
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+                                                            name: NSFileHandleReadCompletionNotification, object: nil)
+        if let cmdtask = self.cmdTask {
+            cmdtask.terminate()
+        }
     }
 }
