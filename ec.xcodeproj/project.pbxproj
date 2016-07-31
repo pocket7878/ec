@@ -25,6 +25,7 @@
 		699A036C1D240521005A9FE7 /* CmdPalettCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */; };
 		699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A036F1D24C943005A9FE7 /* ECDocument.swift */; };
 		699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03AA1D250D71005A9FE7 /* Cmd.swift */; };
+		699E96661D4DEE31004023C1 /* NSURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699E96651D4DEE31004023C1 /* NSURLExtension.swift */; };
 		69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBA1D289A260023A48E /* CmdPalettView.swift */; };
 		69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */; };
 		69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69C71EC21D2A63C00023A48E /* Preference.storyboard */; };
@@ -88,6 +89,7 @@
 		699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdPalettCellView.swift; sourceTree = "<group>"; };
 		699A036F1D24C943005A9FE7 /* ECDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECDocument.swift; sourceTree = "<group>"; };
 		699A03AA1D250D71005A9FE7 /* Cmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
+		699E96651D4DEE31004023C1 /* NSURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLExtension.swift; sourceTree = "<group>"; };
 		69C71EBA1D289A260023A48E /* CmdPalettView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdPalettView.swift; sourceTree = "<group>"; };
 		69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECSplitView.swift; path = ../ECSplitView.swift; sourceTree = "<group>"; };
 		69C71EC21D2A63C00023A48E /* Preference.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preference.storyboard; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				69D0B6EE1D269BAC003C04DD /* StringExtension.swift */,
 				6954197F1D30BA360099C34D /* Tagger.swift */,
 				69EA84F91D38FAA5004DEA38 /* Util.swift */,
+				699E96651D4DEE31004023C1 /* NSURLExtension.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				691064681D44DDB9002DCFB3 /* PreferenceWindowController.swift in Sources */,
 				699A036C1D240521005A9FE7 /* CmdPalettCellView.swift in Sources */,
 				69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */,
+				699E96661D4DEE31004023C1 /* NSURLExtension.swift in Sources */,
 				690FD1401D4CD9E8000D58AF /* ExternalCommandViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -210,6 +210,21 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: ECTextViewSelectionDelegate
+    func onFileAddrSelection(fileAddr: FileAddr) {
+        //TODO: Open File Addr document
+        NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
+            NSURL.fileURLWithPath(fileAddr.filepath),
+            display: false) { (doc, _, _) in
+                if let doc = doc {
+                    if let ecdoc = doc as? ECDocument {
+                        ecdoc.jumpAddr = fileAddr.addr
+                    }
+                    doc.makeWindowControllers()
+                    doc.showWindows()
+                }
+        }
+    }
+    
     func onRightMouseSelection(str: String) {
         findString(str)
     }

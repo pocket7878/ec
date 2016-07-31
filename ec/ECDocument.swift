@@ -14,6 +14,7 @@ class ECDocument: NSDocument {
     
     var newLineType: NewLineType = NewLineType.LF
     var contentOfFile: NSAttributedString = NSAttributedString(string: "")
+    var jumpAddr: Addr?
     
     override class func autosavesInPlace() -> Bool {
         return true
@@ -25,6 +26,15 @@ class ECDocument: NSDocument {
         (windowController.contentViewController as? ViewController)?.doc = self
         (windowController.contentViewController as? ViewController)?.loadDoc()
         self.addWindowController(windowController)
+        if let jumpAddr = self.jumpAddr,
+            let vc = windowController.contentViewController as? ViewController {
+            do {
+                try vc.runECCmd(ECCmd.Edit(CmdLine(adders: [jumpAddr], cmd: nil)))
+                self.jumpAddr = nil
+            } catch {
+                NSLog("Failed to execute addr command")
+            }
+        }
     }
     
     override func dataOfType(typeName: String) throws -> NSData {

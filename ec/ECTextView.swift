@@ -11,6 +11,7 @@ import Cocoa
 import AppKit
 
 protocol ECTextViewSelectionDelegate: class {
+    func onFileAddrSelection(fileAddr: FileAddr)
     func onRightMouseSelection(str: String)
     func onOtherMouseSelection(str: String)
 }
@@ -246,11 +247,13 @@ class ECTextView: CodeTextView {
     
     func expandSelection(charIdx: Int) -> NSRange? {
         if let fileAddr = expandFile(charIdx) {
-            NSLog("\(fileAddr)")
+            self.selectionDelegate?.onFileAddrSelection(fileAddr)
+            return nil
+        } else {
+            return expandSelectionBy(charIdx, checker: { (c) -> Bool in
+                return self.isAlnum(c)
+            })
         }
-        return expandSelectionBy(charIdx, checker: { (c) -> Bool in
-            return self.isAlnum(c)
-        })
     }
     
     
