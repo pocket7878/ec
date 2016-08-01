@@ -25,12 +25,18 @@ class CmdPalettView: NSTableView {
     
     
     override func mouseDown(theEvent: NSEvent) {
-        super.mouseDown(theEvent)
-        if theEvent.clickCount >= 2 {
-            let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-            let row = self.rowAtPoint(mp)
-            if row >= 0 {
-                self.selectionDelegate?.onEditPalett(row)
+        if theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask) {
+            self.rightMouseDown(theEvent)
+        } else if theEvent.modifierFlags.contains(.CommandKeyMask) {
+            self.otherMouseDown(theEvent)
+        } else {
+            super.mouseDown(theEvent)
+            if theEvent.clickCount >= 2 {
+                let mp = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+                let row = self.rowAtPoint(mp)
+                if row >= 0 {
+                    self.selectionDelegate?.onEditPalett(row)
+                }
             }
         }
     }
