@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource {
+class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: NSTextView!
@@ -79,6 +79,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
             mainTextView.font = Preference.font()
+            doc.snapshotContentDataSource = self
             self.newLineTypeLabel.stringValue = "\(doc.newLineType)"
         }
     }
@@ -87,6 +88,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         if let doc = self.doc {
             doc.contentOfFile = mainTextView.attributedString()
         }
+    }
+    
+    func snapshotContent() -> NSAttributedString {
+        return NSAttributedString(string: self.mainTextView.string!)
     }
     
     //MARK: CmdPalettSelectionDelegate
