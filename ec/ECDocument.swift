@@ -10,11 +10,16 @@ import Foundation
 import AppKit
 import Cocoa
 
+protocol SnapshotContentsDataSource: class {
+    func snapshotContent() -> NSAttributedString
+}
+
 class ECDocument: NSDocument {
     
     var newLineType: NewLineType = NewLineType.LF
     var contentOfFile: NSAttributedString = NSAttributedString(string: "")
     var jumpAddr: Addr?
+    weak var snapshotContentDataSource: SnapshotContentsDataSource?
     
     override class func autosavesInPlace() -> Bool {
         return true
@@ -70,5 +75,19 @@ class ECDocument: NSDocument {
         } catch {
             throw ECError.OpeningBinaryFile
         }
+    }
+    
+    override func printOperationWithSettings(printSettings: [String : AnyObject]) throws -> NSPrintOperation {
+        var content = self.contentOfFile
+        if let snapshotContentDataSource = self.snapshotContentDataSource {
+            content = snapshotContentDataSource.snapshotContent()
+        }
+        let paperSize = self.printInfo.paperSize
+        let textView = NSTextView(frame: NSMakeRect(
+            0, 0,
+            paperSize.width - self.printInfo.leftMargin - self.printInfo.rightMargin,
+            paperSize.height - self.printInfo.topMargin - self.printInfo.bottomMargin))
+        textView.textStorage?.setAttributedString(content)
+        return NSPrintOperation(view: textView, printInfo: self.printInfo)
     }
 }

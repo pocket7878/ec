@@ -117,7 +117,7 @@
                                         </menuItem>
                                         <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
-                                                <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
+                                                <action selector="printDocument:" target="Ady-hI-5gd" id="k2Q-of-8FM"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -778,10 +778,10 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="757" height="371"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <color key="backgroundColor" red="1" green="1" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <size key="minSize" width="743" height="371"/>
+                                                                            <size key="minSize" width="728" height="371"/>
                                                                             <size key="maxSize" width="759" height="10000000"/>
                                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <size key="minSize" width="743" height="371"/>
+                                                                            <size key="minSize" width="728" height="371"/>
                                                                             <size key="maxSize" width="759" height="10000000"/>
                                                                         </textView>
                                                                     </subviews>
@@ -792,7 +792,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="9bh-Q4-lOa">
-                                                                    <rect key="frame" x="728" y="1" width="16" height="371"/>
+                                                                    <rect key="frame" x="729" y="1" width="15" height="371"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                             </scrollView>
@@ -838,10 +838,10 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="743" height="154"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <color key="backgroundColor" red="0.86972246180000001" green="0.99520846110000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <size key="minSize" width="743" height="154"/>
+                                                                            <size key="minSize" width="728" height="154"/>
                                                                             <size key="maxSize" width="745" height="10000000"/>
                                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <size key="minSize" width="743" height="154"/>
+                                                                            <size key="minSize" width="728" height="154"/>
                                                                             <size key="maxSize" width="745" height="10000000"/>
                                                                         </textView>
                                                                     </subviews>
@@ -852,7 +852,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Tl1-L3-pQO">
-                                                                    <rect key="frame" x="728" y="1" width="16" height="154"/>
+                                                                    <rect key="frame" x="729" y="1" width="15" height="154"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                             </scrollView>
