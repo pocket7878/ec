@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
@@ -660,6 +660,62 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="B676E876-35CC-4C76-A54E-7279D52E4E19" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="regular" id="uxv-5P-dak">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="LPM-Ho-vRI"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="h0m-9H-QxO"/>
+                                <toolbarItem implicitItemIdentifier="96DAFD73-FCBF-4353-84D5-CEA442613F9E" label="New" paletteLabel="New" tag="-1" image="flat-outline" id="gGT-Sc-GLN">
+                                    <connections>
+                                        <action selector="newDocument:" target="Oky-zY-oP4" id="tIE-kl-ftw"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="C19F56D9-7561-42AA-BF63-C6818C8A06A0" label="Save" paletteLabel="Save" tag="-1" image="content-save" id="OCG-na-Klr">
+                                    <connections>
+                                        <action selector="saveDocument:" target="Oky-zY-oP4" id="dd3-eE-UhP"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="887323E0-020F-4E84-AF5B-1B7FD83FC0ED" label="Copy" paletteLabel="Copy" tag="-1" image="content-copy" id="hQh-yf-xnm">
+                                    <connections>
+                                        <action selector="copy:" target="Oky-zY-oP4" id="JPE-j7-tla"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="FB21D394-3E24-4B0B-AD10-D84742166840" label="Cut" paletteLabel="Cut" tag="-1" image="content-cut" id="lvs-xP-zPS">
+                                    <connections>
+                                        <action selector="cut:" target="Oky-zY-oP4" id="fej-jy-MMw"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="D2F12389-47F2-4F3E-BD98-7F70CEAE6E74" label="Paste" paletteLabel="Paste" tag="-1" image="content-paste" id="NRs-eg-jVB">
+                                    <connections>
+                                        <action selector="pasteAsPlainText:" target="Oky-zY-oP4" id="meB-EB-us3"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="C50C8126-3727-4FE2-A4C0-B6DA7E534B5A" label="Undo" paletteLabel="Undo" tag="-1" image="undo-variant" id="EFW-xs-iry">
+                                    <connections>
+                                        <action selector="undo:" target="Oky-zY-oP4" id="aT3-W0-LQ9"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="7E53AAF2-2A65-4A0C-AF7A-57D8C1CEE567" label="Redo" paletteLabel="Redo" tag="-1" image="redo-variant" id="ETI-Do-Rzm">
+                                    <connections>
+                                        <action selector="redo:" target="Oky-zY-oP4" id="yl9-RG-djM"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="DD015295-3577-4A19-9E8A-7900E176A9A4" label="Print" paletteLabel="Print" tag="-1" image="printer" id="MxM-y0-vbp">
+                                    <connections>
+                                        <action selector="printDocument:" target="Oky-zY-oP4" id="Kpy-JZ-lqB"/>
+                                    </connections>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="gGT-Sc-GLN"/>
+                                <toolbarItem reference="OCG-na-Klr"/>
+                                <toolbarItem reference="EFW-xs-iry"/>
+                                <toolbarItem reference="ETI-Do-Rzm"/>
+                                <toolbarItem reference="hQh-yf-xnm"/>
+                                <toolbarItem reference="lvs-xP-zPS"/>
+                                <toolbarItem reference="NRs-eg-jVB"/>
+                                <toolbarItem reference="MxM-y0-vbp"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -667,7 +723,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="98" y="322"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -778,10 +834,10 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="757" height="371"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <color key="backgroundColor" red="1" green="1" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <size key="minSize" width="728" height="371"/>
+                                                                            <size key="minSize" width="743" height="371"/>
                                                                             <size key="maxSize" width="759" height="10000000"/>
                                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <size key="minSize" width="728" height="371"/>
+                                                                            <size key="minSize" width="743" height="371"/>
                                                                             <size key="maxSize" width="759" height="10000000"/>
                                                                         </textView>
                                                                     </subviews>
@@ -792,7 +848,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="9bh-Q4-lOa">
-                                                                    <rect key="frame" x="729" y="1" width="15" height="371"/>
+                                                                    <rect key="frame" x="728" y="1" width="16" height="371"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                             </scrollView>
@@ -838,10 +894,10 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="743" height="154"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <color key="backgroundColor" red="0.86972246180000001" green="0.99520846110000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <size key="minSize" width="728" height="154"/>
+                                                                            <size key="minSize" width="743" height="154"/>
                                                                             <size key="maxSize" width="745" height="10000000"/>
                                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <size key="minSize" width="728" height="154"/>
+                                                                            <size key="minSize" width="743" height="154"/>
                                                                             <size key="maxSize" width="745" height="10000000"/>
                                                                         </textView>
                                                                     </subviews>
@@ -852,7 +908,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Tl1-L3-pQO">
-                                                                    <rect key="frame" x="729" y="1" width="15" height="154"/>
+                                                                    <rect key="frame" x="728" y="1" width="16" height="154"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                             </scrollView>
@@ -948,4 +1004,14 @@
             <point key="canvasLocation" x="310" y="815.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="content-copy" width="48" height="48"/>
+        <image name="content-cut" width="48" height="48"/>
+        <image name="content-paste" width="48" height="48"/>
+        <image name="content-save" width="48" height="48"/>
+        <image name="flat-outline" width="48" height="48"/>
+        <image name="printer" width="48" height="48"/>
+        <image name="redo-variant" width="48" height="48"/>
+        <image name="undo-variant" width="48" height="48"/>
+    </resources>
 </document>
