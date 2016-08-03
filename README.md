@@ -22,5 +22,4 @@ More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
 ## TODO
 
 - Suport mouse chording (cut, snarf, paste)
-- Plumbing like feature?
 - Syntax highlighting?
