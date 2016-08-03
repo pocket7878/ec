@@ -407,17 +407,13 @@ class ECTextView: CodeTextView {
             return true
         }
         
-        if replacementString.isEmpty || self.undoManager?.undoing ?? false || replacementString == "\n" {
-            return true
-        }
-        
         let nl = replacementString.detectNewLineType()
         if nl != .None || nl != .LF {
             let newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
             return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
         }
         
-        return true
+        return super.shouldChangeTextInRange(affectedCharRange, replacementString: replacementString)
     }
     
     override func insertTab(sender: AnyObject?) {

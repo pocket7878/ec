@@ -55,6 +55,8 @@ class ECDocument: NSDocument {
             }
         }
         
+        self.unblockUserInteraction()
+        
         var str = self.contentOfFile.string
         str = str.stringByReplaceNewLineCharacterWith(self.newLineType)
 

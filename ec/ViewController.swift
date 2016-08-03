@@ -40,8 +40,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.automaticSpellingCorrectionEnabled = false
         mainTextView.workingFolderDataSource = self
         
-        cmdTextView.undoManager?.disableUndoRegistration()
-        
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
             scrollView.verticalRulerView = rulerView
@@ -87,6 +85,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     func updateDoc() {
         if let doc = self.doc {
             doc.contentOfFile = mainTextView.attributedString()
+            self.mainTextView.breakUndoCoalescing()
         }
     }
     
