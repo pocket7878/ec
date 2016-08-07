@@ -68,15 +68,19 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     func notificationReadedData(notification: NSNotification) {
         var output: NSData = notification.userInfo![NSFileHandleNotificationDataItem] as! NSData
         var outputStr: NSString = NSString(data: output, encoding: NSUTF8StringEncoding)!
-        if cmdTask.running {
-            outPipe.fileHandleForReading.readInBackgroundAndNotify()
-        } else {
-            NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                                name: NSFileHandleReadCompletionNotification, object: nil)
-        }
         var outAttrStr = NSMutableAttributedString(string: String(outputStr))
         outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.whiteColor()], range: NSMakeRange(0, output.length))
         self.commandOutputView.textStorage?.appendAttributedString(outAttrStr)
+        if cmdTask.running {
+            outPipe.fileHandleForReading.readInBackgroundAndNotify()
+        } else {
+            let exitMsg = "\n[COMMAND OUTPUT FINISH EXIT STATUS: \(cmdTask.terminationStatus)]"
+            let exitMessage = NSMutableAttributedString(string: exitMsg)
+            exitMessage.addAttributes([NSForegroundColorAttributeName: NSColor.whiteColor()], range: NSMakeRange(0, exitMsg.characters.count))
+            self.commandOutputView.textStorage?.appendAttributedString(exitMessage)
+            NSNotificationCenter.defaultCenter().removeObserver(self,
+                                                                name: NSFileHandleReadCompletionNotification, object: nil)
+        }
         self.commandOutputView.scrollToEndOfDocument(nil)
     }
 

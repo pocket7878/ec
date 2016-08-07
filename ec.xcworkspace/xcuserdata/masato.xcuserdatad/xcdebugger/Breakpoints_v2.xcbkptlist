@@ -63,38 +63,6 @@
             endingLineNumber = "399"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.523068"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "400"
-                  endingLineNumber = "400"
-                  offsetFromSymbolStart = "7658">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.523189"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "400"
-                  endingLineNumber = "400"
-                  offsetFromSymbolStart = "7689">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -264,105 +232,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491398555.511708"
+            timestampString = "492001859.865983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "468"
-            endingLineNumber = "468"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.523952"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "1535">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.524078"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "5280">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.524178"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "7290">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.524274"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "17842">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.524368"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "18098">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
-                  timestampString = "491909372.52446"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "469"
-                  endingLineNumber = "469"
-                  offsetFromSymbolStart = "18351">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -386,11 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491398555.511708"
+            timestampString = "492001859.865983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -713,6 +589,38 @@
             endingLineNumber = "358"
             landmarkName = "applyAddr(_:addr:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.applyAddr (ec.TextEdit, addr : ec.Addr) throws -&gt; ec.TextEdit"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "492263286.458124"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "358"
+                  endingLineNumber = "358"
+                  offsetFromSymbolStart = "289">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.(runCmdLine (ec.TextEdit, textview : __ObjC.NSTextView, cmdLine : ec.CmdLine, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; ()).(closure #1)"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "492263286.458213"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "358"
+                  endingLineNumber = "358"
+                  offsetFromSymbolStart = "289">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1062,6 +970,38 @@
             endingLineNumber = "258"
             landmarkName = "onOtherMouseSelection(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "@objc ec.ViewController.onOtherMouseSelection (Swift.String) -&gt; ()"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ViewController.swift"
+                  timestampString = "492263286.458849"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "258"
+                  endingLineNumber = "258"
+                  offsetFromSymbolStart = "50">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed and Exploded&gt; of ec.ViewController.onOtherMouseSelection (Swift.String) -&gt; ()"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ViewController.swift"
+                  timestampString = "492263286.458937"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "258"
+                  endingLineNumber = "258"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1126,38 +1066,6 @@
             endingLineNumber = "51"
             landmarkName = "changeFont(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.PreferenceViewController.changeFont (Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/PreferenceViewController.swift"
-                  timestampString = "491909372.526907"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "19">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.PreferenceViewController.changeFont (Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/PreferenceViewController.swift"
-                  timestampString = "491909372.527013"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "155">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1167,12 +1075,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491398555.511708"
+            timestampString = "492001859.865983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483"
-            landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
+            landmarkName = "evalCmdLine(_:cmdLine:folderPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1183,12 +1091,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491398555.511708"
+            timestampString = "492001859.865983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
-            landmarkName = "runCmdLine(_:textview:cmdLine:folderPath:)"
+            startingLineNumber = "526"
+            endingLineNumber = "526"
+            landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1206,6 +1114,38 @@
             endingLineNumber = "373"
             landmarkName = "evalCmd(_:cmd:folderPath:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed, Arg[1] = Owned To Guaranteed, Arg[2] = Owned To Guaranteed&gt; of ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "492263286.460358"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "376"
+                  endingLineNumber = "376"
+                  offsetFromSymbolStart = "6719">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed, Arg[1] = Owned To Guaranteed, Arg[2] = Owned To Guaranteed&gt; of ec.evalCmd (ec.TextEdit, cmd : ec.Cmd, folderPath : Swift.Optional&lt;Swift.String&gt;) throws -&gt; Swift.Array&lt;ec.Patch&gt;"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/CmdEvaluator.swift"
+                  timestampString = "492263286.460446"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "376"
+                  endingLineNumber = "376"
+                  offsetFromSymbolStart = "6764">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1375,11 +1315,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECDocument.swift"
-            timestampString = "491821700.360768"
+            timestampString = "491980769.162237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "showWindows()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1398,38 +1338,6 @@
             endingLineNumber = "238"
             landmarkName = "onFileAddrSelection(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.ViewController.(onFileAddrSelection (ec.FileAddr) -&gt; ()).(closure #1)"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ViewController.swift"
-                  timestampString = "491909372.529283"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "2636">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.ViewController.(onFileAddrSelection (ec.FileAddr) -&gt; ()).(closure #1)"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ViewController.swift"
-                  timestampString = "491909372.529436"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "2777">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1446,38 +1354,6 @@
             endingLineNumber = "175"
             landmarkName = "expandFile(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.ECTextView.expandFile (Swift.Int) -&gt; Swift.Optional&lt;ec.FileAddr&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ECTextView.swift"
-                  timestampString = "491909372.53005"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "14824">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ec.ECTextView.expandFile (Swift.Int) -&gt; Swift.Optional&lt;ec.FileAddr&gt;"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ECTextView.swift"
-                  timestampString = "491909372.530145"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "14954">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1567,11 +1443,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "491796739.326279"
+            timestampString = "492263286.054254"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "cleaning()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1595,7 +1471,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/Util.swift"
@@ -1615,11 +1491,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECDocument.swift"
-            timestampString = "491909371.088399"
+            timestampString = "491980769.162237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "ECDocument"
             landmarkType = "3">
          </BreakpointContent>
@@ -1647,11 +1523,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECDocument.swift"
-            timestampString = "491907349.571714"
+            timestampString = "491980769.162237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "dataOfType(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1663,13 +1539,77 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/CmdEvaluator.swift"
-            timestampString = "491908134.057129"
+            timestampString = "492001859.865983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
             landmarkName = "applyPatchesToTextView(_:dot:patches:topLevel:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/Util.swift"
+            timestampString = "492000814.52693"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "runCommand(_:inputStr:wdir:args:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "492263286.054254"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "notificationReadedData(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed&gt; of ec.ExternalCommandViewController.notificationReadedData (__ObjC.NSNotification) -&gt; ()"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "492263286.465981"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "2955">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed&gt; of ec.ExternalCommandViewController.notificationReadedData (__ObjC.NSNotification) -&gt; ()"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "492263286.466056"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "3072">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
