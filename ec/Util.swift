@@ -183,25 +183,52 @@ class Util {
     }
 
     class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
-        let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
-        let windowController = storyBoard.instantiateControllerWithIdentifier("ExternalCommandWC") as! NSWindowController
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-            appDelegate.commandWCs.append(windowController)
+        var wdir = ""
+        if let fileFolderPath = fileFolderPath {
+            wdir = fileFolderPath
+        } else {
+            wdir = "~/"
         }
-        if let vc = windowController.contentViewController as? ExternalCommandViewController {
-            vc.executeCommand(fileFolderPath, command: command)
-            if let win = windowController.window {
-                var winTitle = ""
-                if let wdir = fileFolderPath {
-                    winTitle = "\(wdir) \(command)+Errors"
-                } else {
-                    winTitle = "\(command)+Errors"
+        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            if let windowController = appDelegate.commandWCs["\(wdir) \(command)+Errors"] {
+                if let vc = windowController.contentViewController as? ExternalCommandViewController {
+                    vc.parentWindowController = windowController
+                    vc.executeCommand(wdir, command: command)
+                    if let win = windowController.window {
+                        var winTitle = ""
+                        if let wdir = fileFolderPath {
+                            winTitle = "\(wdir) \(command)+Errors"
+                        } else {
+                            winTitle = "\(command)+Errors"
+                        }
+                        win.title = winTitle
+                        win.delegate = vc
+                    }
                 }
-                win.title = winTitle
-                win.delegate = vc
+                windowController.showWindow(nil)
+                windowController.becomeFirstResponder()
+            } else {
+                let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
+                let windowController = storyBoard.instantiateControllerWithIdentifier("ExternalCommandWC") as! NSWindowController
+                appDelegate.commandWCs["\(wdir) \(command)+Errors"] = windowController
+                if let vc = windowController.contentViewController as? ExternalCommandViewController {
+                    vc.parentWindowController = windowController
+                    vc.executeCommand(wdir, command: command)
+                    if let win = windowController.window {
+                        var winTitle = ""
+                        if let wdir = fileFolderPath {
+                            winTitle = "\(wdir) \(command)+Errors"
+                        } else {
+                            winTitle = "\(command)+Errors"
+                        }
+                        win.title = winTitle
+                        win.delegate = vc
+                    }
+                }
+                windowController.showWindow(nil)
+                windowController.becomeFirstResponder()
             }
         }
-        windowController.showWindow(nil)
-        windowController.becomeFirstResponder()
+
     }
 }

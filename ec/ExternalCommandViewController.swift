@@ -14,9 +14,11 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     
     @IBOutlet var commandOutputView: ECTextView!
     
+    var parentWindowController: NSWindowController!
     var cmdTask: NSTask!
     var outPipe: NSPipe!
-    var workingDir: String?
+    var workingDir: String!
+    var command: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         
     }
     
-    func executeCommand(workingDir: String?, command: String) {
+    func executeCommand(workingDir: String, command: String) {
         //Clear whole text and run command
         self.commandOutputView.textStorage?.setAttributedString(
             NSAttributedString(string: ""))
@@ -48,11 +50,10 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         var ax = ["-l", "-c", command]
         cmdTask.launchPath = Util.getShell()
         cmdTask.arguments = ax
-        if let wdir = workingDir {
-            cmdTask.currentDirectoryPath = wdir
-        } else {
-            cmdTask.currentDirectoryPath = "~/"
-        }
+        cmdTask.currentDirectoryPath = workingDir
+
+        self.workingDir = cmdTask.currentDirectoryPath
+        self.command = command
         
         outPipe = NSPipe()
         cmdTask.standardOutput = outPipe
@@ -202,6 +203,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     func cleaning() {
         NSNotificationCenter.defaultCenter().removeObserver(self,
                                                             name: NSFileHandleReadCompletionNotification, object: nil)
+        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.commandWCs["\(self.workingDir) \(self.command)+Errors"] = nil
+        }
         if let cmdtask = self.cmdTask {
             cmdtask.terminate()
         }

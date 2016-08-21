@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var prefWC: NSWindowController?
-    var commandWCs: [NSWindowController] = []
+    var commandWCs: Dictionary<String, NSWindowController> = [:]
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application

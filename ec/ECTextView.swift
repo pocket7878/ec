@@ -175,7 +175,12 @@ class ECTextView: CodeTextView {
                 if let filename = filename,
                     let workingFolder = workingFolderDataSource?.workingFolder() {
                     let fileManager = NSFileManager.defaultManager()
-                    let filePath = NSString(string: workingFolder).stringByAppendingPathComponent(filename)
+                    var filePath: String = ""
+                    if filename.hasPrefix("/") {
+                        filePath = filename
+                    } else {
+                        filePath = String(NSString(string: workingFolder).stringByAppendingString(filename))
+                    }
                     if fileManager.fileExistsAtPath(filePath) {
                         if let addrStr = addrStr {
                             do {
