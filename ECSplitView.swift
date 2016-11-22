@@ -11,6 +11,6 @@ import AppKit
 
 class ECSplitView: NSSplitView {
     override var dividerColor: NSColor {
-        return NSColor.blackColor()
+        return NSColor.black
     }
 }

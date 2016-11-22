@@ -15,12 +15,12 @@ class CmdEditorWindow: NSWindow, CmdEditDelegate {
     var row: Int?
     weak var palett: CmdPalett?
     
-    override func cancelOperation(sender: AnyObject?) {
+    override func cancelOperation(_ sender: Any?) {
         closeAndStopModal()
     }
     
-    override func validateUserInterfaceItem(anItem: NSValidatedUserInterfaceItem) -> Bool {
-        let action = anItem.action()
+    override func validateUserInterfaceItem(_ anItem: NSValidatedUserInterfaceItem) -> Bool {
+        let action = anItem.action
         if (action == #selector(toggleToolbarShown(_:))) {
             return false
         } else {
@@ -30,11 +30,11 @@ class CmdEditorWindow: NSWindow, CmdEditDelegate {
     
     func closeAndStopModal() {
         self.close()
-        NSApplication.sharedApplication().stopModal()
+        NSApplication.shared().stopModal()
     }
     
     //MARK: CmdEditDelegate
-    func onCmdEditSave(newCmd: String) {
+    func onCmdEditSave(_ newCmd: String) {
         if let row = row,
             let palett = palett {
             palett.replaceCmd(newCmd, at: row)

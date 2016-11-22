@@ -24,20 +24,20 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        cmdPalettView.setDataSource(cmdPalett)
-        cmdPalettView.setDelegate(cmdPalett)
+        cmdPalettView.dataSource = cmdPalett
+        cmdPalettView.delegate = cmdPalett
         cmdPalettView.selectionDelegate = self
         
         mainTextView.usesFindBar = true
-        mainTextView.incrementalSearchingEnabled = true
+        mainTextView.isIncrementalSearchingEnabled = true
         mainTextView.font = Preference.font()
         mainTextView.selectionDelegate = self
-        mainTextView.automaticTextReplacementEnabled = false
-        mainTextView.automaticLinkDetectionEnabled = false
-        mainTextView.automaticDataDetectionEnabled = false
-        mainTextView.automaticDashSubstitutionEnabled = false
-        mainTextView.automaticQuoteSubstitutionEnabled = false
-        mainTextView.automaticSpellingCorrectionEnabled = false
+        mainTextView.isAutomaticTextReplacementEnabled = false
+        mainTextView.isAutomaticLinkDetectionEnabled = false
+        mainTextView.isAutomaticDataDetectionEnabled = false
+        mainTextView.isAutomaticDashSubstitutionEnabled = false
+        mainTextView.isAutomaticQuoteSubstitutionEnabled = false
+        mainTextView.isAutomaticSpellingCorrectionEnabled = false
         mainTextView.workingFolderDataSource = self
         
         if let scrollView = mainTextView.enclosingScrollView {
@@ -47,10 +47,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
             scrollView.rulersVisible = true
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.syncCmdPalett), name: "CmdPalettChangedNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.syncCmdPalett), name: NSNotification.Name(rawValue: "CmdPalettChangedNotification"), object: nil)
     }
 
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
         }
     }
@@ -60,15 +60,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.reloadData()
     }
 
-    @IBAction func runBtnTouched(sender: NSButton) {
+    @IBAction func runBtnTouched(_ sender: NSButton) {
         runCommand(cmdTextView.textStorage!.string)
     }
 
-    @IBAction func addBtnTouched(sender: NSButton) {
+    @IBAction func addBtnTouched(_ sender: NSButton) {
         cmdPalett.addCmd(cmdTextView.string!)
     }
     
-    @IBAction func lookBtnTouched(sender: AnyObject) {
+    @IBAction func lookBtnTouched(_ sender: AnyObject) {
         findString(cmdTextView.string!)
     }
     
@@ -94,10 +94,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: CmdPalettSelectionDelegate
-    func onEditPalett(row: Int) {
+    func onEditPalett(_ row: Int) {
         let cmd = cmdPalett.palett[row]
         let storyBoard = NSStoryboard(name: "CmdEditor", bundle: nil)
-        let windowController = storyBoard.instantiateControllerWithIdentifier("CmdEditorWC") as! NSWindowController
+        let windowController = storyBoard.instantiateController(withIdentifier: "CmdEditorWC") as! NSWindowController
         editWC = windowController
         if let win = windowController.window {
             if let ceWin = win as? CmdEditorWindow {
@@ -112,19 +112,19 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
                 }
             }
         }
-        NSApplication.sharedApplication().runModalForWindow(windowController.window!)
+        NSApplication.shared().runModal(for: windowController.window!)
     }
     
-    func onFindPalett(sender: Tagger, row: Int) {
+    func onFindPalett(_ sender: Tagger, row: Int) {
         findString(cmdPalett.palett[row])
     }
     
-    func onRunPalett(row: Int) {
+    func onRunPalett(_ row: Int) {
         runCommand(cmdPalett.palett[row])
     }
     
-    func onDeletePalett(row: Int) {
-        cmdPalett.palett.removeAtIndex(row)
+    func onDeletePalett(_ row: Int) {
+        cmdPalett.palett.remove(at: row)
         cmdPalettView.reloadData()
     }
     
@@ -132,17 +132,17 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     func selectedText() -> String? {
         let selectedNSRange = mainTextView.selectedRange()
         if selectedNSRange.location != NSNotFound {
-            let selectedRange = mainTextView.string!.startIndex.advancedBy(selectedNSRange.location) ..< mainTextView.string!.startIndex.advancedBy(selectedNSRange.location + selectedNSRange.length)
-            return mainTextView.string?.substringWithRange(selectedRange)
+            let selectedRange = mainTextView.string!.characters.index(mainTextView.string!.startIndex, offsetBy: selectedNSRange.location) ..< mainTextView.string!.characters.index(mainTextView.string!.startIndex, offsetBy: selectedNSRange.location + selectedNSRange.length)
+            return mainTextView.string?.substring(with: selectedRange)
         } else {
             return nil
         }
     }
     
-    func findString(str: String) {
+    func findString(_ str: String) {
         do {
             let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpressionOptions.IgnoreMetacharacters
+                NSRegularExpression.Options.ignoreMetacharacters
                 ])
             var selectedRange = mainTextView.selectedRange()
             if selectedRange.location == NSNotFound {
@@ -152,11 +152,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
             let selectionEnd = selectedRange.location + selectedRange.length
             let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
             let backwardRange = NSMakeRange(0, selectionHead)
-            if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: forwardRange)?.range {
+            if let firstMatchRange: NSRange = regex.firstMatch(in: mainTextView.string!, options: [], range: forwardRange)?.range {
                 mainTextView.setSelectedRange(firstMatchRange)
                 mainTextView.scrollToSelection()
                 mainTextView.moveMouseCursorToSelectedRange()
-            } else if let firstMatchRange: NSRange = regex.firstMatchInString(mainTextView.string!, options: [], range: backwardRange)?.range {
+            } else if let firstMatchRange: NSRange = regex.firstMatch(in: mainTextView.string!, options: [], range: backwardRange)?.range {
                 mainTextView.setSelectedRange(firstMatchRange)
                 mainTextView.scrollToSelection()
                 mainTextView.moveMouseCursorToSelectedRange()
@@ -166,13 +166,13 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
-    func runECCmd(cmd: ECCmd) throws {
+    func runECCmd(_ cmd: ECCmd) throws {
         switch(cmd) {
-        case ECCmd.Edit(let cmdLine):
+        case ECCmd.edit(let cmdLine):
             var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                let fpath = fileUrl.path {
-                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
+                let fpath = fileUrl.path
+                fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
             }
             let currDot = mainTextView.selectedRange()
             try runCmdLine(
@@ -181,27 +181,27 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
                     dot: (currDot.location, currDot.location + currDot.length)),
                 textview: mainTextView,
                 cmdLine: cmdLine, folderPath: fileFolderPath)
-        case ECCmd.Look(let str):
+        case ECCmd.look(let str):
             findString(str)
-        case .External(let str, let execType):
+        case .external(let str, let execType):
             var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-                let fpath = fileUrl.path {
-                fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+            if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
+                let fpath = fileUrl.path
+                fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
             }
             switch(execType) {
-            case .Pipe, .Input, .Output:
-                try runECCmd(ECCmd.Edit(CmdLine(adders: [], cmd: Cmd.External(str, execType))))
-            case .None:
+            case .pipe, .input, .output:
+                try runECCmd(ECCmd.edit(CmdLine(adders: [], cmd: Cmd.external(str, execType))))
+            case .none:
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
         }
     }
 
-    func runCommand(cmd: String) {
+    func runCommand(_ cmd: String) {
         do {
             let res = try ecCmdParser.run(userState: (), sourceName: "cmdText", input: cmd)
-            try runECCmd(res.0)
+            try runECCmd(res)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)
@@ -215,21 +215,19 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     }
     
     //MARK: ECTextViewSelectionDelegate
-    func onFileAddrSelection(fileAddr: FileAddr) {
-        NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
-            NSURL.fileURLWithPath(fileAddr.filepath),
+    func onFileAddrSelection(_ fileAddr: FileAddr) {
+        NSDocumentController.shared().openDocument(
+            withContentsOf: URL(fileURLWithPath: fileAddr.filepath),
             display: false) { (newdoc, alreadyp, _) in
                 if let newdoc = newdoc {
-                    if let newfileUrl = newdoc.fileURL where newfileUrl.fileURL,
-                        let newfpath = newfileUrl.path,
-                        let fileUrl = self.doc?.fileURL where fileUrl.fileURL,
-                        let fpath = fileUrl.path {
-                        if newfpath == fpath {
+                    if let newfileUrl = newdoc.fileURL, newfileUrl.isFileURL,
+                        let fileUrl = self.doc?.fileURL, fileUrl.isFileURL {
+                        if newfileUrl.path == fileUrl.path {
                             //Same file. then just execute addr command
                             if let ecdoc = newdoc as? ECDocument,
                                 let addr = fileAddr.addr {
                                 do {
-                                    try self.runECCmd(ECCmd.Edit(CmdLine(adders: [addr], cmd: nil)))
+                                    try self.runECCmd(ECCmd.edit(CmdLine(adders: [addr], cmd: nil)))
                                 } catch {
                                     NSLog("Failed to run addr")
                                 }
@@ -250,25 +248,25 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
-    func onRightMouseSelection(str: String) {
+    func onRightMouseSelection(_ str: String) {
         findString(str)
     }
     
-    func onOtherMouseSelection(str: String) {
+    func onOtherMouseSelection(_ str: String) {
         runCommand(str)
     }
     
     //MARK: NSWindowDelegate
-    func windowWillClose(notification: NSNotification) {
-        NSApplication.sharedApplication().stopModal()
+    func windowWillClose(_ notification: Notification) {
+        NSApplication.shared().stopModal()
     }
     
     //MARK: WorkingFolderDataSource
     func workingFolder() -> String? {
         var fileFolderPath: String? = nil
-        if let fileUrl = doc?.fileURL where fileUrl.fileURL,
-            let fpath = fileUrl.path {
-            fileFolderPath = String(NSString(string: fpath).stringByDeletingLastPathComponent)
+        if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
+            let fpath = fileUrl.path
+            fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
         }
         return fileFolderPath
     }

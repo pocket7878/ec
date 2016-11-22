@@ -11,7 +11,7 @@ import Cocoa
 
 class Util {
     class func getShell() -> String {
-        let env = NSProcessInfo.processInfo().environment
+        let env = ProcessInfo.processInfo.environment
         if let value = env["SHELL"] {
             return value
         } else {
@@ -19,7 +19,7 @@ class Util {
         }
     }
     
-    class func appInstalled(appName: String) -> Bool {
+    class func appInstalled(_ appName: String) -> Bool {
         let res = Util.runCommand("osascript", inputStr: "id of app \"\(appName)\"", wdir: nil, args: [])
         if res.exitCode == 0 {
             return true
@@ -28,13 +28,13 @@ class Util {
         }
     }
     
-    class func runCommandWithoutSeparateOutAndError(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], exitCode: Int32) {
+    class func runCommandWithoutSeparateOutAndError(_ cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], exitCode: Int32) {
         
         var output : [String] = []
         
-        let task = NSTask()
+        let task = Process()
         var ax = ["-l", "-c", cmd]
-        ax.appendContentsOf(args)
+        ax.append(contentsOf: args)
         task.launchPath = Util.getShell()
         task.arguments = ax
         if let wdir = wdir {
@@ -44,15 +44,15 @@ class Util {
         }
         
         if let instr = inputStr,
-            inData = instr.dataUsingEncoding(NSUTF8StringEncoding) {
-            let inpipe = NSPipe()
+            let inData = instr.data(using: String.Encoding.utf8) {
+            let inpipe = Pipe()
             task.standardInput = inpipe
             let handle = inpipe.fileHandleForWriting
-            handle.writeData(inData)
+            handle.write(inData)
             handle.closeFile()
         }
         
-        let outpipe = NSPipe()
+        let outpipe = Pipe()
         task.standardOutput = outpipe
         task.standardError = outpipe
         
@@ -61,9 +61,9 @@ class Util {
         
         
         let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
-        if var string = NSString(data: outdata, encoding: NSUTF8StringEncoding) {
-            string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-            output = string.componentsSeparatedByString("\n")
+        if var string = NSString(data: outdata, encoding: String.Encoding.utf8.rawValue) {
+            string = string.trimmingCharacters(in: CharacterSet.newlines) as NSString
+            output = string.components(separatedBy: "\n")
         }
         
         task.waitUntilExit()
@@ -72,14 +72,14 @@ class Util {
         return (output, status)
     }
     
-    class func runCommand(cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
+    class func runCommand(_ cmd : String, inputStr: String?, wdir: String?, args : [String]) -> (output: [String], error: [String], exitCode: Int32) {
         
         var output : [String] = []
         var error : [String] = []
         
-        let task = NSTask()
+        let task = Process()
         var ax = ["-l", "-c", cmd]
-        ax.appendContentsOf(args)
+        ax.append(contentsOf: args)
         task.launchPath = Util.getShell()
         task.arguments = ax
         if let wdir = wdir {
@@ -89,17 +89,17 @@ class Util {
         }
         
         if let instr = inputStr,
-            inData = instr.dataUsingEncoding(NSUTF8StringEncoding) {
-            let inpipe = NSPipe()
+            let inData = instr.data(using: String.Encoding.utf8) {
+            let inpipe = Pipe()
             task.standardInput = inpipe
             let handle = inpipe.fileHandleForWriting
-            handle.writeData(inData)
+            handle.write(inData)
             handle.closeFile()
         }
         
-        let outpipe = NSPipe()
+        let outpipe = Pipe()
         task.standardOutput = outpipe
-        let errpipe = NSPipe()
+        let errpipe = Pipe()
         task.standardError = errpipe
         
         task.launch()
@@ -107,15 +107,15 @@ class Util {
         
         
         let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
-        if var string = NSString(data: outdata, encoding: NSUTF8StringEncoding) {
-            string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-            output = string.componentsSeparatedByString("\n")
+        if var string = NSString(data: outdata, encoding: String.Encoding.utf8.rawValue) {
+            string = string.trimmingCharacters(in: CharacterSet.newlines) as NSString
+            output = string.components(separatedBy: "\n")
         }
         
         let errdata = errpipe.fileHandleForReading.readDataToEndOfFile()
-        if var string = NSString(data: errdata, encoding: NSUTF8StringEncoding) {
-            string = string.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-            error = string.componentsSeparatedByString("\n")
+        if var string = NSString(data: errdata, encoding: String.Encoding.utf8.rawValue) {
+            string = string.trimmingCharacters(in: CharacterSet.newlines) as NSString
+            error = string.components(separatedBy: "\n")
         }
         
         task.waitUntilExit()
@@ -124,15 +124,15 @@ class Util {
         return (output, error, status)
     }
     
-    private class func runExternalCommandIniTerm(command: String, inputString: String?, fileFolderPath: String?) {
+    fileprivate class func runExternalCommandIniTerm(_ command: String, inputString: String?, fileFolderPath: String?) {
         var inputFileName: String? = nil
         if let inputStr = inputString {
             //Create Temporary file and write inputStr to it
             let tempDir = NSTemporaryDirectory()
-            let randomFileName = "\(tempDir)/\(NSDate().timeIntervalSince1970)-temp"
+            let randomFileName = "\(tempDir)/\(Date().timeIntervalSince1970)-temp"
             inputFileName = randomFileName
             do {
-                try inputStr.writeToFile(randomFileName, atomically: true, encoding: NSUTF8StringEncoding)
+                try inputStr.write(toFile: randomFileName, atomically: true, encoding: String.Encoding.utf8)
             } catch {
                 NSLog("\(error)")
             }
@@ -157,16 +157,16 @@ class Util {
         Util.runCommand("osascript", inputStr: script, wdir: fileFolderPath, args: [])
     }
     
-    private class func runExternalCommandInTerminal(command: String, inputString: String?, fileFolderPath: String?) {
+    fileprivate class func runExternalCommandInTerminal(_ command: String, inputString: String?, fileFolderPath: String?) {
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to activate", wdir: fileFolderPath, args: [])
         var inputFileName: String? = nil
         if let inputStr = inputString {
             //Create Temporary file and write inputStr to it
             let tempDir = NSTemporaryDirectory()
-            let randomFileName = "\(tempDir)/\(NSDate().timeIntervalSince1970)-temp"
+            let randomFileName = "\(tempDir)/\(Date().timeIntervalSince1970)-temp"
             inputFileName = randomFileName
             do {
-                try inputStr.writeToFile(randomFileName, atomically: true, encoding: NSUTF8StringEncoding)
+                try inputStr.write(toFile: randomFileName, atomically: true, encoding: String.Encoding.utf8)
             } catch {
                 NSLog("\(error)")
             }
@@ -182,14 +182,14 @@ class Util {
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")", wdir: fileFolderPath, args: [])
     }
 
-    class func runExternalCommand(command: String, inputString: String?, fileFolderPath: String?) {
+    class func runExternalCommand(_ command: String, inputString: String?, fileFolderPath: String?) {
         var wdir = ""
         if let fileFolderPath = fileFolderPath {
             wdir = fileFolderPath
         } else {
             wdir = "~/"
         }
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+        if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             if let windowController = appDelegate.commandWCs["\(wdir) \(command)+Errors"] {
                 if let vc = windowController.contentViewController as? ExternalCommandViewController {
                     vc.parentWindowController = windowController
@@ -209,7 +209,7 @@ class Util {
                 windowController.becomeFirstResponder()
             } else {
                 let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
-                let windowController = storyBoard.instantiateControllerWithIdentifier("ExternalCommandWC") as! NSWindowController
+                let windowController = storyBoard.instantiateController(withIdentifier: "ExternalCommandWC") as! NSWindowController
                 appDelegate.commandWCs["\(wdir) \(command)+Errors"] = windowController
                 if let vc = windowController.contentViewController as? ExternalCommandViewController {
                     vc.parentWindowController = windowController

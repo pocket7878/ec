@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum ECError: ErrorType {
-    case PatternNotFound(String)
-    case AddrOutOfRange
-    case IlligalState
-    case SystemCmdExecuteError(String)
-    case OpeningBinaryFile
+enum ECError: Error {
+    case patternNotFound(String)
+    case addrOutOfRange
+    case illigalState
+    case systemCmdExecuteError(String)
+    case openingBinaryFile
 }

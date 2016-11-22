@@ -15,8 +15,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     @IBOutlet var commandOutputView: ECTextView!
     
     var parentWindowController: NSWindowController!
-    var cmdTask: NSTask!
-    var outPipe: NSPipe!
+    var cmdTask: Process!
+    var outPipe: Pipe!
     var workingDir: String!
     var command: String!
     
@@ -24,21 +24,21 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         super.viewDidLoad()
         
         commandOutputView.usesFindBar = true
-        commandOutputView.incrementalSearchingEnabled = true
+        commandOutputView.isIncrementalSearchingEnabled = true
         commandOutputView.font = Preference.font()
         commandOutputView.delegate = self
         commandOutputView.selectionDelegate = self
-        commandOutputView.automaticTextReplacementEnabled = false
-        commandOutputView.automaticLinkDetectionEnabled = false
-        commandOutputView.automaticDataDetectionEnabled = false
-        commandOutputView.automaticDashSubstitutionEnabled = false
-        commandOutputView.automaticQuoteSubstitutionEnabled = false
-        commandOutputView.automaticSpellingCorrectionEnabled = false
+        commandOutputView.isAutomaticTextReplacementEnabled = false
+        commandOutputView.isAutomaticLinkDetectionEnabled = false
+        commandOutputView.isAutomaticDataDetectionEnabled = false
+        commandOutputView.isAutomaticDashSubstitutionEnabled = false
+        commandOutputView.isAutomaticQuoteSubstitutionEnabled = false
+        commandOutputView.isAutomaticSpellingCorrectionEnabled = false
         commandOutputView.workingFolderDataSource = self
         
     }
     
-    func executeCommand(workingDir: String, command: String) {
+    func executeCommand(_ workingDir: String, command: String) {
         //Clear whole text and run command
         self.commandOutputView.textStorage?.setAttributedString(
             NSAttributedString(string: ""))
@@ -46,8 +46,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         
         var output : [String] = []
         
-        cmdTask = NSTask()
-        var ax = ["-l", "-c", command]
+        cmdTask = Process()
+        let ax = ["-l", "-c", command]
         cmdTask.launchPath = Util.getShell()
         cmdTask.arguments = ax
         cmdTask.currentDirectoryPath = workingDir
@@ -55,32 +55,32 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         self.workingDir = cmdTask.currentDirectoryPath
         self.command = command
         
-        outPipe = NSPipe()
+        outPipe = Pipe()
         cmdTask.standardOutput = outPipe
         cmdTask.standardError = outPipe
         
         cmdTask.launch()
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(ExternalCommandViewController.notificationReadedData(_:)), name: NSFileHandleReadCompletionNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                                         selector: #selector(ExternalCommandViewController.notificationReadedData(_:)), name: FileHandle.readCompletionNotification, object: nil)
         outPipe.fileHandleForReading.readInBackgroundAndNotify()
     }
     
-    func notificationReadedData(notification: NSNotification) {
-        var output: NSData = notification.userInfo![NSFileHandleNotificationDataItem] as! NSData
-        var outputStr: NSString = NSString(data: output, encoding: NSUTF8StringEncoding)!
-        var outAttrStr = NSMutableAttributedString(string: String(outputStr))
-        outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.whiteColor()], range: NSMakeRange(0, output.length))
-        self.commandOutputView.textStorage?.appendAttributedString(outAttrStr)
-        if cmdTask.running {
+    func notificationReadedData(_ notification: Notification) {
+        var output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
+        let outputStr: NSString = NSString(data: output, encoding: String.Encoding.utf8.rawValue)!
+        let outAttrStr = NSMutableAttributedString(string: String(outputStr))
+        outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.white], range: NSMakeRange(0, output.count))
+        self.commandOutputView.textStorage?.append(outAttrStr)
+        if cmdTask.isRunning {
             outPipe.fileHandleForReading.readInBackgroundAndNotify()
         } else {
             let exitMsg = "\n[COMMAND OUTPUT FINISH EXIT STATUS: \(cmdTask.terminationStatus)]"
             let exitMessage = NSMutableAttributedString(string: exitMsg)
-            exitMessage.addAttributes([NSForegroundColorAttributeName: NSColor.whiteColor()], range: NSMakeRange(0, exitMsg.characters.count))
-            self.commandOutputView.textStorage?.appendAttributedString(exitMessage)
-            NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                                name: NSFileHandleReadCompletionNotification, object: nil)
+            exitMessage.addAttributes([NSForegroundColorAttributeName: NSColor.white], range: NSMakeRange(0, exitMsg.characters.count))
+            self.commandOutputView.textStorage?.append(exitMessage)
+            NotificationCenter.default.removeObserver(self,
+                                                                name: FileHandle.readCompletionNotification, object: nil)
         }
         self.commandOutputView.scrollToEndOfDocument(nil)
     }
@@ -89,17 +89,17 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     func selectedText() -> String? {
         let selectedNSRange = commandOutputView.selectedRange()
         if selectedNSRange.location != NSNotFound {
-            let selectedRange = commandOutputView.string!.startIndex.advancedBy(selectedNSRange.location) ..< commandOutputView.string!.startIndex.advancedBy(selectedNSRange.location + selectedNSRange.length)
-            return commandOutputView.string?.substringWithRange(selectedRange)
+            let selectedRange = commandOutputView.string!.characters.index(commandOutputView.string!.startIndex, offsetBy: selectedNSRange.location) ..< commandOutputView.string!.characters.index(commandOutputView.string!.startIndex, offsetBy: selectedNSRange.location + selectedNSRange.length)
+            return commandOutputView.string?.substring(with: selectedRange)
         } else {
             return nil
         }
     }
     
-    func findString(str: String) {
+    func findString(_ str: String) {
         do {
             let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpressionOptions.IgnoreMetacharacters
+                NSRegularExpression.Options.ignoreMetacharacters
                 ])
             var selectedRange = commandOutputView.selectedRange()
             if selectedRange.location == NSNotFound {
@@ -109,11 +109,11 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             let selectionEnd = selectedRange.location + selectedRange.length
             let forwardRange = NSMakeRange(selectionEnd, commandOutputView.string!.characters.count - selectionEnd)
             let backwardRange = NSMakeRange(0, selectionHead)
-            if let firstMatchRange: NSRange = regex.firstMatchInString(commandOutputView.string!, options: [], range: forwardRange)?.range {
+            if let firstMatchRange: NSRange = regex.firstMatch(in: commandOutputView.string!, options: [], range: forwardRange)?.range {
                 commandOutputView.setSelectedRange(firstMatchRange)
                 commandOutputView.scrollToSelection()
                 commandOutputView.moveMouseCursorToSelectedRange()
-            } else if let firstMatchRange: NSRange = regex.firstMatchInString(commandOutputView.string!, options: [], range: backwardRange)?.range {
+            } else if let firstMatchRange: NSRange = regex.firstMatch(in: commandOutputView.string!, options: [], range: backwardRange)?.range {
                 commandOutputView.setSelectedRange(firstMatchRange)
                 commandOutputView.scrollToSelection()
                 commandOutputView.moveMouseCursorToSelectedRange()
@@ -123,9 +123,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         }
     }
     
-    func runECCmd(cmd: ECCmd) throws {
+    func runECCmd(_ cmd: ECCmd) throws {
         switch(cmd) {
-        case ECCmd.Edit(let cmdLine):
+        case ECCmd.edit(let cmdLine):
             var fileFolderPath: String? = self.workingDir
             let currDot = commandOutputView.selectedRange()
             try runCmdLine(
@@ -134,23 +134,23 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
                     dot: (currDot.location, currDot.location + currDot.length)),
                 textview: commandOutputView,
                 cmdLine: cmdLine, folderPath: fileFolderPath)
-        case ECCmd.Look(let str):
+        case ECCmd.look(let str):
             findString(str)
-        case .External(let str, let execType):
+        case .external(let str, let execType):
             var fileFolderPath: String? = self.workingDir
             switch(execType) {
-            case .Pipe, .Input, .Output:
-                try runECCmd(ECCmd.Edit(CmdLine(adders: [], cmd: Cmd.External(str, execType))))
-            case .None:
+            case .pipe, .input, .output:
+                try runECCmd(ECCmd.edit(CmdLine(adders: [], cmd: Cmd.external(str, execType))))
+            case .none:
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
         }
     }
     
-    func runCommand(cmd: String) {
+    func runCommand(_ cmd: String) {
         do {
             let res = try ecCmdParser.run(userState: (), sourceName: "cmdText", input: cmd)
-            try runECCmd(res.0)
+            try runECCmd(res)
         } catch {
             if let nserror = error as? NSError {
                 let alert = NSAlert(error: nserror)
@@ -164,9 +164,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     //MARK: ECTextViewSelectionDelegate
-    func onFileAddrSelection(fileAddr: FileAddr) {
-        NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL(
-            NSURL.fileURLWithPath(fileAddr.filepath),
+    func onFileAddrSelection(_ fileAddr: FileAddr) {
+        NSDocumentController.shared().openDocument(
+            withContentsOf: URL(fileURLWithPath: fileAddr.filepath),
             display: false) { (newdoc, alreadyp, _) in
                 if let newdoc = newdoc {
                     if let ecdoc = newdoc as? ECDocument {
@@ -182,11 +182,11 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         }
     }
     
-    func onRightMouseSelection(str: String) {
+    func onRightMouseSelection(_ str: String) {
         findString(str)
     }
     
-    func onOtherMouseSelection(str: String) {
+    func onOtherMouseSelection(_ str: String) {
         runCommand(str)
     }
     
@@ -196,14 +196,14 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     //NSWindowDelegate
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         cleaning()
     }
     
     func cleaning() {
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                            name: NSFileHandleReadCompletionNotification, object: nil)
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+        NotificationCenter.default.removeObserver(self,
+                                                            name: FileHandle.readCompletionNotification, object: nil)
+        if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             appDelegate.commandWCs["\(self.workingDir) \(self.command)+Errors"] = nil
         }
         if let cmdtask = self.cmdTask {

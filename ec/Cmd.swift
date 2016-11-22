@@ -14,15 +14,15 @@ struct PatternLike {
 }
 
 indirect enum Addr {
-    case LineAddr(Int)
-    case ForwardLineAddr(Int)
-    case BackwardLineAddr(Int)
-    case ForwardPatternAddr(PatternLike)
-    case BackwardPatternAddr(PatternLike)
-    case ComposeAddr(Addr, Addr)
-    case Bof
-    case Dot
-    case Eof
+    case lineAddr(Int)
+    case forwardLineAddr(Int)
+    case backwardLineAddr(Int)
+    case forwardPatternAddr(PatternLike)
+    case backwardPatternAddr(PatternLike)
+    case composeAddr(Addr, Addr)
+    case bof
+    case dot
+    case eof
 }
 
 struct FileAddr {
@@ -31,23 +31,23 @@ struct FileAddr {
 }
 
 enum ExternalExecType {
-    case Pipe
-    case Input
-    case Output
-    case None
+    case pipe
+    case input
+    case output
+    case none
 }
 
 indirect enum Cmd {
-    case ACmd(String)
-    case ICmd(String)
-    case CCmd(String)
-    case XCmd(PatternLike, CmdLine)
-    case DCmd()
-    case GCmd(PatternLike, CmdLine)
-    case VCmd(PatternLike, CmdLine)
-    case YCmd(PatternLike, CmdLine)
-    case CmdGroup([CmdLine])
-    case External(String, ExternalExecType)
+    case aCmd(String)
+    case iCmd(String)
+    case cCmd(String)
+    case xCmd(PatternLike, CmdLine)
+    case dCmd()
+    case gCmd(PatternLike, CmdLine)
+    case vCmd(PatternLike, CmdLine)
+    case yCmd(PatternLike, CmdLine)
+    case cmdGroup([CmdLine])
+    case external(String, ExternalExecType)
 }
 
 struct CmdLine {
@@ -56,7 +56,7 @@ struct CmdLine {
 }
 
 enum ECCmd {
-    case Edit(CmdLine)
-    case Look(String)
-    case External(String, ExternalExecType)
+    case edit(CmdLine)
+    case look(String)
+    case external(String, ExternalExecType)
 }

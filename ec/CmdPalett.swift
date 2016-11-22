@@ -12,34 +12,34 @@ import AppKit
 class CmdPalett: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var palett: [String] = []
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return palett.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return palett[row]
     }
     
-    func replaceCmd(cmd: String, at: Int) {
+    func replaceCmd(_ cmd: String, at: Int) {
         palett[at] = cmd
-        let notification = NSNotification(name: "CmdPalettChangedNotification", object: nil)
-        NSNotificationCenter.defaultCenter().postNotification(notification)
+        let notification = Notification(name: Notification.Name(rawValue: "CmdPalettChangedNotification"), object: nil)
+        NotificationCenter.default.post(notification)
     }
     
-    func addCmd(cmd: String) {
+    func addCmd(_ cmd: String) {
         palett.append(cmd)
-        let notification = NSNotification(name: "CmdPalettChangedNotification", object: nil)
-        NSNotificationCenter.defaultCenter().postNotification(notification)
+        let notification = Notification(name: Notification.Name(rawValue: "CmdPalettChangedNotification"), object: nil)
+        NotificationCenter.default.post(notification)
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cellView = tableView.make(withIdentifier: "cell", owner: nil) as! CmdPalettCellView
         cellView.cmdLabel.stringValue = palett[row]
         return cellView
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        let cellView = tableView.makeViewWithIdentifier("cell", owner: nil) as! CmdPalettCellView
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        let cellView = tableView.make(withIdentifier: "cell", owner: nil) as! CmdPalettCellView
         cellView.cmdLabel.stringValue = palett[row]
         return cellView.fittingSize.height
     }

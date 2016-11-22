@@ -14,30 +14,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var prefWC: NSWindowController?
     var commandWCs: Dictionary<String, NSWindowController> = [:]
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        let systemFont = NSFont.systemFontOfSize(NSFont.systemFontSize())
-        let appDefaults: [String: AnyObject] = [
+        let systemFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
+        let appDefaults: [String: Any] = [
             "fontName": systemFont.fontName,
             "fontSize": Int(systemFont.pointSize),
             "expandTab": false,
             "tabSpace": 4,
-            "autoIndent": false,
+            "autoIndent": false
         ]
-        NSUserDefaults.standardUserDefaults().registerDefaults(appDefaults)
+        UserDefaults.standard.register(defaults: appDefaults)
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
-    func applicationShouldOpenUntitledFile(sender: NSApplication) -> Bool {
+    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
         return false
     }
 
-    @IBAction func openPreferenceWindow(sender: NSMenuItem) {
+    @IBAction func openPreferenceWindow(_ sender: NSMenuItem) {
         let storyBoard = NSStoryboard(name: "Preference", bundle: nil)
-        let windowController = storyBoard.instantiateControllerWithIdentifier("PreferenceWC") as! NSWindowController
+        let windowController = storyBoard.instantiateController(withIdentifier: "PreferenceWC") as! NSWindowController
         prefWC = windowController
         windowController.showWindow(nil)
         windowController.becomeFirstResponder()

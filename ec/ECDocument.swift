@@ -16,7 +16,7 @@ protocol SnapshotContentsDataSource: class {
 
 class ECDocument: NSDocument {
     
-    var newLineType: NewLineType = NewLineType.LF
+    var newLineType: NewLineType = NewLineType.lf
     var contentOfFile: NSAttributedString = NSAttributedString(string: "")
     var jumpAddr: Addr?
     weak var snapshotContentDataSource: SnapshotContentsDataSource?
@@ -27,7 +27,7 @@ class ECDocument: NSDocument {
     
     override func makeWindowControllers() {
         let storyBoard = NSStoryboard(name: "Main", bundle: nil)
-        let windowController = storyBoard.instantiateControllerWithIdentifier("WC") as! NSWindowController
+        let windowController = storyBoard.instantiateController(withIdentifier: "WC") as! NSWindowController
         (windowController.contentViewController as? ViewController)?.doc = self
         (windowController.contentViewController as? ViewController)?.loadDoc()
         self.addWindowController(windowController)
@@ -39,7 +39,7 @@ class ECDocument: NSDocument {
             if let jumpAddr = self.jumpAddr,
                 let vc = win.contentViewController as? ViewController {
                 do {
-                    try vc.runECCmd(ECCmd.Edit(CmdLine(adders: [jumpAddr], cmd: nil)))
+                    try vc.runECCmd(ECCmd.edit(CmdLine(adders: [jumpAddr], cmd: nil)))
                     self.jumpAddr = nil
                 } catch {
                     NSLog("Failed to execute addr command")
@@ -48,7 +48,7 @@ class ECDocument: NSDocument {
         }
     }
     
-    override func dataOfType(typeName: String) throws -> NSData {
+    override func data(ofType typeName: String) throws -> Data {
         for win in self.windowControllers {
             if let vc = win.contentViewController as? ViewController {
                 vc.updateDoc()
@@ -60,29 +60,29 @@ class ECDocument: NSDocument {
         var str = self.contentOfFile.string
         str = str.stringByReplaceNewLineCharacterWith(self.newLineType)
 
-        if let d = str.dataUsingEncoding(NSUTF8StringEncoding) {
+        if let d = str.data(using: String.Encoding.utf8) {
             return d
         }
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
     
-    override func readFromURL(url: NSURL, ofType typeName: String) throws {
+    override func read(from url: URL, ofType typeName: String) throws {
         do {
             let attrStr = try NSAttributedString(
-                URL: url,
+                url: url,
                 options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
                 documentAttributes: nil)
             let newLineType = attrStr.string.detectNewLineType()
-            if newLineType != .None {
+            if newLineType != .none {
                 self.newLineType = newLineType
             }
             self.contentOfFile = attrStr
         } catch {
-            throw ECError.OpeningBinaryFile
+            throw ECError.openingBinaryFile
         }
     }
     
-    override func printOperationWithSettings(printSettings: [String : AnyObject]) throws -> NSPrintOperation {
+    override func printOperation(withSettings printSettings: [String : Any]) throws -> NSPrintOperation {
         var content = self.contentOfFile
         if let snapshotContentDataSource = self.snapshotContentDataSource {
             content = snapshotContentDataSource.snapshotContent()

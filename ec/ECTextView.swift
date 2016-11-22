@@ -11,9 +11,9 @@ import Cocoa
 import AppKit
 
 protocol ECTextViewSelectionDelegate: class {
-    func onFileAddrSelection(fileAddr: FileAddr)
-    func onRightMouseSelection(str: String)
-    func onOtherMouseSelection(str: String)
+    func onFileAddrSelection(_ fileAddr: FileAddr)
+    func onRightMouseSelection(_ str: String)
+    func onOtherMouseSelection(_ str: String)
 }
 
 protocol WorkingFolderDataSource: class {
@@ -41,36 +41,36 @@ class ECTextView: CodeTextView {
     func setDefaultSelectionAttributes() {
         self.selectedTextAttributes = [
             NSBackgroundColorAttributeName: NSColor(red: 0.933, green: 0.921, blue: 0.570, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.blackColor()
+            NSForegroundColorAttributeName: NSColor.black
         ]
     }
     
     func setRightSelectionAttributes() {
         self.selectedTextAttributes = [
             NSBackgroundColorAttributeName: NSColor(red: 0.003, green: 0.356, blue: 0.0, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.whiteColor()
+            NSForegroundColorAttributeName: NSColor.white
         ]
     }
     
     func setOtherSelectionAttributes() {
         self.selectedTextAttributes = [
             NSBackgroundColorAttributeName: NSColor(red: 0.627, green: 0.0, blue: 0.0, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.whiteColor()
+            NSForegroundColorAttributeName: NSColor.white
         ]
     }
     
     //MARK: Expand Selection
-    func isChar(char: Character, inSet set: NSCharacterSet) -> Bool {
-        if String(char).rangeOfCharacterFromSet(set, options: [], range: nil) != nil {
+    func isChar(_ char: Character, inSet set: CharacterSet) -> Bool {
+        if String(char).rangeOfCharacter(from: set, options: [], range: nil) != nil {
             return true
         }
         return false
     }
     
-    func isAlnum(char: Character) -> Bool {
-        let symbolCharacterSet = NSCharacterSet(
-            charactersInString: "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~")
-        let whiteSpaceCharacterSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+    func isAlnum(_ char: Character) -> Bool {
+        let symbolCharacterSet = CharacterSet(
+            charactersIn: "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~")
+        let whiteSpaceCharacterSet = CharacterSet.whitespacesAndNewlines
         if isChar(char, inSet: whiteSpaceCharacterSet) {
             return false
         } else if isChar(char, inSet: symbolCharacterSet) {
@@ -79,8 +79,8 @@ class ECTextView: CodeTextView {
         return true
     }
     
-    func isAddrChar(char: Character) -> Bool {
-        let characterSet = NSCharacterSet(charactersInString: "0123456789+-/$.#,;?")
+    func isAddrChar(_ char: Character) -> Bool {
+        let characterSet = CharacterSet(charactersIn: "0123456789+-/$.#,;?")
         if isChar(char, inSet: characterSet)  {
             return true
         } else {
@@ -88,107 +88,107 @@ class ECTextView: CodeTextView {
         }
     }
     
-    func isRegexChar(char: Character) -> Bool {
+    func isRegexChar(_ char: Character) -> Bool {
         if (isAlnum(char)) {
             return true
         }
-        if (isChar(char, inSet: NSCharacterSet(charactersInString: "^+-.*?#,;[]()$"))) {
+        if (isChar(char, inSet: CharacterSet(charactersIn: "^+-.*?#,;[]()$"))) {
             return true
         }
         return false
     }
     
-    func isFileChar(char: Character) -> Bool {
+    func isFileChar(_ char: Character) -> Bool {
         if (isAlnum(char)) {
             return true
         }
-        if (isChar(char, inSet: NSCharacterSet(charactersInString: ".-+/:"))) {
+        if (isChar(char, inSet: CharacterSet(charactersIn: ".-+/:"))) {
             return true
         }
         return false
     }
     
-    func expandFile(charIdx: Int) -> FileAddr? {
+    func expandFile(_ charIdx: Int) -> FileAddr? {
         if let charview = self.string?.characters {
-            var topIndex = charview.startIndex.advancedBy(charIdx)
+            var topIndex = charview.index(charview.startIndex, offsetBy: charIdx)
             while true {
                 let c = charview[topIndex]
                 if isFileChar(c) {
                     if topIndex == charview.startIndex {
                         break
                     } else {
-                        topIndex = topIndex.predecessor()
+                        topIndex = charview.index(before: topIndex)
                     }
                 } else {
-                    topIndex = topIndex.successor()
+                    topIndex = charview.index(after: topIndex)
                     break
                 }
             }
-            var bottomIndex = charview.startIndex.advancedBy(charIdx)
+            var bottomIndex = charview.index(charview.startIndex, offsetBy: charIdx)
             while true {
                 let c = charview[bottomIndex]
                 if isFileChar(c) {
                     if bottomIndex == charview.endIndex {
                         break
                     } else {
-                        bottomIndex = bottomIndex.successor()
+                        bottomIndex = charview.index(after: bottomIndex)
                     }
                 } else {
-                    bottomIndex = bottomIndex.predecessor()
+                    bottomIndex = charview.index(before: bottomIndex)
                     break
                 }
             }
-            let loc = charview.startIndex.distanceTo(topIndex)
+            let loc = charview.distance(from: charview.startIndex, to: topIndex)
             if topIndex >= bottomIndex {
                 return nil
             } else {
                 var q0 = topIndex
                 var q1 = topIndex
                 //Separate before colon and after colon
-                for var i in topIndex ... bottomIndex {
+                for var i in charview.indices[topIndex ... bottomIndex] {
                     let c = charview[i]
                     q1 = i
                     if c == ":" {
                         if i == topIndex {
                             return nil
                         } else {
-                            q1 = i.predecessor()
+                            q1 = charview.index(before: i)
                             break
                         }
                     }
                 }
-                var filename = self.string?.substringWithRange(q0 ... q1)
+                var filename = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(q1, offsetBy: 1))
                 var addrStr: String? = nil
-                var amin = q1.advancedBy(2)
+                var amin = charview.index(q1, offsetBy: 2)
                 var amax: String.CharacterView.Index? = nil
                 if amin <= bottomIndex {
-                    for var i in amin ... bottomIndex {
+                    for var i in charview.indices[amin ... bottomIndex] {
                         let c = charview[i]
                         amax = i
                         if !(isAddrChar(c) || isRegexChar(c)) {
-                            amax = amax?.predecessor()
+                            amax = charview.index(before: amax!)
                             break
                         }
                     }
-                    addrStr = self.string?.substringWithRange(amin ... amax!)
+                    addrStr = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(amax!, offsetBy: 1))
                 }
                 if let filename = filename,
                     let workingFolder = workingFolderDataSource?.workingFolder() {
-                    let fileManager = NSFileManager.defaultManager()
+                    let fileManager = FileManager.default
                     var filePath: String = ""
                     if filename.hasPrefix("/") {
                         filePath = filename
                     } else {
-                        filePath = String(NSString(string: workingFolder).stringByAppendingString(filename))
+                        filePath = workingFolder.appending(filename)
                     }
-                    if fileManager.fileExistsAtPath(filePath) {
+                    if fileManager.fileExists(atPath: filePath) {
                         if let addrStr = addrStr {
                             do {
                                 let res = try addrParser.run(
                                     userState: (),
                                     sourceName: "addrStr",
                                     input: addrStr)
-                                let addr = res.0
+                                let addr = res
                                 return FileAddr(filepath: filePath, addr: addr)
                             } catch {
                                 return nil
@@ -208,41 +208,41 @@ class ECTextView: CodeTextView {
         }
     }
     
-    func expandSelectionBy(charIdx: Int, checker: Character -> Bool) -> NSRange? {
+    func expandSelectionBy(_ charIdx: Int, checker: (Character) -> Bool) -> NSRange? {
         if let charview = self.string?.characters {
-            var topIndex = charview.startIndex.advancedBy(charIdx)
+            var topIndex = charview.index(charview.startIndex, offsetBy: charIdx)
             while true {
                 let c = charview[topIndex]
                 if checker(c) {
                     if topIndex == charview.startIndex {
                         break
                     } else {
-                        topIndex = topIndex.predecessor()
+                        topIndex = charview.index(before: topIndex)
                     }
                 } else {
-                    topIndex = topIndex.successor()
+                    topIndex = charview.index(after: topIndex)
                     break
                 }
             }
-            var bottomIndex = charview.startIndex.advancedBy(charIdx)
+            var bottomIndex = charview.index(charview.startIndex, offsetBy: charIdx)
             while true {
                 let c = charview[bottomIndex]
                 if checker(c) {
                     if bottomIndex == charview.endIndex {
                         break
                     } else {
-                        bottomIndex = bottomIndex.successor()
+                        bottomIndex = charview.index(after: bottomIndex)
                     }
                 } else {
-                    bottomIndex = bottomIndex.predecessor()
+                    bottomIndex = charview.index(before: bottomIndex)
                     break
                 }
             }
-            let loc = charview.startIndex.distanceTo(topIndex)
+            let loc = charview.distance(from: charview.startIndex, to: topIndex)
             if topIndex >= bottomIndex {
                 return nil
             } else {
-                let len = topIndex.distanceTo(bottomIndex)
+                let len = charview.distance(from: topIndex, to: bottomIndex)
                 return NSMakeRange(loc, len + 1)
             }
         } else {
@@ -250,7 +250,7 @@ class ECTextView: CodeTextView {
         }
     }
     
-    func expandSelection(charIdx: Int) -> NSRange? {
+    func expandSelection(_ charIdx: Int) -> NSRange? {
         if let fileAddr = expandFile(charIdx) {
             self.selectionDelegate?.onFileAddrSelection(fileAddr)
             return nil
@@ -263,54 +263,54 @@ class ECTextView: CodeTextView {
     
     
     //MARK: Mouse Handlers
-    override func mouseDown(theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+    override func mouseDown(with theEvent: NSEvent) {
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
             //Emulate other mouse Down
-            self.rightMouseDown(theEvent)
-        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            self.rightMouseDown(with: theEvent)
+        } else if (theEvent.modifierFlags.contains(.command)){
             //Emulate other mouse down
-            self.otherMouseDown(theEvent)
+            self.otherMouseDown(with: theEvent)
         } else {
-            super.mouseDown(theEvent)
+            super.mouseDown(with: theEvent)
         }
     }
     
-    override func mouseUp(theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+    override func mouseUp(with theEvent: NSEvent) {
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
             //Emulate other mouse Down
-            self.rightMouseUp(theEvent)
-        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            self.rightMouseUp(with: theEvent)
+        } else if (theEvent.modifierFlags.contains(.command)){
             //Emulate other mouse down
-            self.otherMouseUp(theEvent)
+            self.otherMouseUp(with: theEvent)
         } else {
-            super.mouseUp(theEvent)
+            super.mouseUp(with: theEvent)
         }
     }
     
-    override func mouseDragged(theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.AlternateKeyMask)) {
+    override func mouseDragged(with theEvent: NSEvent) {
+        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
             //Emulate other mouse Down
-            self.rightMouseDragged(theEvent)
-        } else if (theEvent.modifierFlags.contains(.CommandKeyMask)){
+            self.rightMouseDragged(with: theEvent)
+        } else if (theEvent.modifierFlags.contains(.command)){
             //Emulate other mouse down
-            self.otherMouseDragged(theEvent)
+            self.otherMouseDragged(with: theEvent)
         } else {
-            super.mouseDragged(theEvent)
+            super.mouseDragged(with: theEvent)
         }
     }
     
-    override func rightMouseUp(theEvent: NSEvent) {
+    override func rightMouseUp(with theEvent: NSEvent) {
         selecting = false
         setDefaultSelectionAttributes()
         let selectedRange = self.selectedRange()
-        let selectedRangeRect = self.firstRectForCharacterRange(selectedRange, actualRange: nil)
+        let selectedRangeRect = self.firstRect(forCharacterRange: selectedRange, actualRange: nil)
         let eventLoc = theEvent.locationInWindow
-        let eventRect = self.window!.convertRectToScreen(NSMakeRect(eventLoc.x, eventLoc.y, 0, 0))
+        let eventRect = self.window!.convertToScreen(NSMakeRect(eventLoc.x, eventLoc.y, 0, 0))
         let inSelectionRange = selectedRangeRect.contains(eventRect)
         if selectedRange.location != NSNotFound {
             if selectedRange.length > 0 && (self.dragged || inSelectionRange) {
                 if let str = self.string {
-                    let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
+                    let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
                     self.setSelectedRange(selectedRange)
                     self.selectionDelegate?.onRightMouseSelection(selectedStr)
                 }
@@ -318,7 +318,7 @@ class ECTextView: CodeTextView {
                 if let str = self.string {
                     if let newRange = expandSelection(firstIdx) {
                         self.setSelectedRange(newRange)
-                        let selectedStr = str.substringWithRange(str.startIndex.advancedBy(newRange.location) ..< str.startIndex.advancedBy(newRange.location + newRange.length))
+                        let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: newRange.location) ..< str.characters.index(str.startIndex, offsetBy: newRange.location + newRange.length))
                         self.selectionDelegate?.onRightMouseSelection(selectedStr)
                     }
                 }
@@ -327,21 +327,21 @@ class ECTextView: CodeTextView {
         self.dragged = false
     }
     
-    override func rightMouseDown(theEvent: NSEvent) {
+    override func rightMouseDown(with theEvent: NSEvent) {
         self.selecting = true
         self.dragged = false
         let winP = theEvent.locationInWindow
-        let pp = self.convertPoint(winP, fromView: nil)
-        let rangeStartIndex = self.characterIndexForInsertionAtPoint(pp)
+        let pp = self.convert(winP, from: nil)
+        let rangeStartIndex = self.characterIndexForInsertion(at: pp)
         self.firstIdx = rangeStartIndex
         setRightSelectionAttributes()
     }
     
-    override func rightMouseDragged(theEvent: NSEvent) {
+    override func rightMouseDragged(with theEvent: NSEvent) {
         self.dragged = true
         let winP = theEvent.locationInWindow
-        let pp = self.convertPoint(winP, fromView: nil)
-        let cidx = self.characterIndexForInsertionAtPoint(pp)
+        let pp = self.convert(winP, from: nil)
+        let cidx = self.characterIndexForInsertion(at: pp)
         if (cidx > firstIdx) {
             self.setSelectedRange(NSMakeRange(firstIdx, cidx - firstIdx))
         } else {
@@ -350,33 +350,33 @@ class ECTextView: CodeTextView {
     }
     
     //Other mouse
-    override func otherMouseUp(theEvent: NSEvent) {
+    override func otherMouseUp(with theEvent: NSEvent) {
         selecting = false
         setDefaultSelectionAttributes()
         let selectedRange = self.selectedRange()
         if selectedRange.location != NSNotFound {
             if let str = self.string {
-                let selectedStr = str.substringWithRange(str.startIndex.advancedBy(selectedRange.location) ..< str.startIndex.advancedBy(selectedRange.location + selectedRange.length))
+                let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
                 self.setSelectedRange(NSMakeRange(firstIdx, 0))
                 self.selectionDelegate?.onOtherMouseSelection(selectedStr)
             }
         }
     }
     
-    override func otherMouseDown(theEvent: NSEvent) {
+    override func otherMouseDown(with theEvent: NSEvent) {
         self.selecting = true
         let winP = theEvent.locationInWindow
-        let pp = self.convertPoint(winP, fromView: nil)
-        let rangeStartIndex = self.characterIndexForInsertionAtPoint(pp)
+        let pp = self.convert(winP, from: nil)
+        let rangeStartIndex = self.characterIndexForInsertion(at: pp)
         self.setSelectedRange(NSMakeRange(rangeStartIndex, 0))
         self.firstIdx = rangeStartIndex
         setOtherSelectionAttributes()
     }
 
-    override func otherMouseDragged(theEvent: NSEvent) {
+    override func otherMouseDragged(with theEvent: NSEvent) {
         let winP = theEvent.locationInWindow
-        let pp = self.convertPoint(winP, fromView: nil)
-        let cidx = self.characterIndexForInsertionAtPoint(pp)
+        let pp = self.convert(winP, from: nil)
+        let cidx = self.characterIndexForInsertion(at: pp)
         if (cidx > firstIdx) {
             self.setSelectedRange(NSMakeRange(firstIdx, cidx - firstIdx))
         } else {
@@ -395,50 +395,50 @@ class ECTextView: CodeTextView {
     func moveMouseCursorToSelectedRange() {
         let selectedRange = self.selectedRange()
         if selectedRange.location != NSNotFound {
-            let rect = self.firstRectForCharacterRange(selectedRange, actualRange: nil)
+            let rect = self.firstRect(forCharacterRange: selectedRange, actualRange: nil)
             let pt = NSMakePoint(rect.origin.x, rect.origin.y)
             let y = pt.y;
             let screenY = CGDisplayBounds(CGMainDisplayID()).size.height - y
-            CGWarpMouseCursorPosition(CGPointMake(pt.x + rect.width / 2, screenY - rect.height / 2))
+            CGWarpMouseCursorPosition(CGPoint(x: pt.x + rect.width / 2, y: screenY - rect.height / 2))
         }
     }
     
     
     
     //MARK: TextInsert Action Overrides
-    override func shouldChangeTextInRange(affectedCharRange: NSRange, replacementString: String?) -> Bool {
+    override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
         guard let replacementString = replacementString else 
         {
             return true
         }
         
         let nl = replacementString.detectNewLineType()
-        if nl != .None || nl != .LF {
-            var newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
+        if nl != .none || nl != .lf {
+            var newString = replacementString.stringByReplaceNewLineCharacterWith(.lf)
             if (Preference.expandTab()) {
                 newString = newString.stringByExpandTab(Preference.tabWidth())
             }
-            return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
+            return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
         }
         
         var newString = replacementString
         if (Preference.expandTab()) {
             newString = newString.stringByExpandTab(Preference.tabWidth())
         }
-        return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
+        return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
     }
     
-    override func insertTab(sender: AnyObject?) {
+    override func insertTab(_ sender: Any?) {
         if (Preference.expandTab()) {
             let tabWidth = Preference.tabWidth()
-            let spaces = String(count: tabWidth, repeatedValue: Character(" "))
+            let spaces = String(repeating: " ", count: tabWidth)
             self.insertText(spaces)
         } else {
             super.insertTab(sender)
         }
     }
     
-    override func insertNewline(sender: AnyObject?) {
+    override func insertNewline(_ sender: Any?) {
         guard let string = self.string else {
             return super.insertNewline(sender)
         }
@@ -458,7 +458,7 @@ class ECTextView: CodeTextView {
         
         if indentRange.location != NSNotFound {
             let baseIndentRange = NSIntersectionRange(indentRange, NSMakeRange(0, selectedRange.location))
-            indent = string.substringWithRange(string.startIndex.advancedBy(baseIndentRange.location) ..< string.startIndex.advancedBy(baseIndentRange.location + baseIndentRange.length))
+            indent = string.substring(with: string.characters.index(string.startIndex, offsetBy: baseIndentRange.location) ..< string.characters.index(string.startIndex, offsetBy: baseIndentRange.location + baseIndentRange.length))
         }
         
         super.insertNewline(sender)

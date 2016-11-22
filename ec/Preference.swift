@@ -12,24 +12,24 @@ import AppKit
 
 class Preference {
     class func font() -> NSFont {
-        if let fontName = NSUserDefaults.standardUserDefaults().stringForKey("fontName") {
-            let fontSize = CGFloat(NSUserDefaults.standardUserDefaults().integerForKey("fontSize"))
+        if let fontName = UserDefaults.standard.string(forKey: "fontName") {
+            let fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
             let f = NSFont(name: fontName, size: fontSize)
-            return f ?? NSFont.systemFontOfSize(fontSize)
+            return f ?? NSFont.systemFont(ofSize: fontSize)
         } else {
-            return NSFont.systemFontOfSize(NSFont.systemFontSize())
+            return NSFont.systemFont(ofSize: NSFont.systemFontSize())
         }
     }
     
     class func expandTab() -> Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey("expandTab")
+        return UserDefaults.standard.bool(forKey: "expandTab")
     }
     
     class func tabWidth() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey("tabSpace")
+        return UserDefaults.standard.integer(forKey: "tabSpace")
     }
     
     class func autoIndent() -> Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey("autoIndent")
+        return UserDefaults.standard.bool(forKey: "autoIndent")
     }
 }

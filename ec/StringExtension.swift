@@ -9,10 +9,10 @@
 import Foundation
 
 enum NewLineType {
-    case LF
-    case CRLF
-    case CR
-    case None
+    case lf
+    case crlf
+    case cr
+    case none
 }
 
 extension String {
@@ -33,65 +33,65 @@ extension String {
         return lines
     }
     
-    func indentRange(idx: Int) -> NSRange {
+    func indentRange(_ idx: Int) -> NSRange {
         let nsStr = NSString(string: self)
-        let lineRange = nsStr.lineRangeForRange(NSMakeRange(idx, 0))
-        return nsStr.rangeOfString("^[ \\t]+", options: NSStringCompareOptions.RegularExpressionSearch, range: lineRange)
+        let lineRange = nsStr.lineRange(for: NSMakeRange(idx, 0))
+        return nsStr.range(of: "^[ \\t]+", options: NSString.CompareOptions.regularExpression, range: lineRange)
     }
     
     //MARK: New Line
     
-    func newLineCharacterForType(type: NewLineType) -> String {
+    func newLineCharacterForType(_ type: NewLineType) -> String {
         switch(type) {
-        case .CR:
+        case .cr:
             return "\r"
-        case .CRLF:
+        case .crlf:
             return "\r\n"
-        case .LF:
+        case .lf:
             return "\n"
-        case .None:
+        case .none:
             return ""
         }
     }
     
     func detectNewLineType() -> NewLineType {
         //New Line Character set
-        let newLineCharacterSet = NSCharacterSet(charactersInString: "\n\r")
+        let newLineCharacterSet = CharacterSet(charactersIn: "\n\r")
         let characterView = self.characters
-        if let newLineRange = self.rangeOfCharacterFromSet(newLineCharacterSet) {
-            let matchedChar = characterView[newLineRange.startIndex]
+        if let newLineRange = self.rangeOfCharacter(from: newLineCharacterSet) {
+            let matchedChar = characterView[newLineRange.lowerBound]
             switch(matchedChar) {
             case "\n":
-                return .LF
+                return .lf
             case "\r\n":
-                    return .CRLF
+                    return .crlf
             case "\r":
-                return .CR
+                return .cr
             default:
-                return .None
+                return .none
             }
         } else {
-            return .None
+            return .none
         }
     }
     
-    func stringByReplaceNewLineCharacterWith(type: NewLineType) -> String {
-        return self.stringByReplacingOccurrencesOfString(
-            "\\r\\n|[\\n\\r]",
-            withString: self.newLineCharacterForType(type),
-            options: NSStringCompareOptions.RegularExpressionSearch,
+    func stringByReplaceNewLineCharacterWith(_ type: NewLineType) -> String {
+        return self.replacingOccurrences(
+            of: "\\r\\n|[\\n\\r]",
+            with: self.newLineCharacterForType(type),
+            options: NSString.CompareOptions.regularExpression,
             range: self.characters.startIndex ..< self.characters.endIndex)
     }
     
     func stringByRemovingNewLineCharacters() -> String {
-        return self.stringByReplaceNewLineCharacterWith(.None)
+        return self.stringByReplaceNewLineCharacterWith(.none)
     }
     
-    func stringByExpandTab(tabWidth: Int) -> String {
-        return self.stringByReplacingOccurrencesOfString(
-            "\t",
-            withString: String(count: tabWidth, repeatedValue: Character(" ")),
-            options:  NSStringCompareOptions.RegularExpressionSearch,
+    func stringByExpandTab(_ tabWidth: Int) -> String {
+        return self.replacingOccurrences(
+            of: "\t",
+            with: String(repeating: " ", count: tabWidth),
+            options:  NSString.CompareOptions.regularExpression,
             range: self.characters.startIndex ..< self.characters.endIndex)
     }
 }

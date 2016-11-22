@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension NSURL {
+extension URL {
     var fragments: [String : String] {
         var results: [String : String] = [:]
-        guard let urlComponents = NSURLComponents(string: self.absoluteString), let items = urlComponents.queryItems else {
+        guard let urlComponents = URLComponents(string: self.absoluteString), let items = urlComponents.queryItems else {
             return results
         }
         

@@ -11,12 +11,12 @@ import Cocoa
 import AppKit
 
 class PreferenceWindow: NSWindow {
-    override func cancelOperation(sender: AnyObject?) {
+    override func cancelOperation(_ sender: Any?) {
         self.close()
     }
     
-    override func validateUserInterfaceItem(anItem: NSValidatedUserInterfaceItem) -> Bool {
-        let action = anItem.action()
+    override func validateUserInterfaceItem(_ anItem: NSValidatedUserInterfaceItem) -> Bool {
+        let action = anItem.action
         if (action == #selector(toggleToolbarShown(_:))) {
             return false
         } else {

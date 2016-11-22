@@ -12,7 +12,7 @@ import AppKit
 
 protocol CmdEditDelegate: class {
     func onCmdEditCancel()
-    func onCmdEditSave(newCmd: String)
+    func onCmdEditSave(_ newCmd: String)
 }
 
 class CmdEditorViewController: NSViewController {
@@ -21,11 +21,11 @@ class CmdEditorViewController: NSViewController {
     
     @IBOutlet var editorTextView: NSTextView!
     
-    @IBAction func cancelBtnTouched(sender: AnyObject) {
+    @IBAction func cancelBtnTouched(_ sender: Any) {
         self.delegate?.onCmdEditCancel()
     }
     
-    @IBAction func saveBtnTouched(sender: AnyObject) {
+    @IBAction func saveBtnTouched(_ sender: Any) {
         self.delegate?.onCmdEditSave(editorTextView.string!)
     }
 }

@@ -33,8 +33,8 @@ class PreferenceViewController: NSViewController {
         } else {
             expandCheckBtn.state = NSOffState
         }
-        tabWidthStepper.enabled = Preference.expandTab()
-        tabWidthField.enabled = Preference.expandTab()
+        tabWidthStepper.isEnabled = Preference.expandTab()
+        tabWidthField.isEnabled = Preference.expandTab()
         if Preference.autoIndent() {
             autoIndentCheckBox.state = NSOnState
         } else {
@@ -42,50 +42,50 @@ class PreferenceViewController: NSViewController {
         }
     }
     
-    @IBAction func changeFontBtnTouched(sender: AnyObject) {
+    @IBAction func changeFontBtnTouched(_ sender: NSButton) {
         self.view.window?.makeFirstResponder(self)
-        NSFontManager.sharedFontManager().orderFrontFontPanel(self)
+        NSFontManager.shared().orderFrontFontPanel(self)
     }
     
-    override func changeFont(sender: AnyObject?) {
+    override func changeFont(_ sender: Any?) {
         if let fmanager = sender as? NSFontManager {
-            let newFont = fmanager.convertFont(Preference.font())
+            let newFont = fmanager.convert(Preference.font())
             fontNameLabel.stringValue = "\(Int(newFont.pointSize))pt \(newFont.fontName)"
-            NSUserDefaults.standardUserDefaults().setObject(newFont.fontName, forKey: "fontName")
-            NSUserDefaults.standardUserDefaults().setInteger(Int(newFont.pointSize), forKey: "fontSize")
+            UserDefaults.standard.set(newFont.fontName, forKey: "fontName")
+            UserDefaults.standard.set(Int(newFont.pointSize), forKey: "fontSize")
         }
     }
     
-    @IBAction func tabWidthChanged(sender: NSStepper) {
+    @IBAction func tabWidthChanged(_ sender: NSStepper) {
         let width = sender.integerValue
         tabWidthField.stringValue = "\(width)"
-        NSUserDefaults.standardUserDefaults().setInteger(width, forKey: "tabSpace")
+        UserDefaults.standard.set(width, forKey: "tabSpace")
     }
     
-    @IBAction func tabWidthEdited(sender: NSTextField) {
+    @IBAction func tabWidthEdited(_ sender: NSTextField) {
         let width = sender.integerValue
         tabWidthStepper.integerValue = width
-        NSUserDefaults.standardUserDefaults().setInteger(width, forKey: "tabSpace")
+        UserDefaults.standard.set(width, forKey: "tabSpace")
     }
     
-    @IBAction func expandTabCheckBoxChanged(sender: NSButton) {
+    @IBAction func expandTabCheckBoxChanged(_ sender: NSButton) {
         if (sender.state == NSOnState) {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "expandTab")
-            tabWidthStepper.enabled = true
-            tabWidthField.enabled = true
+            UserDefaults.standard.set(true, forKey: "expandTab")
+            tabWidthStepper.isEnabled = true
+            tabWidthField.isEnabled = true
         } else if (sender.state == NSOffState) {
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "expandTab")
-            tabWidthField.enabled = false
-            tabWidthStepper.enabled = false
+            UserDefaults.standard.set(false, forKey: "expandTab")
+            tabWidthField.isEnabled = false
+            tabWidthStepper.isEnabled = false
         }
     }
     
     //MARK: AutoIndent
-    @IBAction func autoIndentCheckBoxChanged(sender: NSButton) {
+    @IBAction func autoIndentCheckBoxChanged(_ sender: NSButton) {
         if (sender.state == NSOnState) {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "autoIndent")
+            UserDefaults.standard.set(true, forKey: "autoIndent")
         } else if (sender.state == NSOffState) {
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "autoIndent")
+            UserDefaults.standard.set(false, forKey: "autoIndent")
         }
     }
 }
