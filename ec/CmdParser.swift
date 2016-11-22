@@ -13,7 +13,18 @@ import SwiftParsec
 /*
  * Parsing pattern like
  */
-let patternLikeParser: GenericParser<String, (), PatternLike> = (StringParser.character("/") *> (StringParser.noneOf("/").many.stringValue) <* (StringParser.character("/") <?> "Unclosed Pattern Slash")) >>- { patternStr in
+let escapedPatternCharStr: GenericParser<String, (), String> = (StringParser.string("\\/").attempt <|> (StringParser.noneOf("/") >>- { char in
+    return GenericParser(result: "\(char)")
+    }))
+
+let escapedPatternCharStrList: GenericParser<String, (), [String]> = escapedPatternCharStr.many
+
+let escapedPatternStr: GenericParser<String, (), String> = escapedPatternCharStrList >>- { strList in
+    let joinedStr: String = strList.joinWithSeparator("")
+    return GenericParser(result: joinedStr)
+}
+
+let patternLikeParser: GenericParser<String, (), PatternLike> = StringParser.character("/") *> escapedPatternStr <* (StringParser.character("/") <?> "Unclosed Pattern Slash") >>- { patternStr in
     return GenericParser(result: PatternLike(pat: patternStr))
 }
 

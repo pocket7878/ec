@@ -1,6 +1,0 @@
-framework module Prelude {
-  umbrella header "Prelude-umbrella.h"
-
-  export *
-  module * { export * }
-}

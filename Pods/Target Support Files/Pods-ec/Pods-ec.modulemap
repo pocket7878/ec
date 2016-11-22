@@ -1,6 +1,0 @@
-framework module Pods_ec {
-  umbrella header "Pods-ec-umbrella.h"
-
-  export *
-  module * { export * }
-}

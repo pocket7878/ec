@@ -1,0 +1,3 @@
+github "robrix/Prelude" "2.0.0"
+github "davedufresne/SwiftParsec" "1ac940413219da119b4f619d02c00a3690e047f0"
+github "robrix/Either" "dd44ce9fb527e4fb140e7a63d359e2bbe01ea97b"

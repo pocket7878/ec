@@ -87,4 +87,11 @@ extension String {
         return self.stringByReplaceNewLineCharacterWith(.None)
     }
     
+    func stringByExpandTab(tabWidth: Int) -> String {
+        return self.stringByReplacingOccurrencesOfString(
+            "\t",
+            withString: String(count: tabWidth, repeatedValue: Character(" ")),
+            options:  NSStringCompareOptions.RegularExpressionSearch,
+            range: self.characters.startIndex ..< self.characters.endIndex)
+    }
 }

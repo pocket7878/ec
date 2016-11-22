@@ -414,11 +414,18 @@ class ECTextView: CodeTextView {
         
         let nl = replacementString.detectNewLineType()
         if nl != .None || nl != .LF {
-            let newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
+            var newString = replacementString.stringByReplaceNewLineCharacterWith(.LF)
+            if (Preference.expandTab()) {
+                newString = newString.stringByExpandTab(Preference.tabWidth())
+            }
             return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
         }
         
-        return super.shouldChangeTextInRange(affectedCharRange, replacementString: replacementString)
+        var newString = replacementString
+        if (Preference.expandTab()) {
+            newString = newString.stringByExpandTab(Preference.tabWidth())
+        }
+        return super.shouldChangeTextInRange(affectedCharRange, replacementString: newString)
     }
     
     override func insertTab(sender: AnyObject?) {

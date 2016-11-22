@@ -68,7 +68,10 @@ class ECDocument: NSDocument {
     
     override func readFromURL(url: NSURL, ofType typeName: String) throws {
         do {
-            let attrStr = try NSAttributedString(URL: url, options: [:], documentAttributes: nil)
+            let attrStr = try NSAttributedString(
+                URL: url,
+                options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
+                documentAttributes: nil)
             let newLineType = attrStr.string.detectNewLineType()
             if newLineType != .None {
                 self.newLineType = newLineType

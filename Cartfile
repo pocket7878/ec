@@ -1,0 +1,2 @@
+github "robrix/Either" "master"
+github "davedufresne/SwiftParsec" "master"
