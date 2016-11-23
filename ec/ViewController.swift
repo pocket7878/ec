@@ -8,15 +8,12 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
+class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
 
     @IBOutlet var mainTextView: ECTextView!
     @IBOutlet var cmdTextView: ECTextView!
-    @IBOutlet weak var cmdPalettView: CmdPalettView!
     
     var doc: ECDocument?
-    
-    let cmdPalett = CmdPalett()
     
     var editWC: NSWindowController?
     
@@ -27,10 +24,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        cmdPalettView.dataSource = cmdPalett
-        cmdPalettView.delegate = cmdPalett
-        cmdPalettView.selectionDelegate = self
         
         mainTextView.usesFindBar = true
         mainTextView.isIncrementalSearchingEnabled = true
@@ -44,14 +37,24 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         mainTextView.isAutomaticSpellingCorrectionEnabled = false
         mainTextView.workingFolderDataSource = self
         
+        cmdTextView.usesFindBar = true
+        cmdTextView.isIncrementalSearchingEnabled = true
+        cmdTextView.font = Preference.font()
+        cmdTextView.selectionDelegate = self
+        cmdTextView.isAutomaticTextReplacementEnabled = false
+        cmdTextView.isAutomaticLinkDetectionEnabled = false
+        cmdTextView.isAutomaticDataDetectionEnabled = false
+        cmdTextView.isAutomaticDashSubstitutionEnabled = false
+        cmdTextView.isAutomaticQuoteSubstitutionEnabled = false
+        cmdTextView.isAutomaticSpellingCorrectionEnabled = false
+        cmdTextView.workingFolderDataSource = self
+        
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
             scrollView.verticalRulerView = rulerView
             scrollView.hasVerticalRuler = true
             scrollView.rulersVisible = true
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.syncCmdPalett), name: NSNotification.Name(rawValue: "CmdPalettChangedNotification"), object: nil)
     }
 
     override var representedObject: Any? {
@@ -59,11 +62,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         }
     }
     
-
-    func syncCmdPalett() {
-        cmdPalettView.reloadData()
-    }
-
     //MARK: Sync with ECDcoument
     func loadDoc() {
         if let doc = self.doc {
@@ -82,41 +80,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
     
     func snapshotContent() -> NSAttributedString {
         return NSAttributedString(string: self.mainTextView.string!)
-    }
-    
-    //MARK: CmdPalettSelectionDelegate
-    func onEditPalett(_ row: Int) {
-        let cmd = cmdPalett.palett[row]
-        let storyBoard = NSStoryboard(name: "CmdEditor", bundle: nil)
-        let windowController = storyBoard.instantiateController(withIdentifier: "CmdEditorWC") as! NSWindowController
-        editWC = windowController
-        if let win = windowController.window {
-            if let ceWin = win as? CmdEditorWindow {
-                ceWin.delegate = self
-                if
-                    let cvc = ceWin.contentViewController,
-                    let ceVC = cvc as? CmdEditorViewController {
-                    ceVC.editorTextView.textStorage?.setAttributedString(NSAttributedString(string: cmd))
-                    ceWin.row = row
-                    ceWin.palett = self.cmdPalett
-                    ceVC.delegate = ceWin
-                }
-            }
-        }
-        NSApplication.shared().runModal(for: windowController.window!)
-    }
-    
-    func onFindPalett(_ sender: Tagger, row: Int) {
-        findString(cmdPalett.palett[row])
-    }
-    
-    func onRunPalett(_ row: Int) {
-        runCommand(cmdPalett.palett[row])
-    }
-    
-    func onDeletePalett(_ row: Int) {
-        cmdPalett.palett.remove(at: row)
-        cmdPalettView.reloadData()
     }
     
     //MARK: Utils
