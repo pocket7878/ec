@@ -60,54 +60,6 @@ class ECTextView: CodeTextView {
     }
     
     //MARK: Expand Selection
-    func isChar(_ char: Character, inSet set: CharacterSet) -> Bool {
-        if String(char).rangeOfCharacter(from: set, options: [], range: nil) != nil {
-            return true
-        }
-        return false
-    }
-    
-    func isAlnum(_ char: Character) -> Bool {
-        let symbolCharacterSet = CharacterSet(
-            charactersIn: "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~")
-        let whiteSpaceCharacterSet = CharacterSet.whitespacesAndNewlines
-        if isChar(char, inSet: whiteSpaceCharacterSet) {
-            return false
-        } else if isChar(char, inSet: symbolCharacterSet) {
-            return false
-        }
-        return true
-    }
-    
-    func isAddrChar(_ char: Character) -> Bool {
-        let characterSet = CharacterSet(charactersIn: "0123456789+-/$.#,;?")
-        if isChar(char, inSet: characterSet)  {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func isRegexChar(_ char: Character) -> Bool {
-        if (isAlnum(char)) {
-            return true
-        }
-        if (isChar(char, inSet: CharacterSet(charactersIn: "^+-.*?#,;[]()$"))) {
-            return true
-        }
-        return false
-    }
-    
-    func isFileChar(_ char: Character) -> Bool {
-        if (isAlnum(char)) {
-            return true
-        }
-        if (isChar(char, inSet: CharacterSet(charactersIn: ".-+/:"))) {
-            return true
-        }
-        return false
-    }
-    
     func expandFile(_ charIdx: Int) -> FileAddr? {
         if let charview = self.string?.characters {
             var topIndex = charview.index(charview.startIndex, offsetBy: charIdx)
@@ -128,7 +80,7 @@ class ECTextView: CodeTextView {
             while true {
                 let c = charview[bottomIndex]
                 if isFileChar(c) {
-                    if bottomIndex == charview.endIndex {
+                    if charview.index(after: bottomIndex) == charview.endIndex {
                         break
                     } else {
                         bottomIndex = charview.index(after: bottomIndex)
@@ -159,9 +111,9 @@ class ECTextView: CodeTextView {
                 }
                 var filename = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(q1, offsetBy: 1))
                 var addrStr: String? = nil
-                var amin = charview.index(q1, offsetBy: 2)
+                var amin = charview.index(q1, offsetBy: 2, limitedBy: charview.endIndex)
                 var amax: String.CharacterView.Index? = nil
-                if amin <= bottomIndex {
+                if let amin = amin, amin <= bottomIndex {
                     for var i in charview.indices[amin ... bottomIndex] {
                         let c = charview[i]
                         amax = i
@@ -228,7 +180,7 @@ class ECTextView: CodeTextView {
             while true {
                 let c = charview[bottomIndex]
                 if checker(c) {
-                    if bottomIndex == charview.endIndex {
+                    if charview.index(after: bottomIndex) == charview.endIndex {
                         break
                     } else {
                         bottomIndex = charview.index(after: bottomIndex)
@@ -256,7 +208,7 @@ class ECTextView: CodeTextView {
             return nil
         } else {
             return expandSelectionBy(charIdx, checker: { (c) -> Bool in
-                return self.isAlnum(c)
+                return isAlnum(c)
             })
         }
     }

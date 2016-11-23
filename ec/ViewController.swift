@@ -11,15 +11,19 @@ import Cocoa
 class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectionDelgate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
 
     @IBOutlet var mainTextView: ECTextView!
-    @IBOutlet var cmdTextView: NSTextView!
+    @IBOutlet var cmdTextView: ECTextView!
     @IBOutlet weak var cmdPalettView: CmdPalettView!
-    @IBOutlet weak var newLineTypeLabel: NSTextField!
     
     var doc: ECDocument?
     
     let cmdPalett = CmdPalett()
     
     var editWC: NSWindowController?
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        NSLog("VIew Did apper: \(self.doc?.fileURL)")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,25 +64,12 @@ class ViewController: NSViewController, NSTextStorageDelegate, CmdPalettSelectio
         cmdPalettView.reloadData()
     }
 
-    @IBAction func runBtnTouched(_ sender: NSButton) {
-        runCommand(cmdTextView.textStorage!.string)
-    }
-
-    @IBAction func addBtnTouched(_ sender: NSButton) {
-        cmdPalett.addCmd(cmdTextView.string!)
-    }
-    
-    @IBAction func lookBtnTouched(_ sender: AnyObject) {
-        findString(cmdTextView.string!)
-    }
-    
     //MARK: Sync with ECDcoument
     func loadDoc() {
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
             mainTextView.font = Preference.font()
             doc.snapshotContentDataSource = self
-            self.newLineTypeLabel.stringValue = "\(doc.newLineType)"
         }
     }
     

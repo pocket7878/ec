@@ -13,6 +13,8 @@
 		69121BBD1DE4154800F39E0B /* Prelude.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBA1DE4154800F39E0B /* Prelude.framework */; };
 		69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBB1DE4154800F39E0B /* Either.framework */; };
 		69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBC1DE4154800F39E0B /* SwiftParsec.framework */; };
+		69121BC11DE46C9A00F39E0B /* AutoGrowingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69121BC01DE46C9A00F39E0B /* AutoGrowingTextField.swift */; };
+		69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69121BC21DE5611B00F39E0B /* CharUtil.swift */; };
 		695419801D30BA360099C34D /* Tagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954197F1D30BA360099C34D /* Tagger.swift */; };
 		69561D191D371B7D0092A5C7 /* CmdEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */; };
 		69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */; };
@@ -21,8 +23,6 @@
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
 		699A03461D2234CC005A9FE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699A03441D2234CC005A9FE7 /* Main.storyboard */; };
-		699A03511D2234CC005A9FE7 /* ecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03501D2234CC005A9FE7 /* ecTests.swift */; };
-		699A035C1D2234CC005A9FE7 /* ecUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A035B1D2234CC005A9FE7 /* ecUITests.swift */; };
 		699A036A1D23FC84005A9FE7 /* CmdPalett.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03691D23FC84005A9FE7 /* CmdPalett.swift */; };
 		699A036C1D240521005A9FE7 /* CmdPalettCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */; };
 		699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A036F1D24C943005A9FE7 /* ECDocument.swift */; };
@@ -45,23 +45,6 @@
 		69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EA84F91D38FAA5004DEA38 /* Util.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		699A034D1D2234CC005A9FE7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 699A03331D2234CC005A9FE7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 699A033A1D2234CC005A9FE7;
-			remoteInfo = ec;
-		};
-		699A03581D2234CC005A9FE7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 699A03331D2234CC005A9FE7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 699A033A1D2234CC005A9FE7;
-			remoteInfo = ec;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		690FD13D1D4CD8EE000D58AF /* ExternalCommandView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExternalCommandView.storyboard; sourceTree = "<group>"; };
 		690FD13F1D4CD9E8000D58AF /* ExternalCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalCommandViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +52,8 @@
 		69121BBA1DE4154800F39E0B /* Prelude.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Prelude.framework; path = Carthage/Build/Mac/Prelude.framework; sourceTree = "<group>"; };
 		69121BBB1DE4154800F39E0B /* Either.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Either.framework; path = Carthage/Build/Mac/Either.framework; sourceTree = "<group>"; };
 		69121BBC1DE4154800F39E0B /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = Carthage/Build/Mac/SwiftParsec.framework; sourceTree = "<group>"; };
+		69121BC01DE46C9A00F39E0B /* AutoGrowingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoGrowingTextField.swift; sourceTree = "<group>"; };
+		69121BC21DE5611B00F39E0B /* CharUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharUtil.swift; sourceTree = "<group>"; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
 		69561D181D371B7D0092A5C7 /* CmdEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CmdEditor.storyboard; sourceTree = "<group>"; };
 		69561D1B1D371D0C0092A5C7 /* CmdEditorWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEditorWindow.swift; sourceTree = "<group>"; };
@@ -79,12 +64,6 @@
 		699A03421D2234CC005A9FE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		699A03451D2234CC005A9FE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		699A03471D2234CC005A9FE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		699A034C1D2234CC005A9FE7 /* ecTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		699A03501D2234CC005A9FE7 /* ecTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecTests.swift; sourceTree = "<group>"; };
-		699A03521D2234CC005A9FE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		699A03571D2234CC005A9FE7 /* ecUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		699A035B1D2234CC005A9FE7 /* ecUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecUITests.swift; sourceTree = "<group>"; };
-		699A035D1D2234CC005A9FE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699A03691D23FC84005A9FE7 /* CmdPalett.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdPalett.swift; sourceTree = "<group>"; };
 		699A036B1D240521005A9FE7 /* CmdPalettCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdPalettCellView.swift; sourceTree = "<group>"; };
 		699A036F1D24C943005A9FE7 /* ECDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECDocument.swift; sourceTree = "<group>"; };
@@ -115,20 +94,6 @@
 				69121BBD1DE4154800F39E0B /* Prelude.framework in Frameworks */,
 				69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */,
 				69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		699A03491D2234CC005A9FE7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		699A03541D2234CC005A9FE7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,8 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				699A033D1D2234CC005A9FE7 /* ec */,
-				699A034F1D2234CC005A9FE7 /* ecTests */,
-				699A035A1D2234CC005A9FE7 /* ecUITests */,
 				699A033C1D2234CC005A9FE7 /* Products */,
 				69E58FC81D2D1F3300D8220F /* Resources */,
 				66AAC8186CC6FFFD9346DB85 /* Frameworks */,
@@ -180,8 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				699A033B1D2234CC005A9FE7 /* ec.app */,
-				699A034C1D2234CC005A9FE7 /* ecTests.xctest */,
-				699A03571D2234CC005A9FE7 /* ecUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,6 +157,7 @@
 				69C71EC51D2A68F60023A48E /* Cmd */,
 				69C71EC41D2A68ED0023A48E /* Preference */,
 				699A033E1D2234CC005A9FE7 /* AppDelegate.swift */,
+				69121BC01DE46C9A00F39E0B /* AutoGrowingTextField.swift */,
 				699A03401D2234CC005A9FE7 /* ViewController.swift */,
 				69E58FCB1D2D229B00D8220F /* ECError.swift */,
 				69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */,
@@ -205,24 +167,6 @@
 				699A03471D2234CC005A9FE7 /* Info.plist */,
 			);
 			path = ec;
-			sourceTree = "<group>";
-		};
-		699A034F1D2234CC005A9FE7 /* ecTests */ = {
-			isa = PBXGroup;
-			children = (
-				699A03501D2234CC005A9FE7 /* ecTests.swift */,
-				699A03521D2234CC005A9FE7 /* Info.plist */,
-			);
-			path = ecTests;
-			sourceTree = "<group>";
-		};
-		699A035A1D2234CC005A9FE7 /* ecUITests */ = {
-			isa = PBXGroup;
-			children = (
-				699A035B1D2234CC005A9FE7 /* ecUITests.swift */,
-				699A035D1D2234CC005A9FE7 /* Info.plist */,
-			);
-			path = ecUITests;
 			sourceTree = "<group>";
 		};
 		69C71EC41D2A68ED0023A48E /* Preference */ = {
@@ -265,6 +209,7 @@
 				6954197F1D30BA360099C34D /* Tagger.swift */,
 				69EA84F91D38FAA5004DEA38 /* Util.swift */,
 				699E96651D4DEE31004023C1 /* NSURLExtension.swift */,
+				69121BC21DE5611B00F39E0B /* CharUtil.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -308,47 +253,6 @@
 			productReference = 699A033B1D2234CC005A9FE7 /* ec.app */;
 			productType = "com.apple.product-type.application";
 		};
-		699A034B1D2234CC005A9FE7 /* ecTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 699A03631D2234CC005A9FE7 /* Build configuration list for PBXNativeTarget "ecTests" */;
-			buildPhases = (
-				73073642893E8326D3EA7B6B /* [CP] Check Pods Manifest.lock */,
-				699A03481D2234CC005A9FE7 /* Sources */,
-				699A03491D2234CC005A9FE7 /* Frameworks */,
-				699A034A1D2234CC005A9FE7 /* Resources */,
-				513E7EAC9D176AB538B466E4 /* [CP] Embed Pods Frameworks */,
-				874136F8B59159BE42181F25 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				699A034E1D2234CC005A9FE7 /* PBXTargetDependency */,
-			);
-			name = ecTests;
-			productName = ecTests;
-			productReference = 699A034C1D2234CC005A9FE7 /* ecTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		699A03561D2234CC005A9FE7 /* ecUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 699A03661D2234CC005A9FE7 /* Build configuration list for PBXNativeTarget "ecUITests" */;
-			buildPhases = (
-				D8806CBE0C03A0006D9BDA56 /* [CP] Check Pods Manifest.lock */,
-				699A03531D2234CC005A9FE7 /* Sources */,
-				699A03541D2234CC005A9FE7 /* Frameworks */,
-				699A03551D2234CC005A9FE7 /* Resources */,
-				5388664B7771D152D8675FFC /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				699A03591D2234CC005A9FE7 /* PBXTargetDependency */,
-			);
-			name = ecUITests;
-			productName = ecUITests;
-			productReference = 699A03571D2234CC005A9FE7 /* ecUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -362,16 +266,6 @@
 					699A033A1D2234CC005A9FE7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0810;
-					};
-					699A034B1D2234CC005A9FE7 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
-						TestTargetID = 699A033A1D2234CC005A9FE7;
-					};
-					699A03561D2234CC005A9FE7 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
-						TestTargetID = 699A033A1D2234CC005A9FE7;
 					};
 				};
 			};
@@ -389,8 +283,6 @@
 			projectRoot = "";
 			targets = (
 				699A033A1D2234CC005A9FE7 /* ec */,
-				699A034B1D2234CC005A9FE7 /* ecTests */,
-				699A03561D2234CC005A9FE7 /* ecUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -409,53 +301,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		699A034A1D2234CC005A9FE7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		699A03551D2234CC005A9FE7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		513E7EAC9D176AB538B466E4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ecTests/Pods-ecTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5388664B7771D152D8675FFC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ecUITests/Pods-ecUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		691AE6E31DE40AFA002FD2FC /* Carthage Copy-Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,51 +321,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		73073642893E8326D3EA7B6B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		874136F8B59159BE42181F25 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ecTests/Pods-ecTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D8806CBE0C03A0006D9BDA56 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -531,9 +334,11 @@
 				699A036A1D23FC84005A9FE7 /* CmdPalett.swift in Sources */,
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
+				69121BC11DE46C9A00F39E0B /* AutoGrowingTextField.swift in Sources */,
 				69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */,
 				69561D1C1D371D0C0092A5C7 /* CmdEditorWindow.swift in Sources */,
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
+				69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69C71EBB1D289A260023A48E /* CmdPalettView.swift in Sources */,
 				69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */,
@@ -553,36 +358,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		699A03481D2234CC005A9FE7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				699A03511D2234CC005A9FE7 /* ecTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		699A03531D2234CC005A9FE7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				699A035C1D2234CC005A9FE7 /* ecUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		699A034E1D2234CC005A9FE7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 699A033A1D2234CC005A9FE7 /* ec */;
-			targetProxy = 699A034D1D2234CC005A9FE7 /* PBXContainerItemProxy */;
-		};
-		699A03591D2234CC005A9FE7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 699A033A1D2234CC005A9FE7 /* ec */;
-			targetProxy = 699A03581D2234CC005A9FE7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		699A03441D2234CC005A9FE7 /* Main.storyboard */ = {
@@ -719,60 +495,6 @@
 			};
 			name = Release;
 		};
-		699A03641D2234CC005A9FE7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ecTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ecTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ec.app/Contents/MacOS/ec";
-			};
-			name = Debug;
-		};
-		699A03651D2234CC005A9FE7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ecTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ecTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ec.app/Contents/MacOS/ec";
-			};
-			name = Release;
-		};
-		699A03671D2234CC005A9FE7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ecUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ecUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = ec;
-			};
-			name = Debug;
-		};
-		699A03681D2234CC005A9FE7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ecUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ecUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = ec;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -790,24 +512,6 @@
 			buildConfigurations = (
 				699A03611D2234CC005A9FE7 /* Debug */,
 				699A03621D2234CC005A9FE7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		699A03631D2234CC005A9FE7 /* Build configuration list for PBXNativeTarget "ecTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				699A03641D2234CC005A9FE7 /* Debug */,
-				699A03651D2234CC005A9FE7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		699A03661D2234CC005A9FE7 /* Build configuration list for PBXNativeTarget "ecUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				699A03671D2234CC005A9FE7 /* Debug */,
-				699A03681D2234CC005A9FE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
