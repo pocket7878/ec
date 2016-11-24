@@ -22,6 +22,7 @@
 		699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A036F1D24C943005A9FE7 /* ECDocument.swift */; };
 		699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03AA1D250D71005A9FE7 /* Cmd.swift */; };
 		699E96661D4DEE31004023C1 /* NSURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699E96651D4DEE31004023C1 /* NSURLExtension.swift */; };
+		69AD63891DE5BF95003F844C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AD63881DE5BF95003F844C /* SnapKit.framework */; };
 		69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */; };
 		69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69C71EC21D2A63C00023A48E /* Preference.storyboard */; };
 		69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */; };
@@ -56,6 +57,7 @@
 		699A036F1D24C943005A9FE7 /* ECDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECDocument.swift; sourceTree = "<group>"; };
 		699A03AA1D250D71005A9FE7 /* Cmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
 		699E96651D4DEE31004023C1 /* NSURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLExtension.swift; sourceTree = "<group>"; };
+		69AD63881DE5BF95003F844C /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
 		69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECSplitView.swift; path = ../ECSplitView.swift; sourceTree = "<group>"; };
 		69C71EC21D2A63C00023A48E /* Preference.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preference.storyboard; sourceTree = "<group>"; };
 		69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceWindow.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AD63891DE5BF95003F844C /* SnapKit.framework in Frameworks */,
 				69121BBD1DE4154800F39E0B /* Prelude.framework in Frameworks */,
 				69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */,
 				69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */,
@@ -89,6 +92,7 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69AD63881DE5BF95003F844C /* SnapKit.framework */,
 				69121BBA1DE4154800F39E0B /* Prelude.framework */,
 				69121BBB1DE4154800F39E0B /* Either.framework */,
 				69121BBC1DE4154800F39E0B /* SwiftParsec.framework */,
@@ -275,6 +279,7 @@
 				"$(SRCROOT)/Carthage/Build/Mac/Either.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/Prelude.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/SwiftParsec.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/SnapKit.framework",
 			);
 			name = "Carthage Copy-Frameworks";
 			outputPaths = (

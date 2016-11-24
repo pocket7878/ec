@@ -1,2 +1,3 @@
 github "robrix/Either" "master"
 github "davedufresne/SwiftParsec" "master"
+github "SnapKit/SnapKit" ~> 3.0.2

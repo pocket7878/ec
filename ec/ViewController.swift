@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SnapKit
 
 class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
 
@@ -16,11 +17,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     var doc: ECDocument?
     
     var editWC: NSWindowController?
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        NSLog("VIew Did apper: \(self.doc?.fileURL)")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +44,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         cmdTextView.isAutomaticQuoteSubstitutionEnabled = false
         cmdTextView.isAutomaticSpellingCorrectionEnabled = false
         cmdTextView.workingFolderDataSource = self
+        cmdTextView.translatesAutoresizingMaskIntoConstraints = true
         
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
