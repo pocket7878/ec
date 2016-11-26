@@ -131,7 +131,7 @@ class ECTextView: CodeTextView {
                     if filename.hasPrefix("/") {
                         filePath = filename
                     } else {
-                        filePath = workingFolder.appending(filename)
+                        filePath = workingFolder.appendingPathComponent(filename)
                     }
                     if fileManager.fileExists(atPath: filePath) {
                         if let addrStr = addrStr {
