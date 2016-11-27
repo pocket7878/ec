@@ -15,7 +15,7 @@ Simple text editor inspired by plan9 text editors concepts.
 
 ## Screenshot
 
-![](https://raw.github.com/wiki/pocket7878/ec/imgs/main-window.png)
+[![https://gyazo.com/e16f941e71f045c4128530948804ea9b](https://i.gyazo.com/e16f941e71f045c4128530948804ea9b.png)](https://gyazo.com/e16f941e71f045c4128530948804ea9b)
 
 More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
 
