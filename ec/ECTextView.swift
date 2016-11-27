@@ -11,9 +11,9 @@ import Cocoa
 import AppKit
 
 protocol ECTextViewSelectionDelegate: class {
-    func onFileAddrSelection(_ fileAddr: FileAddr)
-    func onRightMouseSelection(_ str: String)
-    func onOtherMouseSelection(_ str: String)
+    func onFileAddrSelection(_ fileAddr: FileAddr, by: NSEvent)
+    func onRightMouseSelection(_ str: String, by: NSEvent)
+    func onOtherMouseSelection(_ str: String, by: NSEvent)
 }
 
 protocol WorkingFolderDataSource: class {
@@ -202,9 +202,9 @@ class ECTextView: CodeTextView {
         }
     }
     
-    func expandSelection(_ charIdx: Int) -> NSRange? {
+    func expandSelection(_ charIdx: Int, by theEvent: NSEvent) -> NSRange? {
         if let fileAddr = expandFile(charIdx) {
-            self.selectionDelegate?.onFileAddrSelection(fileAddr)
+            self.selectionDelegate?.onFileAddrSelection(fileAddr, by: theEvent)
             return nil
         } else {
             return expandSelectionBy(charIdx, checker: { (c) -> Bool in
@@ -264,14 +264,14 @@ class ECTextView: CodeTextView {
                 if let str = self.string {
                     let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
                     self.setSelectedRange(selectedRange)
-                    self.selectionDelegate?.onRightMouseSelection(selectedStr)
+                    self.selectionDelegate?.onRightMouseSelection(selectedStr, by: theEvent)
                 }
             } else {
                 if let str = self.string {
-                    if let newRange = expandSelection(firstIdx) {
+                    if let newRange = expandSelection(firstIdx, by: theEvent) {
                         self.setSelectedRange(newRange)
                         let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: newRange.location) ..< str.characters.index(str.startIndex, offsetBy: newRange.location + newRange.length))
-                        self.selectionDelegate?.onRightMouseSelection(selectedStr)
+                        self.selectionDelegate?.onRightMouseSelection(selectedStr, by: theEvent)
                     }
                 }
             }
@@ -310,7 +310,7 @@ class ECTextView: CodeTextView {
             if let str = self.string {
                 let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
                 self.setSelectedRange(NSMakeRange(firstIdx, 0))
-                self.selectionDelegate?.onOtherMouseSelection(selectedStr)
+                self.selectionDelegate?.onOtherMouseSelection(selectedStr, by: theEvent)
             }
         }
     }

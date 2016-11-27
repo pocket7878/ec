@@ -58,5 +58,6 @@ struct CmdLine {
 enum ECCmd {
     case edit(CmdLine)
     case look(String)
+    case lookback(String)
     case external(String, ExternalExecType)
 }

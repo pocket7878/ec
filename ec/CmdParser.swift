@@ -86,7 +86,7 @@ let backwardPatternAddrParser: GenericParser<String, (), Addr> = (StringParser.c
     return GenericParser(result: Addr.backwardPatternAddr(pat))
 }
 
-let basicAddrParser: GenericParser<String, (), Addr> = dotParser.attempt <|> bofParser.attempt <|> eofParser.attempt <|> lineAddrParser.attempt <|> forwardPatternAddrParser.attempt <|> backwardPatternAddrParser.attempt
+let basicAddrParser: GenericParser<String, (), Addr> = dotParser.attempt <|> bofParser.attempt <|> eofParser.attempt <|> forwardPatternAddrParser.attempt <|> backwardPatternAddrParser.attempt <|> lineAddrParser
 
 let leftAddrParser: GenericParser<String, (), Addr> = basicAddrParser.attempt <|> GenericParser(result: Addr.bof)
 
@@ -180,9 +180,13 @@ let editCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("E
     return GenericParser(result: ECCmd.edit(cmdLine))
 }
 
-//MARK: Find Command
-let findCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Find") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
+//MARK: Look Command
+let lookCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("Look") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
     return GenericParser(result: ECCmd.look(str))
+}
+
+let lookBackCommandParser: GenericParser<String, (), ECCmd> = StringParser.string("LookBack") *> StringParser.spaces *> (StringParser.noneOf("\n").many.stringValue) >>- { str in
+    return GenericParser(result: ECCmd.lookback(str))
 }
 
 //MARK: External Command
@@ -209,7 +213,8 @@ let outputCommandParser: GenericParser<String, (), ECCmd> = StringParser.charact
  ***************************
  */
 let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|>
-    findCommandParser.attempt <|>
+    lookBackCommandParser.attempt <|>
+    lookCommandParser.attempt <|>
     pipeCommandParser.attempt <|>
     inputCommandParser.attempt <|>
     outputCommandParser.attempt <|>

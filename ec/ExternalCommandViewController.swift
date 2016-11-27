@@ -96,6 +96,33 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         }
     }
     
+    func findBackwardString(_ str: String) {
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpression.Options.ignoreMetacharacters
+                ])
+            var selectedRange = commandOutputView.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, commandOutputView.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let lastBackwardMatch = regex.matches(in: commandOutputView.string!, options: [], range: backwardRange).last {
+                commandOutputView.setSelectedRange(lastBackwardMatch.range)
+                commandOutputView.scrollToSelection()
+                commandOutputView.moveMouseCursorToSelectedRange()
+            } else if let lastForwardMatch = regex.matches(in: commandOutputView.string!, options: [], range: forwardRange).last {
+                commandOutputView.setSelectedRange(lastForwardMatch.range)
+                commandOutputView.scrollToSelection()
+                commandOutputView.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
+        }
+    }
+    
     func findString(_ str: String) {
         do {
             let regex = try NSRegularExpression(pattern: str, options: [
@@ -136,6 +163,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
                 cmdLine: cmdLine, folderPath: fileFolderPath)
         case ECCmd.look(let str):
             findString(str)
+        case ECCmd.lookback(let str):
+            findBackwardString(str)
         case .external(let str, let execType):
             var fileFolderPath: String? = self.workingDir
             switch(execType) {
@@ -164,7 +193,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     //MARK: ECTextViewSelectionDelegate
-    func onFileAddrSelection(_ fileAddr: FileAddr) {
+    func onFileAddrSelection(_ fileAddr: FileAddr, by: NSEvent) {
         NSDocumentController.shared().openDocument(
             withContentsOf: URL(fileURLWithPath: fileAddr.filepath),
             display: false) { (newdoc, alreadyp, _) in
@@ -182,11 +211,11 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         }
     }
     
-    func onRightMouseSelection(_ str: String) {
+    func onRightMouseSelection(_ str: String, by: NSEvent) {
         findString(str)
     }
     
-    func onOtherMouseSelection(_ str: String) {
+    func onOtherMouseSelection(_ str: String, by: NSEvent) {
         runCommand(str)
     }
     

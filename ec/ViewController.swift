@@ -90,6 +90,33 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         }
     }
     
+    func findBackwardString(_ str: String) {
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpression.Options.ignoreMetacharacters
+                ])
+            var selectedRange = mainTextView.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let lastBackwardMatch = regex.matches(in: mainTextView.string!, options: [], range: backwardRange).last {
+                mainTextView.setSelectedRange(lastBackwardMatch.range)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            } else if let lastForwardMatch = regex.matches(in: mainTextView.string!, options: [], range: forwardRange).last {
+                mainTextView.setSelectedRange(lastForwardMatch.range)
+                mainTextView.scrollToSelection()
+                mainTextView.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
+        }
+    }
+    
     func findString(_ str: String) {
         do {
             let regex = try NSRegularExpression(pattern: str, options: [
@@ -117,6 +144,17 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         }
     }
     
+    private func genLookECCmd(str: String, backward: Bool) -> ECCmd {
+        let patternLike = PatternLike(pat: str)
+        let addr: Addr
+        if backward {
+            addr = Addr.forwardPatternAddr(patternLike)
+        } else {
+            addr = Addr.backwardPatternAddr(patternLike)
+        }
+        return ECCmd.edit(CmdLine(adders: [addr], cmd: nil))
+    }
+    
     func runECCmd(_ cmd: ECCmd) throws {
         switch(cmd) {
         case ECCmd.edit(let cmdLine):
@@ -134,6 +172,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
                 cmdLine: cmdLine, folderPath: fileFolderPath)
         case ECCmd.look(let str):
             findString(str)
+        case ECCmd.lookback(let str):
+            findBackwardString(str)
         case .external(let str, let execType):
             var fileFolderPath: String? = nil
             if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
@@ -166,7 +206,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     }
     
     //MARK: ECTextViewSelectionDelegate
-    func onFileAddrSelection(_ fileAddr: FileAddr) {
+    func onFileAddrSelection(_ fileAddr: FileAddr, by: NSEvent) {
         NSDocumentController.shared().openDocument(
             withContentsOf: URL(fileURLWithPath: fileAddr.filepath),
             display: false) { (newdoc, alreadyp, _) in
@@ -199,11 +239,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         }
     }
     
-    func onRightMouseSelection(_ str: String) {
-        findString(str)
+    func onRightMouseSelection(_ str: String, by event: NSEvent) {
+        if (event.modifierFlags.contains(NSEventModifierFlags.shift)) {
+            findBackwardString(str)
+        } else {
+            findString(str)
+        }
     }
     
-    func onOtherMouseSelection(_ str: String) {
+    func onOtherMouseSelection(_ str: String, by event: NSEvent) {
         runCommand(str)
     }
     
