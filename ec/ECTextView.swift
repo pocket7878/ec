@@ -114,15 +114,15 @@ class ECTextView: CodeTextView {
                 var amin = charview.index(q1, offsetBy: 2, limitedBy: charview.endIndex)
                 var amax: String.CharacterView.Index? = nil
                 if let amin = amin, amin <= bottomIndex {
-                    for var i in charview.indices[amin ... bottomIndex] {
-                        let c = charview[i]
+                    for i in charview.indices[amin ... bottomIndex] {
+                        let c: Character = charview[i]
                         amax = i
                         if !(isAddrChar(c) || isRegexChar(c)) {
                             amax = charview.index(before: amax!)
                             break
                         }
                     }
-                    addrStr = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(amax!, offsetBy: 1))
+                    addrStr = self.string?.substring(with: self.string!.index(amin, offsetBy: 0) ..< self.string!.index(amax!, offsetBy: 1))
                 }
                 if let filename = filename,
                     let workingFolder = workingFolderDataSource?.workingFolder() {
