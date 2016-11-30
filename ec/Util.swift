@@ -58,8 +58,6 @@ class Util {
         
         task.launch()
         
-        
-        
         let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
         if var string = NSString(data: outdata, encoding: String.Encoding.utf8.rawValue) {
             string = string.trimmingCharacters(in: CharacterSet.newlines) as NSString
@@ -180,6 +178,55 @@ class Util {
             cmdString = "\(cmdString) < \(inFile)"
         }
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")", wdir: fileFolderPath, args: [])
+    }
+    
+    class func showExternalCommandError(_ command: String, error: String, statusCode: Int, fileFolderPath: String?) {
+        var wdir = ""
+        if let fileFolderPath = fileFolderPath {
+            wdir = fileFolderPath
+        } else {
+            wdir = "~/"
+        }
+        if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
+            if let windowController = appDelegate.commandWCs["\(wdir) \(command)+Errors"] {
+                if let vc = windowController.contentViewController as? ExternalCommandViewController {
+                    vc.parentWindowController = windowController
+                    vc.showErrorOutput(wdir, command: command, error: error, statusCode: statusCode)
+                    if let win = windowController.window {
+                        var winTitle = ""
+                        if let wdir = fileFolderPath {
+                            winTitle = "\(wdir) \(command)+Errors"
+                        } else {
+                            winTitle = "\(command)+Errors"
+                        }
+                        win.title = winTitle
+                        win.delegate = vc
+                    }
+                }
+                windowController.showWindow(nil)
+                windowController.becomeFirstResponder()
+            } else {
+                let storyBoard = NSStoryboard(name: "ExternalCommandView", bundle: nil)
+                let windowController = storyBoard.instantiateController(withIdentifier: "ExternalCommandWC") as! NSWindowController
+                appDelegate.commandWCs["\(wdir) \(command)+Errors"] = windowController
+                if let vc = windowController.contentViewController as? ExternalCommandViewController {
+                    vc.parentWindowController = windowController
+                    vc.showErrorOutput(wdir, command: command, error: error, statusCode: statusCode)
+                    if let win = windowController.window {
+                        var winTitle = ""
+                        if let wdir = fileFolderPath {
+                            winTitle = "\(wdir) \(command)+Errors"
+                        } else {
+                            winTitle = "\(command)+Errors"
+                        }
+                        win.title = winTitle
+                        win.delegate = vc
+                    }
+                }
+                windowController.showWindow(nil)
+                windowController.becomeFirstResponder()
+            }
+        }
     }
 
     class func runExternalCommand(_ command: String, inputString: String?, fileFolderPath: String?) {

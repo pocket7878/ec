@@ -190,21 +190,25 @@ let lookBackCommandParser: GenericParser<String, (), ECCmd> = StringParser.strin
 }
 
 //MARK: External Command
-let systemCommandParser: GenericParser<String, (), ECCmd> = (StringParser.noneOf("\n").many.stringValue >>- { str in
+let systemCommandStringParser: GenericParser<String, (), String> = (StringParser.noneOf("\n").many.stringValue >>- { str in
+    return GenericParser(result: str)
+})
+
+let systemCommandParser: GenericParser<String, (), ECCmd> = (systemCommandStringParser >>- { str in
     return GenericParser(result: ECCmd.external(str, .none))
 })
 
 //Mark: Pipe Command
-let pipeCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("|") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: ECCmd.external(pat.pat, .pipe))
+let pipeCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("|") *> (systemCommandStringParser >>- { cmd in
+    return GenericParser(result: ECCmd.external(cmd, .pipe))
     })
 
-let inputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: ECCmd.external(pat.pat, .input))
+let inputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character("<") *> (systemCommandStringParser >>- { cmd in
+    return GenericParser(result: ECCmd.external(cmd, .input))
     })
 
-let outputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: ECCmd.external(pat.pat, .output))
+let outputCommandParser: GenericParser<String, (), ECCmd> = StringParser.character(">") *> (systemCommandStringParser >>- { cmd in
+    return GenericParser(result: ECCmd.external(cmd, .output))
     })
 
 /*

@@ -216,10 +216,10 @@ class ECTextView: CodeTextView {
     
     //MARK: Mouse Handlers
     override func mouseDown(with theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
+        if (theEvent.modifierFlags.contains(.command)) {
             //Emulate other mouse Down
             self.rightMouseDown(with: theEvent)
-        } else if (theEvent.modifierFlags.contains(.command)){
+        } else if (theEvent.modifierFlags.contains(.option)){
             //Emulate other mouse down
             self.otherMouseDown(with: theEvent)
         } else {
@@ -228,10 +228,10 @@ class ECTextView: CodeTextView {
     }
     
     override func mouseUp(with theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
+        if (theEvent.modifierFlags.contains(.command)) {
             //Emulate other mouse Down
             self.rightMouseUp(with: theEvent)
-        } else if (theEvent.modifierFlags.contains(.command)){
+        } else if (theEvent.modifierFlags.contains(.option)){
             //Emulate other mouse down
             self.otherMouseUp(with: theEvent)
         } else {
@@ -240,10 +240,10 @@ class ECTextView: CodeTextView {
     }
     
     override func mouseDragged(with theEvent: NSEvent) {
-        if (theEvent.modifierFlags.contains(NSEventModifierFlags.option)) {
+        if (theEvent.modifierFlags.contains(.command)) {
             //Emulate other mouse Down
             self.rightMouseDragged(with: theEvent)
-        } else if (theEvent.modifierFlags.contains(.command)){
+        } else if (theEvent.modifierFlags.contains(.option)){
             //Emulate other mouse down
             self.otherMouseDragged(with: theEvent)
         } else {

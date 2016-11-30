@@ -430,12 +430,14 @@ func evalCmd(_ edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] 
                     args.append(cx[i])
                 }
                 let res = Util.runCommand(c, inputStr: dstr, wdir: folderPath, args: args)
-                if res.exitCode == 0 {
-                    let str = res.0.joined(separator: "\n")
-                    return [Patch.replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
-                } else {
-                    throw ECError.systemCmdExecuteError(res.error.joined(separator: "\n"))
+                let str = res.output.joined(separator: "\n")
+                if res.exitCode != 0 {
+                    Util.showExternalCommandError("|\(cmd)",
+                                                  error: res.error.joined(separator: "\n"),
+                                                  statusCode: Int(res.exitCode),
+                                                  fileFolderPath: folderPath)
                 }
+                return [Patch.replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
             } else {
                 return [Patch.noOp]
             }
@@ -448,12 +450,14 @@ func evalCmd(_ edit: TextEdit, cmd: Cmd, folderPath: String?) throws -> [Patch] 
                     args.append(cx[i])
                 }
                 let res = Util.runCommand(c, inputStr: nil, wdir: folderPath, args: args)
-                if res.exitCode == 0 {
-                    let str = res.0.joined(separator: "\n")
-                    return [Patch.replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
-                } else {
-                    throw ECError.systemCmdExecuteError(res.error.joined(separator: "\n"))
+                let str = res.0.joined(separator: "\n")
+                if res.exitCode != 0 {
+                    Util.showExternalCommandError(">\(cmd)",
+                                                  error: res.error.joined(separator: "\n"),
+                                                  statusCode: Int(res.exitCode),
+                                                  fileFolderPath: folderPath)
                 }
+                return [Patch.replace(edit.dot.0, edit.dot.1, str, (edit.dot.0, edit.dot.0 + str.characters.count))]
             } else {
                 return [Patch.noOp]
             }

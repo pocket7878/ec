@@ -78,6 +78,7 @@ class ECDocument: NSDocument {
             }
             self.contentOfFile = attrStr
         } catch {
+            NSLog("\(error)")
             throw ECError.openingBinaryFile
         }
     }

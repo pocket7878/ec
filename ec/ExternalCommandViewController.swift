@@ -35,7 +35,21 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         commandOutputView.isAutomaticQuoteSubstitutionEnabled = false
         commandOutputView.isAutomaticSpellingCorrectionEnabled = false
         commandOutputView.workingFolderDataSource = self
-        
+    }
+    
+    func showErrorOutput(_ workingDir: String, command: String, error: String, statusCode: Int) {
+        let outAttrStr = NSMutableAttributedString(string: error)
+        outAttrStr.addAttributes(
+            [NSForegroundColorAttributeName: NSColor.black],
+            range: NSMakeRange(0, error.count))
+        self.commandOutputView.textStorage?.append(outAttrStr)
+        let exitMsg = "\n\(command): exit \(statusCode)"
+        let exitMessage = NSMutableAttributedString(string: exitMsg)
+        exitMessage.addAttributes(
+            [NSForegroundColorAttributeName: NSColor.black],
+            range: NSMakeRange(0, exitMsg.characters.count))
+        self.commandOutputView.textStorage?.append(exitMessage)
+        self.commandOutputView.scrollToEndOfDocument(nil)
     }
     
     func executeCommand(_ workingDir: String, command: String) {
@@ -70,14 +84,14 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         var output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
         let outputStr: NSString = NSString(data: output, encoding: String.Encoding.utf8.rawValue)!
         let outAttrStr = NSMutableAttributedString(string: String(outputStr))
-        outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.white], range: NSMakeRange(0, output.count))
+        outAttrStr.addAttributes([NSForegroundColorAttributeName: NSColor.black], range: NSMakeRange(0, output.count))
         self.commandOutputView.textStorage?.append(outAttrStr)
         if cmdTask.isRunning {
             outPipe.fileHandleForReading.readInBackgroundAndNotify()
         } else {
             let exitMsg = "\n[COMMAND OUTPUT FINISH EXIT STATUS: \(cmdTask.terminationStatus)]"
             let exitMessage = NSMutableAttributedString(string: exitMsg)
-            exitMessage.addAttributes([NSForegroundColorAttributeName: NSColor.white], range: NSMakeRange(0, exitMsg.characters.count))
+            exitMessage.addAttributes([NSForegroundColorAttributeName: NSColor.black], range: NSMakeRange(0, exitMsg.characters.count))
             self.commandOutputView.textStorage?.append(exitMessage)
             NotificationCenter.default.removeObserver(self,
                                                                 name: FileHandle.readCompletionNotification, object: nil)
