@@ -745,14 +745,14 @@
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOw-uQ-PhA">
                                                 <rect key="frame" x="0.0" y="0.0" width="558" height="36"/>
                                                 <clipView key="contentView" id="72Z-7L-dhq">
-                                                    <rect key="frame" x="1" y="1" width="556" height="34"/>
+                                                    <rect key="frame" x="1" y="1" width="541" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textView importsGraphics="NO" richText="NO" findStyle="panel" allowsNonContiguousLayout="YES" id="eKl-TZ-JRi" customClass="ECTextView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="556" height="34"/>
+                                                        <textView importsGraphics="NO" richText="NO" findStyle="panel" allowsNonContiguousLayout="YES" id="eKl-TZ-JRi" customClass="ECSubTextView" customModule="ec" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="541" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" red="0.86972246180000001" green="0.99520846110000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <size key="minSize" width="556" height="34"/>
+                                                            <size key="minSize" width="541" height="34"/>
                                                             <size key="maxSize" width="950" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -764,7 +764,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MRf-kC-sDz">
-                                                    <rect key="frame" x="541" y="1" width="16" height="34"/>
+                                                    <rect key="frame" x="542" y="1" width="15" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -783,14 +783,15 @@
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49z-gb-1dJ">
                                                 <rect key="frame" x="0.0" y="0.0" width="558" height="517"/>
                                                 <clipView key="contentView" id="Qkt-7g-KD0">
-                                                    <rect key="frame" x="1" y="1" width="556" height="515"/>
+                                                    <rect key="frame" x="1" y="1" width="541" height="515"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textView importsGraphics="NO" richText="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" id="tLw-h6-gGh" customClass="ECTextView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="570" height="515"/>
+                                                        <textView importsGraphics="NO" richText="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" id="tLw-h6-gGh" customClass="ECMainTextView" customModule="ec" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="555" height="515"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <size key="minSize" width="556" height="515"/>
+                                                            <size key="minSize" width="541" height="515"/>
                                                             <size key="maxSize" width="964" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -802,7 +803,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="9bh-Q4-lOa">
-                                                    <rect key="frame" x="541" y="1" width="16" height="515"/>
+                                                    <rect key="frame" x="542" y="1" width="15" height="515"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>

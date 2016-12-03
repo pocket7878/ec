@@ -25,7 +25,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         
         commandOutputView.usesFindBar = true
         commandOutputView.isIncrementalSearchingEnabled = true
-        commandOutputView.font = Preference.font()
+        commandOutputView.font = Preference.font
         commandOutputView.delegate = self
         commandOutputView.selectionDelegate = self
         commandOutputView.isAutomaticTextReplacementEnabled = false

@@ -3,3 +3,5 @@ github "davedufresne/SwiftParsec" "master"
 github "SnapKit/SnapKit" ~> 3.0.2
 github "kylef/PathKit" ~> 0.7.0
 github "ReactiveX/RxSwift" ~> 3.0
+github "behrang/YamlSwift" ~> 3.0
+github "yeahdongcn/UIColor-Hex-Swift" >= 3.0.2

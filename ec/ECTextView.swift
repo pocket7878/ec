@@ -90,11 +90,11 @@ class ECTextView: CodeTextView {
                     break
                 }
             }
-            let loc = charview.distance(from: charview.startIndex, to: topIndex)
+            _ = charview.distance(from: charview.startIndex, to: topIndex)
             if topIndex >= bottomIndex {
                 return nil
             } else {
-                var q0 = topIndex
+                let q0 = topIndex
                 var q1 = topIndex
                 //Separate before colon and after colon
                 for var i in charview.indices[topIndex ... bottomIndex] {
@@ -109,9 +109,9 @@ class ECTextView: CodeTextView {
                         }
                     }
                 }
-                var filename = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(q1, offsetBy: 1))
+                let filename = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(q1, offsetBy: 1))
                 var addrStr: String? = nil
-                var amin = charview.index(q1, offsetBy: 2, limitedBy: charview.endIndex)
+                let amin = charview.index(q1, offsetBy: 2, limitedBy: charview.endIndex)
                 var amax: String.CharacterView.Index? = nil
                 if let amin = amin, amin <= bottomIndex {
                     for i in charview.indices[amin ... bottomIndex] {
@@ -367,22 +367,22 @@ class ECTextView: CodeTextView {
         let nl = replacementString.detectNewLineType()
         if nl != .none || nl != .lf {
             var newString = replacementString.stringByReplaceNewLineCharacterWith(.lf)
-            if (Preference.expandTab()) {
-                newString = newString.stringByExpandTab(Preference.tabWidth())
+            if (Preference.expandTab) {
+                newString = newString.stringByExpandTab(Preference.tabWidth)
             }
             return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
         }
         
         var newString = replacementString
-        if (Preference.expandTab()) {
-            newString = newString.stringByExpandTab(Preference.tabWidth())
+        if (Preference.expandTab) {
+            newString = newString.stringByExpandTab(Preference.tabWidth)
         }
         return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
     }
     
     override func insertTab(_ sender: Any?) {
-        if (Preference.expandTab()) {
-            let tabWidth = Preference.tabWidth()
+        if (Preference.expandTab) {
+            let tabWidth = Preference.tabWidth
             let spaces = String(repeating: " ", count: tabWidth)
             self.insertText(spaces)
         } else {
@@ -395,7 +395,7 @@ class ECTextView: CodeTextView {
             return super.insertNewline(sender)
         }
         
-        if !Preference.autoIndent() {
+        if !Preference.autoIndent {
             return super.insertNewline(sender)
         }
         

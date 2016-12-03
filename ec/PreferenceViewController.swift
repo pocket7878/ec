@@ -24,18 +24,18 @@ class PreferenceViewController: NSViewController {
     }
     
     func setupUI() {
-        let font = Preference.font()
+        let font = Preference.font
         fontNameLabel.stringValue = "\(Int(font.pointSize))pt \(font.fontName)"
-        tabWidthField.integerValue = Preference.tabWidth()
-        tabWidthStepper.integerValue = Preference.tabWidth()
-        if Preference.expandTab() {
+        tabWidthField.integerValue = Preference.tabWidth
+        tabWidthStepper.integerValue = Preference.tabWidth
+        if Preference.expandTab {
             expandCheckBtn.state = NSOnState
         } else {
             expandCheckBtn.state = NSOffState
         }
-        tabWidthStepper.isEnabled = Preference.expandTab()
-        tabWidthField.isEnabled = Preference.expandTab()
-        if Preference.autoIndent() {
+        tabWidthStepper.isEnabled = Preference.expandTab
+        tabWidthField.isEnabled = Preference.expandTab
+        if Preference.autoIndent {
             autoIndentCheckBox.state = NSOnState
         } else {
             autoIndentCheckBox.state = NSOffState
@@ -49,7 +49,7 @@ class PreferenceViewController: NSViewController {
     
     override func changeFont(_ sender: Any?) {
         if let fmanager = sender as? NSFontManager {
-            let newFont = fmanager.convert(Preference.font())
+            let newFont = fmanager.convert(Preference.font)
             fontNameLabel.stringValue = "\(Int(newFont.pointSize))pt \(newFont.fontName)"
             UserDefaults.standard.set(newFont.fontName, forKey: "fontName")
             UserDefaults.standard.set(Int(newFont.pointSize), forKey: "fontSize")

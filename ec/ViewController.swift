@@ -23,7 +23,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         
         mainTextView.usesFindBar = true
         mainTextView.isIncrementalSearchingEnabled = true
-        mainTextView.font = Preference.font()
+        mainTextView.font = Preference.font
         mainTextView.selectionDelegate = self
         mainTextView.isAutomaticTextReplacementEnabled = false
         mainTextView.isAutomaticLinkDetectionEnabled = false
@@ -32,10 +32,13 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         mainTextView.isAutomaticQuoteSubstitutionEnabled = false
         mainTextView.isAutomaticSpellingCorrectionEnabled = false
         mainTextView.workingFolderDataSource = self
+        mainTextView.backgroundColor = Preference.mainBgColor
+        mainTextView.textColor = Preference.mainFgColor
+        mainTextView.insertionPointColor = Preference.mainFgColor
         
         cmdTextView.usesFindBar = true
         cmdTextView.isIncrementalSearchingEnabled = true
-        cmdTextView.font = Preference.font()
+        cmdTextView.font = Preference.font
         cmdTextView.selectionDelegate = self
         cmdTextView.isAutomaticTextReplacementEnabled = false
         cmdTextView.isAutomaticLinkDetectionEnabled = false
@@ -45,6 +48,9 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         cmdTextView.isAutomaticSpellingCorrectionEnabled = false
         cmdTextView.workingFolderDataSource = self
         cmdTextView.translatesAutoresizingMaskIntoConstraints = true
+        cmdTextView.backgroundColor = Preference.subBgColor
+        cmdTextView.textColor = Preference.subFgColor
+        cmdTextView.insertionPointColor = Preference.subFgColor
         
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
@@ -63,7 +69,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     func loadDoc() {
         if let doc = self.doc {
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
-            mainTextView.font = Preference.font()
+            mainTextView.font = Preference.font
             doc.snapshotContentDataSource = self
         }
     }
@@ -215,7 +221,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
                         let fileUrl = self.doc?.fileURL, fileUrl.isFileURL {
                         if newfileUrl.path == fileUrl.path {
                             //Same file. then just execute addr command
-                            if let ecdoc = newdoc as? ECDocument,
+                            if let _ = newdoc as? ECDocument,
                                 let addr = fileAddr.addr {
                                 do {
                                     try self.runECCmd(ECCmd.edit(CmdLine(adders: [addr], cmd: nil)))

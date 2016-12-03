@@ -89,17 +89,20 @@ class ECDocument: NSDocument {
                 }
                 self.hasUndoManager = false
                 self.newLineType = .lf
-                self.contentOfFile = NSAttributedString(string: childrens.joined(separator: "\n"))
+                let mutStr = NSMutableAttributedString(string: childrens.joined(separator: "\n"),
+                                                       attributes: [NSForegroundColorAttributeName: Preference.mainFgColor])
+                self.contentOfFile = mutStr
             } catch {
                 NSLog("\(error)")
                 throw ECError.openingBinaryFile
             }
         default:
             do {
-                let attrStr = try NSAttributedString(
+                let attrStr = try NSMutableAttributedString(
                     url: url,
                     options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
                     documentAttributes: nil)
+                attrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, attrStr.length))
                 let newLineType = attrStr.string.detectNewLineType()
                 if newLineType != .none {
                     self.newLineType = newLineType

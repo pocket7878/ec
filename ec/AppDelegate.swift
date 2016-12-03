@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Yaml
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -25,6 +26,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "autoIndent": false
         ]
         UserDefaults.standard.register(defaults: appDefaults)
+        
+        //Load Yaml If Exists
+        let settingFilePath = NSHomeDirectory().appendingPathComponent(".ec.yaml")
+        if FileManager.default.fileExists(atPath: settingFilePath) {
+            do {
+                let yamlStr = try String(NSString(contentsOfFile: settingFilePath, encoding: String.Encoding.utf8.rawValue))
+                let yaml = try Yaml.load(yamlStr)
+                Preference.loadYaml(yaml)
+            } catch {
+                NSLog("\(error)")
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
