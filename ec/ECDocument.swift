@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 import Cocoa
+import RxSwift
 
 protocol SnapshotContentsDataSource: class {
     func snapshotContent() -> NSAttributedString
@@ -21,8 +22,11 @@ class ECDocument: NSDocument {
     var jumpAddr: Addr?
     weak var snapshotContentDataSource: SnapshotContentsDataSource?
     
+    var isDirectoryDocument: Bool = false
+    let disposeBag = DisposeBag()
+    
     override class func autosavesInPlace() -> Bool {
-        return true
+        return false
     }
     
     override func makeWindowControllers() {
@@ -67,19 +71,52 @@ class ECDocument: NSDocument {
     }
     
     override func read(from url: URL, ofType typeName: String) throws {
-        do {
-            let attrStr = try NSAttributedString(
-                url: url,
-                options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
-                documentAttributes: nil)
-            let newLineType = attrStr.string.detectNewLineType()
-            if newLineType != .none {
-                self.newLineType = newLineType
+        switch(typeName) {
+        case "public.folder":
+            self.isDirectoryDocument = true
+            do{
+                let fileManager = FileManager.default
+                var childrens: [String] = []
+                for entry in try fileManager.contentsOfDirectory(atPath: url.path) {
+                    let entryFullPath = url.path.appendingPathComponent(entry)
+                    var isDir : ObjCBool = false
+                    fileManager.fileExists(atPath: entryFullPath, isDirectory: &isDir)
+                    if isDir.boolValue {
+                        childrens.append("\(entry)/")
+                    } else {
+                        childrens.append("\(entry)")
+                    }
+                }
+                self.hasUndoManager = false
+                self.newLineType = .lf
+                self.contentOfFile = NSAttributedString(string: childrens.joined(separator: "\n"))
+            } catch {
+                NSLog("\(error)")
+                throw ECError.openingBinaryFile
             }
-            self.contentOfFile = attrStr
-        } catch {
-            NSLog("\(error)")
-            throw ECError.openingBinaryFile
+        default:
+            do {
+                let attrStr = try NSAttributedString(
+                    url: url,
+                    options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
+                    documentAttributes: nil)
+                let newLineType = attrStr.string.detectNewLineType()
+                if newLineType != .none {
+                    self.newLineType = newLineType
+                }
+                self.contentOfFile = attrStr
+            } catch {
+                NSLog("\(error)")
+                throw ECError.openingBinaryFile
+            }
+        }
+    }
+    
+    override func write(to url: URL, ofType typeName: String, for saveOperation: NSSaveOperationType, originalContentsURL absoluteOriginalContentsURL: URL?) throws {
+        if self.isDirectoryDocument {
+            throw ECError.illigalState
+        } else {
+            try super.write(to: url, ofType: typeName, for: saveOperation, originalContentsURL: absoluteOriginalContentsURL)
         }
     }
     

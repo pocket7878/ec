@@ -15,6 +15,9 @@
 		69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBC1DE4154800F39E0B /* SwiftParsec.framework */; };
 		69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69121BC21DE5611B00F39E0B /* CharUtil.swift */; };
 		695419801D30BA360099C34D /* Tagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954197F1D30BA360099C34D /* Tagger.swift */; };
+		696598421DF17DDC00E31E57 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6965983F1DF17DDC00E31E57 /* RxBlocking.framework */; };
+		696598431DF17DDC00E31E57 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696598401DF17DDC00E31E57 /* RxCocoa.framework */; };
+		696598441DF17DDC00E31E57 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696598411DF17DDC00E31E57 /* RxSwift.framework */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -29,6 +32,7 @@
 		69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */; };
 		69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECC1D2AB9980023A48E /* Preference.swift */; };
 		69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ED71D2CA34B0023A48E /* ECTextView.swift */; };
+		69C835F21DF1049B008F6A7F /* ECDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C835F11DF1049B008F6A7F /* ECDocumentController.swift */; };
 		69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EA1D256AE7003C04DD /* CmdParser.swift */; };
 		69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */; };
 		69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D0B6EE1D269BAC003C04DD /* StringExtension.swift */; };
@@ -48,6 +52,9 @@
 		69121BBC1DE4154800F39E0B /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = Carthage/Build/Mac/SwiftParsec.framework; sourceTree = "<group>"; };
 		69121BC21DE5611B00F39E0B /* CharUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharUtil.swift; sourceTree = "<group>"; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
+		6965983F1DF17DDC00E31E57 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/Mac/RxBlocking.framework; sourceTree = "<group>"; };
+		696598401DF17DDC00E31E57 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/Mac/RxCocoa.framework; sourceTree = "<group>"; };
+		696598411DF17DDC00E31E57 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +71,7 @@
 		69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		69C71ECC1D2AB9980023A48E /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		69C71ED71D2CA34B0023A48E /* ECTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECTextView.swift; sourceTree = "<group>"; };
+		69C835F11DF1049B008F6A7F /* ECDocumentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECDocumentController.swift; sourceTree = "<group>"; };
 		69D0B6EA1D256AE7003C04DD /* CmdParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdParser.swift; sourceTree = "<group>"; };
 		69D0B6EC1D268520003C04DD /* CmdEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdEvaluator.swift; sourceTree = "<group>"; };
 		69D0B6EE1D269BAC003C04DD /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -79,6 +87,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696598421DF17DDC00E31E57 /* RxBlocking.framework in Frameworks */,
+				696598431DF17DDC00E31E57 /* RxCocoa.framework in Frameworks */,
+				696598441DF17DDC00E31E57 /* RxSwift.framework in Frameworks */,
 				69AD63891DE5BF95003F844C /* SnapKit.framework in Frameworks */,
 				69121BBD1DE4154800F39E0B /* Prelude.framework in Frameworks */,
 				69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */,
@@ -92,6 +103,9 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6965983F1DF17DDC00E31E57 /* RxBlocking.framework */,
+				696598401DF17DDC00E31E57 /* RxCocoa.framework */,
+				696598411DF17DDC00E31E57 /* RxSwift.framework */,
 				69AD63881DE5BF95003F844C /* SnapKit.framework */,
 				69121BBA1DE4154800F39E0B /* Prelude.framework */,
 				69121BBB1DE4154800F39E0B /* Either.framework */,
@@ -139,6 +153,7 @@
 				699A03401D2234CC005A9FE7 /* ViewController.swift */,
 				69E58FCB1D2D229B00D8220F /* ECError.swift */,
 				69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */,
+				69C835F11DF1049B008F6A7F /* ECDocumentController.swift */,
 				699A036F1D24C943005A9FE7 /* ECDocument.swift */,
 				699A03421D2234CC005A9FE7 /* Assets.xcassets */,
 				699A03441D2234CC005A9FE7 /* Main.storyboard */,
@@ -280,6 +295,9 @@
 				"$(SRCROOT)/Carthage/Build/Mac/Prelude.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/SwiftParsec.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/SnapKit.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/RxBlocking.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/RxSwift.framework",
 			);
 			name = "Carthage Copy-Frameworks";
 			outputPaths = (
@@ -305,6 +323,7 @@
 				69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */,
+				69C835F21DF1049B008F6A7F /* ECDocumentController.swift in Sources */,
 				69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */,
 				69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */,
 				69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */,

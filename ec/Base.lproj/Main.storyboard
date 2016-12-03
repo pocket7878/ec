@@ -648,6 +648,7 @@
                     </connections>
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ec" customModuleProvider="target"/>
+                <customObject id="Gks-at-Lej" customClass="ECDocumentController" customModule="ec" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -731,27 +732,27 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="ec" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="950" height="587"/>
+                        <rect key="frame" x="0.0" y="0.0" width="558" height="554"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="V8X-Lk-mRp" customClass="ECSplitView" customModule="ec" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="950" height="587"/>
+                                <rect key="frame" x="0.0" y="0.0" width="558" height="554"/>
                                 <subviews>
                                     <customView id="bNd-06-d7Y">
-                                        <rect key="frame" x="0.0" y="0.0" width="950" height="38"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="558" height="36"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOw-uQ-PhA">
-                                                <rect key="frame" x="0.0" y="0.0" width="950" height="38"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="558" height="36"/>
                                                 <clipView key="contentView" id="72Z-7L-dhq">
-                                                    <rect key="frame" x="1" y="1" width="933" height="36"/>
+                                                    <rect key="frame" x="1" y="1" width="556" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView importsGraphics="NO" richText="NO" findStyle="panel" allowsNonContiguousLayout="YES" id="eKl-TZ-JRi" customClass="ECTextView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="933" height="36"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="556" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" red="0.86972246180000001" green="0.99520846110000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <size key="minSize" width="933" height="36"/>
+                                                            <size key="minSize" width="556" height="34"/>
                                                             <size key="maxSize" width="950" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -763,7 +764,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MRf-kC-sDz">
-                                                    <rect key="frame" x="934" y="1" width="15" height="36"/>
+                                                    <rect key="frame" x="541" y="1" width="16" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -776,20 +777,20 @@
                                         </constraints>
                                     </customView>
                                     <customView id="LUJ-VC-fD2">
-                                        <rect key="frame" x="0.0" y="39" width="950" height="548"/>
+                                        <rect key="frame" x="0.0" y="37" width="558" height="517"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49z-gb-1dJ">
-                                                <rect key="frame" x="0.0" y="0.0" width="950" height="548"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="558" height="517"/>
                                                 <clipView key="contentView" id="Qkt-7g-KD0">
-                                                    <rect key="frame" x="1" y="1" width="933" height="546"/>
+                                                    <rect key="frame" x="1" y="1" width="556" height="515"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView importsGraphics="NO" richText="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" id="tLw-h6-gGh" customClass="ECTextView" customModule="ec" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="947" height="546"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="570" height="515"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <size key="minSize" width="933" height="546"/>
+                                                            <size key="minSize" width="556" height="515"/>
                                                             <size key="maxSize" width="964" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -801,7 +802,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="9bh-Q4-lOa">
-                                                    <rect key="frame" x="934" y="1" width="15" height="546"/>
+                                                    <rect key="frame" x="541" y="1" width="16" height="515"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -834,7 +835,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="310" y="813.5"/>
+            <point key="canvasLocation" x="114" y="797"/>
         </scene>
     </scenes>
     <resources>

@@ -261,7 +261,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         var fileFolderPath: String? = nil
         if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
             let fpath = fileUrl.path
-            fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
+            if !(doc?.isDirectoryDocument)! {
+                fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
+            } else {
+                fileFolderPath = fpath
+            }
         }
         return fileFolderPath
     }
