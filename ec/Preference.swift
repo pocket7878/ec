@@ -13,6 +13,11 @@ import Yaml
 
 class Preference {
     
+    static var mainBgColor: NSColor = NSColor.from(hex: "#FFFEEB")!
+    static var mainFgColor: NSColor = NSColor.black
+    static var subBgColor: NSColor = NSColor.from(hex: "#E4FEFF")!
+    static var subFgColor: NSColor = NSColor.black
+    
     class func loadYaml(_ yaml: Yaml) {
         if let mainBgColorHex = yaml["mainBgColor"].string,
             let mainBgColor = NSColor.from(hex: mainBgColorHex) {
@@ -76,6 +81,7 @@ class Preference {
         }
     }
     
+    /*
     class var mainBgColor: NSColor {
         set(newColor) {
             let hex = newColor.toHex()
@@ -135,4 +141,5 @@ class Preference {
             }
         }
     }
+ */
 }
