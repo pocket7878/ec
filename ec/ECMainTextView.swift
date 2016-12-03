@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class ECMainTextView: ECTextView {
+class ECMainTextView: ECTextView, PreferenceHandler {
     
     override func insertText(_ string: Any, replacementRange: NSRange) {
         let color = Preference.mainFgColor
@@ -33,6 +33,16 @@ class ECMainTextView: ECTextView {
             super.insertText(mutAttrStr, replacementRange: replacementRange)
         } else {
             super.insertText(string, replacementRange: replacementRange)
+        }
+    }
+    
+    func reloadPreference() {
+        self.backgroundColor = Preference.mainBgColor
+        self.textColor = Preference.mainFgColor
+        self.insertionPointColor = Preference.mainFgColor
+        self.font = Preference.font
+        if let storage = self.textStorage {
+            storage.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, storage.length))
         }
     }
 }

@@ -11,135 +11,97 @@ import Cocoa
 import AppKit
 import Yaml
 
+protocol PreferenceHandler {
+    func reloadPreference()
+}
+
 class Preference {
     
-    static var mainBgColor: NSColor = NSColor.from(hex: "#FFFEEB")!
-    static var mainFgColor: NSColor = NSColor.black
-    static var subBgColor: NSColor = NSColor.from(hex: "#E4FEFF")!
-    static var subFgColor: NSColor = NSColor.black
+    static let preferenceFilePath = NSHomeDirectory().appendingPathComponent(".ec.yaml")
     
-    class func loadYaml(_ yaml: Yaml) {
-        if let mainBgColorHex = yaml["mainBgColor"].string,
-            let mainBgColor = NSColor.from(hex: mainBgColorHex) {
-            Preference.mainBgColor = mainBgColor
-        }
-        if let mainFgColorHex = yaml["mainFgColor"].string,
-            let mainFgColor = NSColor.from(hex: mainFgColorHex) {
-            Preference.mainFgColor = mainFgColor
-        }
-
-        if let subBgColorHex = yaml["subBgColor"].string,
-            let subBgColor = NSColor.from(hex: subBgColorHex) {
-            Preference.subBgColor = subBgColor
-        }
-        if let subFgColorHex = yaml["subFgColor"].string,
-            let subFgColor = NSColor.from(hex: subFgColorHex) {
-            Preference.subFgColor = subFgColor
-        }
-    }
-    
-    class var font: NSFont {
-        set(newFont) {
-            UserDefaults.standard.set(newFont.fontName, forKey: "fontName")
-            UserDefaults.standard.set(Int(newFont.pointSize), forKey: "fontSize")
-        }
-        get {
-            if let fontName = UserDefaults.standard.string(forKey: "fontName") {
-                let fontSize = CGFloat(UserDefaults.standard.integer(forKey: "fontSize"))
-                let f = NSFont(name: fontName, size: fontSize)
-                return f ?? NSFont.systemFont(ofSize: fontSize)
-            } else {
-                return NSFont.systemFont(ofSize: NSFont.systemFontSize())
-            }
-        }
-    }
-    
-    class var expandTab: Bool {
-        set(newExpandTab) {
-            UserDefaults.standard.set(newExpandTab, forKey: "expandTab")
-        }
-        get {
-            return UserDefaults.standard.bool(forKey: "expandTab")
-        }
-    }
-    
-    class var tabWidth: Int {
-        set(newTabWidth) {
-            UserDefaults.standard.set(newTabWidth, forKey: "tabSpace")
-        }
-        get {
-            return UserDefaults.standard.integer(forKey: "tabSpace")
-        }
-    }
-    
-    class var autoIndent: Bool {
-        set(newAutoIndent) {
-            UserDefaults.standard.set(newAutoIndent, forKey: "autoIndent")
-        }
-        get {
-            return UserDefaults.standard.bool(forKey: "autoIndent")
-        }
-    }
-    
-    /*
-    class var mainBgColor: NSColor {
-        set(newColor) {
-            let hex = newColor.toHex()
-            UserDefaults.standard.set(hex, forKey: "mainBgColor")
-        }
-        get {
-            if let colorStr = UserDefaults.standard.string(forKey: "mainBgColor"),
-                let color = NSColor.from(hex: colorStr) {
+    //PreferenceEntries
+    static let mainBgEntry: PreferenceEntry<NSColor> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> NSColor in
+            if let mainBgColorHex = yaml["mainBgColor"].string,
+                let color = NSColor.from(hex: mainBgColorHex) {
                 return color
             } else {
                 return NSColor.from(hex: "#FFFEEB")!
             }
-        }
-    }
-    
-    class var mainFgColor: NSColor {
-        set(newColor) {
-            let hex = newColor.toHex()
-            UserDefaults.standard.set(hex, forKey: "mainFgColor")
-        }
-        get {
-            if let colorStr = UserDefaults.standard.string(forKey: "mainFgColor"),
-                let color = NSColor.from(hex: colorStr) {
+    })
+    static let mainFgEntry: PreferenceEntry<NSColor> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> NSColor in
+            if let mainFgColorHex = yaml["mainFgColor"].string,
+                let color = NSColor.from(hex: mainFgColorHex) {
                 return color
             } else {
                 return NSColor.black
             }
-        }
-    }
-    
-    class var subBgColor: NSColor {
-        set(newColor) {
-            let hex = newColor.toHex()
-            UserDefaults.standard.set(hex, forKey: "subBgColor")
-        }
-        get {
-            if let colorStr = UserDefaults.standard.string(forKey: "subBgColor"),
-                let color = NSColor.from(hex: colorStr) {
+    })
+    static let subBgEntry: PreferenceEntry<NSColor> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> NSColor in
+            if let subBgColorHex = yaml["subBgColor"].string,
+                let color = NSColor.from(hex: subBgColorHex) {
                 return color
             } else {
                 return NSColor.from(hex: "#E4FEFF")!
             }
-        }
-    }
-    
-    class var subFgColor: NSColor {
-        set(newColor) {
-            let hex = newColor.toHex()
-            UserDefaults.standard.set(hex, forKey: "subFgColor")
-        }
-        get {
-            if let colorStr = UserDefaults.standard.string(forKey: "subFgColor"),
-                let color = NSColor.from(hex: colorStr) {
+    })
+    static let subFgEntry: PreferenceEntry<NSColor> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> NSColor in
+            if let subFgColorHex = yaml["subFgColor"].string,
+                let color = NSColor.from(hex: subFgColorHex) {
                 return color
             } else {
                 return NSColor.black
             }
-        }
+    })
+    static let fontEntry: PreferenceEntry<NSFont> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> NSFont in
+            let fontName = yaml["fontName"].string
+            let fontSize = yaml["fontSize"].int
+            if let fname = fontName,
+                let fsize = fontSize {
+                return NSFont(name: fname, size: CGFloat(fsize))!
+            } else if let fname = fontName {
+                return NSFont(name: fname, size: NSFont.systemFontSize())!
+            } else if let fsize = fontSize {
+                return NSFont.systemFont(ofSize: CGFloat(fsize))
+            } else {
+                return NSFont.systemFont(ofSize: NSFont.systemFontSize())
+            }
+    })
+    static let tabWidthEntry: PreferenceEntry<Int> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> Int in
+            return yaml["tabWidth"].int ?? 4
+    })
+    static let expandTabEntry: PreferenceEntry<Bool> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> Bool in
+            return yaml["expandTab"].bool ?? false
+    })
+    static let autoIndentEntry: PreferenceEntry<Bool> = PreferenceEntry(
+        loader: { (yaml: Yaml) -> Bool in
+            return yaml["autoIndent"].bool ?? false
+    })
+    
+    //Preferences
+    static var mainBgColor: NSColor!
+    static var mainFgColor: NSColor!
+    static var subBgColor: NSColor!
+    static var subFgColor: NSColor!
+    static var font: NSFont!
+    static var tabWidth: Int = 4
+    static var expandTab: Bool = false
+    static var autoIndent: Bool = false
+    
+    class func loadYaml(_ yaml: Yaml) {
+        mainBgColor = mainBgEntry.loader(yaml)
+        mainFgColor = mainFgEntry.loader(yaml)
+        subBgColor = subBgEntry.loader(yaml)
+        subFgColor = subFgEntry.loader(yaml)
+        font = fontEntry.loader(yaml)
+        tabWidth = tabWidthEntry.loader(yaml)
+        expandTab = expandTabEntry.loader(yaml)
+        autoIndent = autoIndentEntry.loader(yaml)
     }
- */
 }

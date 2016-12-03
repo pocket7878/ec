@@ -16,19 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var commandWCs: Dictionary<String, NSWindowController> = [:]
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-        let systemFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
-        let appDefaults: [String: Any] = [
-            "fontName": systemFont.fontName,
-            "fontSize": Int(systemFont.pointSize),
-            "expandTab": false,
-            "tabSpace": 4,
-            "autoIndent": false
-        ]
-        UserDefaults.standard.register(defaults: appDefaults)
-        
         //Load Yaml If Exists
-        let settingFilePath = NSHomeDirectory().appendingPathComponent(".ec.yaml")
+        let settingFilePath = Preference.preferenceFilePath
         if FileManager.default.fileExists(atPath: settingFilePath) {
             do {
                 let yamlStr = try String(NSString(contentsOfFile: settingFilePath, encoding: String.Encoding.utf8.rawValue))
@@ -37,6 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 NSLog("\(error)")
             }
+        } else {
+            FileManager.default.createFile(atPath: settingFilePath, contents: nil, attributes: nil)
         }
     }
 
@@ -49,11 +40,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func openPreferenceWindow(_ sender: NSMenuItem) {
-        let storyBoard = NSStoryboard(name: "Preference", bundle: nil)
-        let windowController = storyBoard.instantiateController(withIdentifier: "PreferenceWC") as! NSWindowController
-        prefWC = windowController
-        windowController.showWindow(nil)
-        windowController.becomeFirstResponder()
+        ECDocumentController.shared().openDocument(
+            withContentsOf: URL(fileURLWithPath: Preference.preferenceFilePath),
+            display: false) { (newdoc, alreadyp, _) in
+                if let newdoc = newdoc {
+                    if !alreadyp {
+                        newdoc.makeWindowControllers()
+                    }
+                    newdoc.showWindows()
+                } else {
+                    NSLog("Failed to open file")
+                }
+        }
     }
 }
 

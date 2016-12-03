@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		690FD13E1D4CD8EE000D58AF /* ExternalCommandView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 690FD13D1D4CD8EE000D58AF /* ExternalCommandView.storyboard */; };
 		690FD1401D4CD9E8000D58AF /* ExternalCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690FD13F1D4CD9E8000D58AF /* ExternalCommandViewController.swift */; };
-		691064681D44DDB9002DCFB3 /* PreferenceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691064671D44DDB9002DCFB3 /* PreferenceWindowController.swift */; };
 		69121BBD1DE4154800F39E0B /* Prelude.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBA1DE4154800F39E0B /* Prelude.framework */; };
 		69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBB1DE4154800F39E0B /* Either.framework */; };
 		69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBC1DE4154800F39E0B /* SwiftParsec.framework */; };
@@ -22,6 +21,7 @@
 		696598481DF2A90200E31E57 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696598471DF2A90200E31E57 /* NSColorExtension.swift */; };
 		6965984A1DF2B55200E31E57 /* ECMainTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696598491DF2B55200E31E57 /* ECMainTextView.swift */; };
 		6965984C1DF2B7E600E31E57 /* ECSubTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */; };
+		6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -31,9 +31,6 @@
 		699E96661D4DEE31004023C1 /* NSURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699E96651D4DEE31004023C1 /* NSURLExtension.swift */; };
 		69AD63891DE5BF95003F844C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AD63881DE5BF95003F844C /* SnapKit.framework */; };
 		69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */; };
-		69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69C71EC21D2A63C00023A48E /* Preference.storyboard */; };
-		69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */; };
-		69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */; };
 		69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ECC1D2AB9980023A48E /* Preference.swift */; };
 		69C71ED81D2CA34B0023A48E /* ECTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C71ED71D2CA34B0023A48E /* ECTextView.swift */; };
 		69C835F21DF1049B008F6A7F /* ECDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C835F11DF1049B008F6A7F /* ECDocumentController.swift */; };
@@ -50,7 +47,6 @@
 /* Begin PBXFileReference section */
 		690FD13D1D4CD8EE000D58AF /* ExternalCommandView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExternalCommandView.storyboard; sourceTree = "<group>"; };
 		690FD13F1D4CD9E8000D58AF /* ExternalCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalCommandViewController.swift; sourceTree = "<group>"; };
-		691064671D44DDB9002DCFB3 /* PreferenceWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceWindowController.swift; sourceTree = "<group>"; };
 		69121BBA1DE4154800F39E0B /* Prelude.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Prelude.framework; path = Carthage/Build/Mac/Prelude.framework; sourceTree = "<group>"; };
 		69121BBB1DE4154800F39E0B /* Either.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Either.framework; path = Carthage/Build/Mac/Either.framework; sourceTree = "<group>"; };
 		69121BBC1DE4154800F39E0B /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = Carthage/Build/Mac/SwiftParsec.framework; sourceTree = "<group>"; };
@@ -63,6 +59,7 @@
 		696598471DF2A90200E31E57 /* NSColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColorExtension.swift; sourceTree = "<group>"; };
 		696598491DF2B55200E31E57 /* ECMainTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECMainTextView.swift; sourceTree = "<group>"; };
 		6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSubTextView.swift; sourceTree = "<group>"; };
+		6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceEntry.swift; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,9 +71,6 @@
 		699E96651D4DEE31004023C1 /* NSURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLExtension.swift; sourceTree = "<group>"; };
 		69AD63881DE5BF95003F844C /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
 		69C71EBC1D28AB1B0023A48E /* ECSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ECSplitView.swift; path = ../ECSplitView.swift; sourceTree = "<group>"; };
-		69C71EC21D2A63C00023A48E /* Preference.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preference.storyboard; sourceTree = "<group>"; };
-		69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceWindow.swift; sourceTree = "<group>"; };
-		69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		69C71ECC1D2AB9980023A48E /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		69C71ED71D2CA34B0023A48E /* ECTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECTextView.swift; sourceTree = "<group>"; };
 		69C835F11DF1049B008F6A7F /* ECDocumentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECDocumentController.swift; sourceTree = "<group>"; };
@@ -177,11 +171,8 @@
 		69C71EC41D2A68ED0023A48E /* Preference */ = {
 			isa = PBXGroup;
 			children = (
-				69C71EC21D2A63C00023A48E /* Preference.storyboard */,
-				69C71EC81D2A69BF0023A48E /* PreferenceWindow.swift */,
-				69C71ECA1D2A6C4B0023A48E /* PreferenceViewController.swift */,
 				69C71ECC1D2AB9980023A48E /* Preference.swift */,
-				691064671D44DDB9002DCFB3 /* PreferenceWindowController.swift */,
+				6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */,
 			);
 			name = Preference;
 			sourceTree = "<group>";
@@ -289,7 +280,6 @@
 			files = (
 				699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */,
 				699A03461D2234CC005A9FE7 /* Main.storyboard in Resources */,
-				69C71EC31D2A63C00023A48E /* Preference.storyboard in Resources */,
 				69E58FCA1D2D1F6400D8220F /* ec.sdef in Resources */,
 				690FD13E1D4CD8EE000D58AF /* ExternalCommandView.storyboard in Resources */,
 			);
@@ -330,10 +320,10 @@
 				69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */,
 				695419801D30BA360099C34D /* Tagger.swift in Sources */,
 				699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */,
+				6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */,
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
 				6965984A1DF2B55200E31E57 /* ECMainTextView.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
-				69C71EC91D2A69BF0023A48E /* PreferenceWindow.swift in Sources */,
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */,
 				696598481DF2A90200E31E57 /* NSColorExtension.swift in Sources */,
@@ -344,10 +334,8 @@
 				69D0B6EF1D269BAC003C04DD /* StringExtension.swift in Sources */,
 				69E58FCC1D2D229B00D8220F /* ECError.swift in Sources */,
 				699A03AB1D250D71005A9FE7 /* Cmd.swift in Sources */,
-				69C71ECB1D2A6C4B0023A48E /* PreferenceViewController.swift in Sources */,
 				69E58FCE1D2EAA5900D8220F /* LineNumberRulerView.swift in Sources */,
 				69D0B6EB1D256AE7003C04DD /* CmdParser.swift in Sources */,
-				691064681D44DDB9002DCFB3 /* PreferenceWindowController.swift in Sources */,
 				69C71EBD1D28AB1B0023A48E /* ECSplitView.swift in Sources */,
 				699E96661D4DEE31004023C1 /* NSURLExtension.swift in Sources */,
 				6965984C1DF2B7E600E31E57 /* ECSubTextView.swift in Sources */,

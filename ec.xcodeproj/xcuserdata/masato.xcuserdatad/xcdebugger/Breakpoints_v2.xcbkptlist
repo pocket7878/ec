@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/AppDelegate.swift"
-            timestampString = "502443391.149449"
+            timestampString = "502451737.614159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "applicationDidFinishLaunching(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,61 +474,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/AppDelegate.swift"
-            timestampString = "502443428.916486"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "applicationDidFinishLaunching(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ec/Preference.swift"
-            timestampString = "502447553.563672"
+            timestampString = "502451737.614159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "loadYaml(_:)"
+            landmarkName = "applicationDidFinishLaunching(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static ec.Preference.loadYaml (Yaml.Yaml) -&gt; ()"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/Preference.swift"
-                  timestampString = "502444131.648936"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "46">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static ec.Preference.loadYaml (Yaml.Yaml) -&gt; ()"
-                  moduleName = "ec"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/Preference.swift"
-                  timestampString = "502444131.650118"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "612">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
