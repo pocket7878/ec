@@ -40,22 +40,22 @@ class ECTextView: CodeTextView {
     //Selected color setup
     func setDefaultSelectionAttributes() {
         self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: NSColor(red: 0.933, green: 0.921, blue: 0.570, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.black
+            NSBackgroundColorAttributeName: Preference.leftBgColor,
+            NSForegroundColorAttributeName: Preference.leftFgColor
         ]
     }
     
     func setRightSelectionAttributes() {
         self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: NSColor(red: 0.003, green: 0.356, blue: 0.0, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.white
+            NSBackgroundColorAttributeName: Preference.rightBgColor,
+            NSForegroundColorAttributeName: Preference.rightFgColor
         ]
     }
     
     func setOtherSelectionAttributes() {
         self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: NSColor(red: 0.627, green: 0.0, blue: 0.0, alpha: 1.0),
-            NSForegroundColorAttributeName: NSColor.white
+            NSBackgroundColorAttributeName: Preference.otherBgColor,
+            NSForegroundColorAttributeName: Preference.otherFgColor
         ]
     }
     
