@@ -13,12 +13,12 @@
         </enumeration>
         
         <class-extension extends="window" description="A Ec window.">
-            <cocoa class="NSWindow"/>
+            <cocoa class="ECWindow"/>
             <access-group identifier="jp.pocket7878.ec" access="rw"/>
         </class-extension>
         
         <class-extension extends="document" description="A Ec document.">
-            <cocoa class="ECDocument"/>
+            <cocoa class="Ec .ECDocument"/>
             <access-group identifier="jp.pocket7878.ec" access="rw"/>
             <property name="contentOfFile" code="PCnt" type="attribute run" access="rw" description="The contents of the document."/>
         </class-extension>

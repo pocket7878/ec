@@ -419,4 +419,59 @@ class ECTextView: CodeTextView {
             super.insertText(indent, replacementRange: self.selectedRange())
         }
     }
+    
+    //MARK: Find String
+    func findBackwardString(_ str: String) {
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpression.Options.ignoreMetacharacters
+                ])
+            var selectedRange = self.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, self.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let lastBackwardMatch = regex.matches(in: self.string!, options: [], range: backwardRange).last {
+                self.setSelectedRange(lastBackwardMatch.range)
+                self.scrollToSelection()
+                self.moveMouseCursorToSelectedRange()
+            } else if let lastForwardMatch = regex.matches(in: self.string!, options: [], range: forwardRange).last {
+                self.setSelectedRange(lastForwardMatch.range)
+                self.scrollToSelection()
+                self.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
+        }
+    }
+    
+    func findString(_ str: String) {
+        do {
+            let regex = try NSRegularExpression(pattern: str, options: [
+                NSRegularExpression.Options.ignoreMetacharacters
+                ])
+            var selectedRange = self.selectedRange()
+            if selectedRange.location == NSNotFound {
+                selectedRange = NSMakeRange(0, 0)
+            }
+            let selectionHead = selectedRange.location
+            let selectionEnd = selectedRange.location + selectedRange.length
+            let forwardRange = NSMakeRange(selectionEnd, self.string!.characters.count - selectionEnd)
+            let backwardRange = NSMakeRange(0, selectionHead)
+            if let firstMatchRange: NSRange = regex.firstMatch(in: self.string!, options: [], range: forwardRange)?.range {
+                self.setSelectedRange(firstMatchRange)
+                self.scrollToSelection()
+                self.moveMouseCursorToSelectedRange()
+            } else if let firstMatchRange: NSRange = regex.firstMatch(in: self.string!, options: [], range: backwardRange)?.range {
+                self.setSelectedRange(firstMatchRange)
+                self.scrollToSelection()
+                self.moveMouseCursorToSelectedRange()
+            }
+        } catch {
+            NSLog("\(error)")
+        }
+    }
 }

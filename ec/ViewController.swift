@@ -56,6 +56,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
             let rulerView = LineNumberRulerView(textView: mainTextView)
             scrollView.verticalRulerView = rulerView
             scrollView.hasVerticalRuler = true
+            scrollView.hasHorizontalRuler = false
             scrollView.rulersVisible = true
         }
     }
@@ -85,90 +86,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         return NSAttributedString(string: self.mainTextView.string!)
     }
     
-    //MARK: Utils
-    func selectedText() -> String? {
-        let selectedNSRange = mainTextView.selectedRange()
-        if selectedNSRange.location != NSNotFound {
-            let selectedRange = mainTextView.string!.characters.index(mainTextView.string!.startIndex, offsetBy: selectedNSRange.location) ..< mainTextView.string!.characters.index(mainTextView.string!.startIndex, offsetBy: selectedNSRange.location + selectedNSRange.length)
-            return mainTextView.string?.substring(with: selectedRange)
-        } else {
-            return nil
-        }
-    }
-    
-    func findBackwardString(_ str: String) {
-        do {
-            let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpression.Options.ignoreMetacharacters
-                ])
-            var selectedRange = mainTextView.selectedRange()
-            if selectedRange.location == NSNotFound {
-                selectedRange = NSMakeRange(0, 0)
-            }
-            let selectionHead = selectedRange.location
-            let selectionEnd = selectedRange.location + selectedRange.length
-            let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
-            let backwardRange = NSMakeRange(0, selectionHead)
-            if let lastBackwardMatch = regex.matches(in: mainTextView.string!, options: [], range: backwardRange).last {
-                mainTextView.setSelectedRange(lastBackwardMatch.range)
-                mainTextView.scrollToSelection()
-                mainTextView.moveMouseCursorToSelectedRange()
-            } else if let lastForwardMatch = regex.matches(in: mainTextView.string!, options: [], range: forwardRange).last {
-                mainTextView.setSelectedRange(lastForwardMatch.range)
-                mainTextView.scrollToSelection()
-                mainTextView.moveMouseCursorToSelectedRange()
-            }
-        } catch {
-            NSLog("\(error)")
-        }
-    }
-    
-    func findString(_ str: String) {
-        do {
-            let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpression.Options.ignoreMetacharacters
-                ])
-            var selectedRange = mainTextView.selectedRange()
-            if selectedRange.location == NSNotFound {
-                selectedRange = NSMakeRange(0, 0)
-            }
-            let selectionHead = selectedRange.location
-            let selectionEnd = selectedRange.location + selectedRange.length
-            let forwardRange = NSMakeRange(selectionEnd, mainTextView.string!.characters.count - selectionEnd)
-            let backwardRange = NSMakeRange(0, selectionHead)
-            if let firstMatchRange: NSRange = regex.firstMatch(in: mainTextView.string!, options: [], range: forwardRange)?.range {
-                mainTextView.setSelectedRange(firstMatchRange)
-                mainTextView.scrollToSelection()
-                mainTextView.moveMouseCursorToSelectedRange()
-            } else if let firstMatchRange: NSRange = regex.firstMatch(in: mainTextView.string!, options: [], range: backwardRange)?.range {
-                mainTextView.setSelectedRange(firstMatchRange)
-                mainTextView.scrollToSelection()
-                mainTextView.moveMouseCursorToSelectedRange()
-            }
-        } catch {
-            NSLog("\(error)")
-        }
-    }
-    
-    private func genLookECCmd(str: String, backward: Bool) -> ECCmd {
-        let patternLike = PatternLike(pat: str)
-        let addr: Addr
-        if backward {
-            addr = Addr.forwardPatternAddr(patternLike)
-        } else {
-            addr = Addr.backwardPatternAddr(patternLike)
-        }
-        return ECCmd.edit(CmdLine(adders: [addr], cmd: nil))
-    }
-    
     func runECCmd(_ cmd: ECCmd) throws {
         switch(cmd) {
         case ECCmd.edit(let cmdLine):
-            var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
-                let fpath = fileUrl.path
-                fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
-            }
+            let fileFolderPath = self.workingFolder()
             let currDot = mainTextView.selectedRange()
             try runCmdLine(
                 TextEdit(
@@ -177,15 +98,11 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
                 textview: mainTextView,
                 cmdLine: cmdLine, folderPath: fileFolderPath)
         case ECCmd.look(let str):
-            findString(str)
+            mainTextView.findString(str)
         case ECCmd.lookback(let str):
-            findBackwardString(str)
+            mainTextView.findBackwardString(str)
         case .external(let str, let execType):
-            var fileFolderPath: String? = nil
-            if let fileUrl = doc?.fileURL, fileUrl.isFileURL {
-                let fpath = fileUrl.path
-                fileFolderPath = String(NSString(string: fpath).deletingLastPathComponent)
-            }
+            let fileFolderPath = self.workingFolder()
             switch(execType) {
             case .pipe, .input, .output:
                 try runECCmd(ECCmd.edit(CmdLine(adders: [], cmd: Cmd.external(str, execType))))
@@ -247,9 +164,9 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     
     func onRightMouseSelection(_ str: String, by event: NSEvent) {
         if (event.modifierFlags.contains(NSEventModifierFlags.shift)) {
-            findBackwardString(str)
+            mainTextView.findBackwardString(str)
         } else {
-            findString(str)
+            mainTextView.findString(str)
         }
     }
     

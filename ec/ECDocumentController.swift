@@ -28,4 +28,11 @@ class ECDocumentController: NSDocumentController {
             completionHandler(result)
         }
     }
+    
+    func makeUntitledDocumentWithFileURL(ofType typeName: String, url: URL) throws -> NSDocument {
+        let ecdoc = try ECDocument(type: typeName)
+        ecdoc.fileURL = url
+        ecdoc.updateChangeCount(.changeDone)
+        return ecdoc
+    }
 }

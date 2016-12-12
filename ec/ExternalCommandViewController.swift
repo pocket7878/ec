@@ -103,70 +103,6 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
 
     //MARK: Utils
-    func selectedText() -> String? {
-        let selectedNSRange = commandOutputView.selectedRange()
-        if selectedNSRange.location != NSNotFound {
-            let selectedRange = commandOutputView.string!.characters.index(commandOutputView.string!.startIndex, offsetBy: selectedNSRange.location) ..< commandOutputView.string!.characters.index(commandOutputView.string!.startIndex, offsetBy: selectedNSRange.location + selectedNSRange.length)
-            return commandOutputView.string?.substring(with: selectedRange)
-        } else {
-            return nil
-        }
-    }
-    
-    func findBackwardString(_ str: String) {
-        do {
-            let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpression.Options.ignoreMetacharacters
-                ])
-            var selectedRange = commandOutputView.selectedRange()
-            if selectedRange.location == NSNotFound {
-                selectedRange = NSMakeRange(0, 0)
-            }
-            let selectionHead = selectedRange.location
-            let selectionEnd = selectedRange.location + selectedRange.length
-            let forwardRange = NSMakeRange(selectionEnd, commandOutputView.string!.characters.count - selectionEnd)
-            let backwardRange = NSMakeRange(0, selectionHead)
-            if let lastBackwardMatch = regex.matches(in: commandOutputView.string!, options: [], range: backwardRange).last {
-                commandOutputView.setSelectedRange(lastBackwardMatch.range)
-                commandOutputView.scrollToSelection()
-                commandOutputView.moveMouseCursorToSelectedRange()
-            } else if let lastForwardMatch = regex.matches(in: commandOutputView.string!, options: [], range: forwardRange).last {
-                commandOutputView.setSelectedRange(lastForwardMatch.range)
-                commandOutputView.scrollToSelection()
-                commandOutputView.moveMouseCursorToSelectedRange()
-            }
-        } catch {
-            NSLog("\(error)")
-        }
-    }
-    
-    func findString(_ str: String) {
-        do {
-            let regex = try NSRegularExpression(pattern: str, options: [
-                NSRegularExpression.Options.ignoreMetacharacters
-                ])
-            var selectedRange = commandOutputView.selectedRange()
-            if selectedRange.location == NSNotFound {
-                selectedRange = NSMakeRange(0, 0)
-            }
-            let selectionHead = selectedRange.location
-            let selectionEnd = selectedRange.location + selectedRange.length
-            let forwardRange = NSMakeRange(selectionEnd, commandOutputView.string!.characters.count - selectionEnd)
-            let backwardRange = NSMakeRange(0, selectionHead)
-            if let firstMatchRange: NSRange = regex.firstMatch(in: commandOutputView.string!, options: [], range: forwardRange)?.range {
-                commandOutputView.setSelectedRange(firstMatchRange)
-                commandOutputView.scrollToSelection()
-                commandOutputView.moveMouseCursorToSelectedRange()
-            } else if let firstMatchRange: NSRange = regex.firstMatch(in: commandOutputView.string!, options: [], range: backwardRange)?.range {
-                commandOutputView.setSelectedRange(firstMatchRange)
-                commandOutputView.scrollToSelection()
-                commandOutputView.moveMouseCursorToSelectedRange()
-            }
-        } catch {
-            NSLog("\(error)")
-        }
-    }
-    
     func runECCmd(_ cmd: ECCmd) throws {
         switch(cmd) {
         case ECCmd.edit(let cmdLine):
@@ -179,9 +115,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
                 textview: commandOutputView,
                 cmdLine: cmdLine, folderPath: fileFolderPath)
         case ECCmd.look(let str):
-            findString(str)
+            commandOutputView.findString(str)
         case ECCmd.lookback(let str):
-            findBackwardString(str)
+            commandOutputView.findBackwardString(str)
         case .external(let str, let execType):
             var fileFolderPath: String? = self.workingDir
             switch(execType) {
@@ -229,7 +165,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     func onRightMouseSelection(_ str: String, by: NSEvent) {
-        findString(str)
+        commandOutputView.findString(str)
     }
     
     func onOtherMouseSelection(_ str: String, by: NSEvent) {
