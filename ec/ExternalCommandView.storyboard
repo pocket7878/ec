@@ -63,8 +63,8 @@
                         <constraints>
                             <constraint firstItem="WSo-bS-wxz" firstAttribute="top" secondItem="HX9-kf-bBp" secondAttribute="top" id="2eM-9b-E9I"/>
                             <constraint firstAttribute="trailing" secondItem="WSo-bS-wxz" secondAttribute="trailing" id="GFY-6G-n8b"/>
+                            <constraint firstAttribute="bottom" secondItem="WSo-bS-wxz" secondAttribute="bottom" id="Gaw-IY-dTX"/>
                             <constraint firstItem="WSo-bS-wxz" firstAttribute="leading" secondItem="HX9-kf-bBp" secondAttribute="leading" id="fWq-Ec-6s6"/>
-                            <constraint firstAttribute="bottom" secondItem="WSo-bS-wxz" secondAttribute="bottom" id="tWn-Rq-2Cq"/>
                         </constraints>
                     </view>
                     <connections>

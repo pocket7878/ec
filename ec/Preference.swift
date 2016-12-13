@@ -139,17 +139,17 @@ class Preference {
     })
     
     //Preferences
-    static var mainBgColor: NSColor!
-    static var mainFgColor: NSColor!
-    static var subBgColor: NSColor!
-    static var subFgColor: NSColor!
-    static var leftBgColor: NSColor!
-    static var leftFgColor: NSColor!
-    static var rightBgColor: NSColor!
-    static var rightFgColor: NSColor!
-    static var otherBgColor: NSColor!
-    static var otherFgColor: NSColor!
-    static var font: NSFont!
+    static var mainBgColor: NSColor = NSColor.from(hex: "#FFFEEB")!
+    static var mainFgColor: NSColor = NSColor.black
+    static var subBgColor: NSColor = NSColor.from(hex: "#E4FEFF")!
+    static var subFgColor: NSColor = NSColor.black
+    static var leftBgColor: NSColor = NSColor(red: 0.933, green: 0.921, blue: 0.570, alpha: 1.0)
+    static var leftFgColor: NSColor = NSColor.black
+    static var rightBgColor: NSColor = NSColor(red: 0.003, green: 0.356, blue: 0.0, alpha: 1.0)
+    static var rightFgColor: NSColor = NSColor.white
+    static var otherBgColor: NSColor = NSColor(red: 0.627, green: 0.0, blue: 0.0, alpha: 1.0)
+    static var otherFgColor: NSColor = NSColor.white
+    static var font: NSFont = NSFont.systemFont(ofSize: NSFont.systemFontSize())
     static var tabWidth: Int = 4
     static var expandTab: Bool = false
     static var autoIndent: Bool = false

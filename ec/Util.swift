@@ -122,26 +122,10 @@ class Util {
         return (output, error, status)
     }
     
-    fileprivate class func runExternalCommandIniTerm(_ command: String, inputString: String?, fileFolderPath: String?) {
-        var inputFileName: String? = nil
-        if let inputStr = inputString {
-            //Create Temporary file and write inputStr to it
-            let tempDir = NSTemporaryDirectory()
-            let randomFileName = "\(tempDir)/\(Date().timeIntervalSince1970)-temp"
-            inputFileName = randomFileName
-            do {
-                try inputStr.write(toFile: randomFileName, atomically: true, encoding: String.Encoding.utf8)
-            } catch {
-                NSLog("\(error)")
-            }
-        }
+    fileprivate class func runShellIniTerm(fileFolderPath: String?) {
         var cmdString = ""
         if let wdir = fileFolderPath {
-            cmdString = "cd \(wdir) && "
-        }
-        cmdString = "\(cmdString) \(command)"
-        if let inFile = inputFileName {
-            cmdString = "\(cmdString) < \(inFile)"
+            cmdString = "cd \(wdir)"
         }
         var script = "tell application \"iTerm\"\n"
         script += "\tactivate\n"
@@ -155,29 +139,17 @@ class Util {
         Util.runCommand("osascript", inputStr: script, wdir: fileFolderPath, args: [])
     }
     
-    fileprivate class func runExternalCommandInTerminal(_ command: String, inputString: String?, fileFolderPath: String?) {
+    fileprivate class func runShellInTerminal(fileFolderPath: String?) {
         Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to activate", wdir: fileFolderPath, args: [])
-        var inputFileName: String? = nil
-        if let inputStr = inputString {
-            //Create Temporary file and write inputStr to it
-            let tempDir = NSTemporaryDirectory()
-            let randomFileName = "\(tempDir)/\(Date().timeIntervalSince1970)-temp"
-            inputFileName = randomFileName
-            do {
-                try inputStr.write(toFile: randomFileName, atomically: true, encoding: String.Encoding.utf8)
-            } catch {
-                NSLog("\(error)")
-            }
-        }
         var cmdString = ""
         if let wdir = fileFolderPath {
-            cmdString = "cd \(wdir) && "
+            cmdString = "cd \(wdir)"
         }
-        cmdString = "\(cmdString) \(command)"
-        if let inFile = inputFileName {
-            cmdString = "\(cmdString) < \(inFile)"
-        }
-        Util.runCommand("osascript", inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")", wdir: fileFolderPath, args: [])
+        Util.runCommand(
+            "osascript",
+            inputStr: "tell application \"Terminal\" to do script(\"\(cmdString)\")",
+            wdir: fileFolderPath,
+            args: [])
     }
     
     class func showExternalCommandError(_ command: String, error: String, statusCode: Int, fileFolderPath: String?) {
@@ -234,7 +206,7 @@ class Util {
         if let fileFolderPath = fileFolderPath {
             wdir = fileFolderPath
         } else {
-            wdir = "~/"
+            wdir = NSHomeDirectory()
         }
         if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             if let windowController = appDelegate.commandWCs["\(wdir) \(command)+Errors"] {
@@ -276,6 +248,13 @@ class Util {
                 windowController.becomeFirstResponder()
             }
         }
-
+    }
+    
+    class func startWin(workingFolder: String?) {
+        if appInstalled("iTerm") {
+            runShellIniTerm(fileFolderPath: workingFolder)
+        } else {
+            runShellInTerminal(fileFolderPath: workingFolder)
+        }
     }
 }

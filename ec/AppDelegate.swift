@@ -28,6 +28,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else {
             FileManager.default.createFile(atPath: settingFilePath, contents: nil, attributes: nil)
+            do {
+                let yamlStr = try String(NSString(contentsOfFile: settingFilePath, encoding: String.Encoding.utf8.rawValue))
+                let yaml = try Yaml.load(yamlStr)
+                Preference.loadYaml(yaml)
+            } catch {
+                NSLog("\(error)")
+            }
         }
     }
 

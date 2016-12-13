@@ -12,9 +12,8 @@ import AppKit
 
 class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
     
-    @IBOutlet var commandOutputView: ECTextView!
-    
     var parentWindowController: NSWindowController!
+    @IBOutlet var commandOutputView: ECTextView!
     var cmdTask: Process!
     var outPipe: Pipe!
     var workingDir: String!
@@ -60,9 +59,6 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         self.commandOutputView.textStorage?.setAttributedString(
             NSAttributedString(string: ""))
         self.workingDir = workingDir
-        
-        var output : [String] = []
-        
         cmdTask = Process()
         let ax = ["-l", "-c", command]
         cmdTask.launchPath = Util.getShell()
@@ -79,7 +75,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         cmdTask.launch()
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(ExternalCommandViewController.notificationReadedData(_:)), name: FileHandle.readCompletionNotification, object: nil)
+                                               selector: #selector(ExternalCommandViewController.notificationReadedData(_:)),
+                                               name: FileHandle.readCompletionNotification, object: nil)
         outPipe.fileHandleForReading.readInBackgroundAndNotify()
     }
     
@@ -87,7 +84,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         var output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
         let outputStr: NSString = NSString(data: output, encoding: String.Encoding.utf8.rawValue)!
         let outAttrStr = NSMutableAttributedString(string: String(outputStr))
-        outAttrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, output.count))
+        outAttrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, outputStr.length))
         self.commandOutputView.textStorage?.append(outAttrStr)
         if cmdTask.isRunning {
             outPipe.fileHandleForReading.readInBackgroundAndNotify()
@@ -97,7 +94,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             exitMessage.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, exitMsg.characters.count))
             self.commandOutputView.textStorage?.append(exitMessage)
             NotificationCenter.default.removeObserver(self,
-                                                                name: FileHandle.readCompletionNotification, object: nil)
+                                                      name: FileHandle.readCompletionNotification, object: nil)
         }
         self.commandOutputView.scrollToEndOfDocument(nil)
     }
@@ -126,6 +123,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             case .none:
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
+        case .win():
+            Util.startWin(workingFolder: self.workingFolder())
         }
     }
     
@@ -188,8 +187,6 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             appDelegate.commandWCs["\(self.workingDir) \(self.command)+Errors"] = nil
         }
-        if let cmdtask = self.cmdTask {
-            cmdtask.terminate()
-        }
+        cmdTask.waitUntilExit()
     }
 }

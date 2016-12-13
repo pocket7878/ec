@@ -195,7 +195,11 @@ let systemCommandStringParser: GenericParser<String, (), String> = (StringParser
 })
 
 let systemCommandParser: GenericParser<String, (), ECCmd> = (systemCommandStringParser >>- { str in
-    return GenericParser(result: ECCmd.external(str, .none))
+    if str == "win" {
+        return GenericParser(result: ECCmd.win())
+    } else {
+        return GenericParser(result: ECCmd.external(str, .none))
+    }
 })
 
 //Mark: Pipe Command

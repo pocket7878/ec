@@ -51,6 +51,8 @@
 		69121BBB1DE4154800F39E0B /* Either.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Either.framework; path = Carthage/Build/Mac/Either.framework; sourceTree = "<group>"; };
 		69121BBC1DE4154800F39E0B /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = Carthage/Build/Mac/SwiftParsec.framework; sourceTree = "<group>"; };
 		69121BC21DE5611B00F39E0B /* CharUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharUtil.swift; sourceTree = "<group>"; };
+		6912C6911DFEB45400B64817 /* BSD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BSD.framework; path = Carthage/Build/Mac/BSD.framework; sourceTree = "<group>"; };
+		6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PseudoTeletypewriter.framework; path = Carthage/Build/Mac/PseudoTeletypewriter.framework; sourceTree = "<group>"; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
 		6965983F1DF17DDC00E31E57 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/Mac/RxBlocking.framework; sourceTree = "<group>"; };
 		696598401DF17DDC00E31E57 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/Mac/RxCocoa.framework; sourceTree = "<group>"; };
@@ -106,6 +108,8 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */,
+				6912C6911DFEB45400B64817 /* BSD.framework */,
 				696598451DF2A03A00E31E57 /* Yaml.framework */,
 				6965983F1DF17DDC00E31E57 /* RxBlocking.framework */,
 				696598401DF17DDC00E31E57 /* RxCocoa.framework */,

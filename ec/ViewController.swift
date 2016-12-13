@@ -109,6 +109,9 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
             case .none:
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
+        case .win():
+            let fileFolderPath = self.workingFolder()
+            Util.startWin(workingFolder: fileFolderPath)
         }
     }
 

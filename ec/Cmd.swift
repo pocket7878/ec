@@ -60,4 +60,5 @@ enum ECCmd {
     case look(String)
     case lookback(String)
     case external(String, ExternalExecType)
+    case win()
 }
