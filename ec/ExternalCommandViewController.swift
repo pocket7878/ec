@@ -124,7 +124,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
         case .win():
-            Util.startWin(workingFolder: self.workingFolder())
+            OperationQueue().addOperation({ 
+                Util.startWin(workingFolder: self.workingFolder())
+            })
         }
     }
     

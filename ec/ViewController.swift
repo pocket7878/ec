@@ -110,8 +110,10 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
                 Util.runExternalCommand(str, inputString: nil, fileFolderPath: fileFolderPath)
             }
         case .win():
-            let fileFolderPath = self.workingFolder()
-            Util.startWin(workingFolder: fileFolderPath)
+            OperationQueue().addOperation({ () -> Void in
+                let fileFolderPath = self.workingFolder()
+                Util.startWin(workingFolder: fileFolderPath)
+            })
         }
     }
 
