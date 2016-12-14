@@ -10,6 +10,7 @@ import Foundation
 import Cocoa
 
 class Util {
+    
     class func getShell() -> String {
         let env = ProcessInfo.processInfo.environment
         if let value = env["SHELL"] {
@@ -33,8 +34,7 @@ class Util {
         var output : [String] = []
         
         let task = Process()
-        var ax = ["-l", "-c", cmd]
-        ax.append(contentsOf: args)
+        var ax = ["-l", "-c", ([cmd] + args).joined(separator: " ")]
         task.launchPath = Util.getShell()
         task.arguments = ax
         if let wdir = wdir {
@@ -76,8 +76,7 @@ class Util {
         var error : [String] = []
         
         let task = Process()
-        var ax = ["-l", "-c", cmd]
-        ax.append(contentsOf: args)
+        var ax = ["-l", "-c", ([cmd] + args).joined(separator: " ")]
         task.launchPath = Util.getShell()
         task.arguments = ax
         if let wdir = wdir {

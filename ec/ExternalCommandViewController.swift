@@ -189,6 +189,8 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             appDelegate.commandWCs["\(self.workingDir) \(self.command)+Errors"] = nil
         }
-        cmdTask.waitUntilExit()
+        if let cmdtask = self.cmdTask {
+            cmdtask.terminate()
+        }
     }
 }
