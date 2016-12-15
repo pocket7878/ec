@@ -26,7 +26,7 @@ indirect enum Addr {
 }
 
 struct FileAddr {
-    let filepath: String
+    let filepath: String?
     let addr: Addr?
 }
 
@@ -60,5 +60,6 @@ enum ECCmd {
     case look(String)
     case lookback(String)
     case external(String, ExternalExecType)
+    case jumpAddr(Addr)
     case win()
 }

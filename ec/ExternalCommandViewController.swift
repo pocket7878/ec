@@ -115,6 +115,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             commandOutputView.findString(str)
         case ECCmd.lookback(let str):
             commandOutputView.findBackwardString(str)
+        case ECCmd.jumpAddr(let addr):
+            try runECCmd(ECCmd.edit(CmdLine(adders: [addr], cmd: nil)))
+            commandOutputView.moveMouseCursorToSelectedRange()
         case .external(let str, let execType):
             var fileFolderPath: String? = self.workingDir
             switch(execType) {
@@ -148,20 +151,27 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     
     //MARK: ECTextViewSelectionDelegate
     func onFileAddrSelection(_ fileAddr: FileAddr, by: NSEvent) {
-        NSDocumentController.shared().openDocument(
-            withContentsOf: URL(fileURLWithPath: fileAddr.filepath),
-            display: false) { (newdoc, alreadyp, _) in
-                if let newdoc = newdoc {
-                    if let ecdoc = newdoc as? ECDocument {
-                        ecdoc.jumpAddr = fileAddr.addr
+        if let filePath = fileAddr.filepath {
+            NSDocumentController.shared().openDocument(
+                withContentsOf: URL(fileURLWithPath: filePath),
+                display: false) { (newdoc, alreadyp, _) in
+                    if let newdoc = newdoc {
+                        if let ecdoc = newdoc as? ECDocument {
+                            ecdoc.jumpAddr = fileAddr.addr
+                        }
+                        if !alreadyp {
+                            newdoc.makeWindowControllers()
+                        }
+                        newdoc.showWindows()
+                    } else {
+                        NSLog("Failed to open file")
                     }
-                    if !alreadyp {
-                        newdoc.makeWindowControllers()
-                    }
-                    newdoc.showWindows()
-                } else {
-                    NSLog("Failed to open file")
-                }
+            }
+        } else if let addr = fileAddr.addr {
+            do {
+                try self.runECCmd(ECCmd.jumpAddr(addr))
+            } catch {
+            }
         }
     }
     

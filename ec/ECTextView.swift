@@ -60,97 +60,111 @@ class ECTextView: CodeTextView {
     }
     
     //MARK: Expand Selection
+    func resolveFilePath(_ filename: String) -> String? {
+        if let workingFolder = self.workingFolderDataSource?.workingFolder() {
+            let fileManager = FileManager.default
+            var filePath = ""
+            if filename.hasPrefix("/") {
+                filePath = filename
+            } else {
+                filePath = workingFolder.appendingPathComponent(filename)
+            }
+            if fileManager.fileExists(atPath: filePath) {
+                return filePath
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     func expandFile(_ charIdx: Int) -> FileAddr? {
         if let charview = self.string?.characters {
-            var topIndex = charview.index(charview.startIndex, offsetBy: charIdx)
-            while true {
-                let c = charview[topIndex]
-                if isFileChar(c) {
-                    if topIndex == charview.startIndex {
-                        break
+            
+            var baseIdx = charview.index(charview.startIndex, offsetBy: charIdx, limitedBy: charview.endIndex) ?? charview.index(before: charview.endIndex)
+            if baseIdx == charview.endIndex {
+                baseIdx = charview.index(before: charview.endIndex)
+            }
+            let baseChar = charview[baseIdx]
+            
+            var topIndex = baseIdx
+            if isFileChar(baseChar) {
+                while topIndex != charview.startIndex {
+                    let beforeIdx = charview.index(before: topIndex)
+                    let beforeChar = charview[beforeIdx]
+                    if isFileChar(beforeChar) {
+                        topIndex = beforeIdx
                     } else {
-                        topIndex = charview.index(before: topIndex)
+                        break
                     }
-                } else {
-                    topIndex = charview.index(after: topIndex)
-                    break
                 }
             }
-            var bottomIndex = charview.index(charview.startIndex, offsetBy: charIdx)
-            while true {
-                let c = charview[bottomIndex]
-                if isFileChar(c) {
-                    if charview.index(after: bottomIndex) == charview.endIndex {
-                        break
-                    } else {
-                        bottomIndex = charview.index(after: bottomIndex)
-                    }
-                } else {
-                    bottomIndex = charview.index(before: bottomIndex)
-                    break
-                }
-            }
-            _ = charview.distance(from: charview.startIndex, to: topIndex)
-            if topIndex >= bottomIndex {
+            
+            if topIndex == charview.endIndex {
                 return nil
             } else {
-                let q0 = topIndex
-                var q1 = topIndex
-                //Separate before colon and after colon
-                for var i in charview.indices[topIndex ... bottomIndex] {
-                    let c = charview[i]
-                    q1 = i
-                    if c == ":" {
-                        if i == topIndex {
-                            return nil
+                var colon: String.CharacterView.Index? = nil
+                var fileBottomIndex = topIndex
+                let topChar = charview[topIndex]
+                if topChar != ":" {
+                    while fileBottomIndex != charview.index(before: charview.endIndex) {
+                        let nextIdx = charview.index(after: fileBottomIndex)
+                        let nextChar = charview[nextIdx]
+                        if isFileChar(nextChar), nextChar != ":" {
+                            fileBottomIndex = nextIdx
+                        } else if isFileChar(nextChar), nextChar == ":" {
+                            colon = nextIdx
+                            break
                         } else {
-                            q1 = charview.index(before: i)
                             break
                         }
                     }
+                } else {
+                    colon = topIndex
                 }
-                let filename = self.string?.substring(with: self.string!.index(q0, offsetBy: 0) ..< self.string!.index(q1, offsetBy: 1))
-                var addrStr: String? = nil
-                let amin = charview.index(q1, offsetBy: 2, limitedBy: charview.endIndex)
-                var amax: String.CharacterView.Index? = nil
-                if let amin = amin, amin <= bottomIndex {
-                    for i in charview.indices[amin ... bottomIndex] {
-                        let c: Character = charview[i]
-                        amax = i
-                        if !(isAddrChar(c) || isRegexChar(c)) {
-                            amax = charview.index(before: amax!)
-                            break
-                        }
-                    }
-                    addrStr = self.string?.substring(with: self.string!.index(amin, offsetBy: 0) ..< self.string!.index(amax!, offsetBy: 1))
-                }
-                if let filename = filename,
-                    let workingFolder = workingFolderDataSource?.workingFolder() {
-                    let fileManager = FileManager.default
-                    var filePath: String = ""
-                    if filename.hasPrefix("/") {
-                        filePath = filename
+                //Get File Path
+                var filePath: String? = nil
+                if colon != topIndex,
+                    fileBottomIndex >= topIndex,
+                    let filename = self.string?.substring(with: topIndex ..< charview.index(after: fileBottomIndex)) {
+                    if let resolvedPath = resolveFilePath(filename) {
+                        filePath = resolvedPath
                     } else {
-                        filePath = workingFolder.appendingPathComponent(filename)
-                    }
-                    if fileManager.fileExists(atPath: filePath) {
-                        if let addrStr = addrStr {
-                            do {
-                                let res = try addrParser.run(
-                                    userState: (),
-                                    sourceName: "addrStr",
-                                    input: addrStr)
-                                let addr = res
-                                return FileAddr(filepath: filePath, addr: addr)
-                            } catch {
-                                return nil
-                            }
-                        } else {
-                            return FileAddr(filepath: filePath, addr: nil)
-                        }
-                    } else {
+                        NSLog("File \(filename) not found")
                         return nil
                     }
+                }
+                //Get address if colon is exists
+                var addr: Addr? = nil
+                if let colon = colon, colon != charview.index(before: charview.endIndex) {
+                    let addressTopIndex = charview.index(after: colon)
+                    let addressTopChar = charview[addressTopIndex]
+                    var addressBottomIndex = addressTopIndex
+                    if isAddrChar(addressTopChar) || isRegexChar(addressTopChar) {
+                        while addressBottomIndex != charview.index(before: charview.endIndex) {
+                            let nextIdx = charview.index(after: addressBottomIndex)
+                            let nextChar = charview[nextIdx]
+                            if isAddrChar(nextChar) || isRegexChar(nextChar) {
+                                addressBottomIndex = nextIdx
+                            } else {
+                                break
+                            }
+                        }
+                    }
+                    if addressBottomIndex >= addressTopIndex,
+                        let addrStr = self.string?.substring(with: addressTopIndex ..< charview.index(after: addressBottomIndex)) {
+                        do {
+                            addr = try addrParser.run(sourceName: "addrStr", input: addrStr)
+                        } catch {
+                            NSLog("\(error)")
+                            return nil
+                        }
+                    }
+                }
+                
+                if filePath != nil || addr != nil {
+                    return FileAddr(filepath: filePath, addr: addr)
                 } else {
                     return nil
                 }
