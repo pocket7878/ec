@@ -79,6 +79,79 @@ class ECTextView: CodeTextView {
         }
     }
     
+    func parseFileAddr(str: String) -> FileAddr? {
+        let charview = str.characters
+        let topIndex = charview.startIndex
+        let topChar = charview[topIndex]
+        if isFileChar(topChar) {
+            var colon: String.CharacterView.Index? = nil
+            var fileBottomIndex = topIndex
+            if topChar != ":" {
+                while fileBottomIndex != charview.index(before: charview.endIndex) {
+                    let nextIdx = charview.index(after: fileBottomIndex)
+                    let nextChar = charview[nextIdx]
+                    if isFileChar(nextChar), nextChar != ":" {
+                        fileBottomIndex = nextIdx
+                    } else if isFileChar(nextChar), nextChar == ":" {
+                        colon = nextIdx
+                        break
+                    } else {
+                        break
+                    }
+                }
+            } else {
+                colon = topIndex
+            }
+            //Get File Path
+            var filePath: String? = nil
+            if colon != topIndex,
+                fileBottomIndex >= topIndex {
+                let filename = str.substring(with: topIndex ..< charview.index(after: fileBottomIndex))
+                if let resolvedPath = resolveFilePath(filename) {
+                    filePath = resolvedPath
+                } else {
+                    NSLog("File \(filename) not found")
+                    return nil
+                }
+            }
+            //Get address if colon is exists
+            var addr: Addr? = nil
+            if let colon = colon, colon != charview.index(before: charview.endIndex) {
+                let addressTopIndex = charview.index(after: colon)
+                let addressTopChar = charview[addressTopIndex]
+                var addressBottomIndex = addressTopIndex
+                if isAddrChar(addressTopChar) || isRegexChar(addressTopChar) {
+                    while addressBottomIndex != charview.index(before: charview.endIndex) {
+                        let nextIdx = charview.index(after: addressBottomIndex)
+                        let nextChar = charview[nextIdx]
+                        if isAddrChar(nextChar) || isRegexChar(nextChar) {
+                            addressBottomIndex = nextIdx
+                        } else {
+                            break
+                        }
+                    }
+                }
+                if addressBottomIndex >= addressTopIndex {
+                    let addrStr = str.substring(with: addressTopIndex ..< charview.index(after: addressBottomIndex))
+                    do {
+                        addr = try addrParser.run(sourceName: "addrStr", input: addrStr)
+                    } catch {
+                        NSLog("\(error)")
+                        return nil
+                    }
+                }
+            }
+            
+            if filePath != nil || addr != nil {
+                return FileAddr(filepath: filePath, addr: addr)
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     func expandFile(_ charIdx: Int) -> FileAddr? {
         if let charview = self.string?.characters {
             
@@ -277,8 +350,13 @@ class ECTextView: CodeTextView {
             if selectedRange.length > 0 && (self.dragged || inSelectionRange) {
                 if let str = self.string {
                     let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
-                    self.setSelectedRange(selectedRange)
-                    self.selectionDelegate?.onRightMouseSelection(selectedStr, by: theEvent)
+                    if let fileAddr = self.parseFileAddr(str: selectedStr) {
+                        self.setSelectedRange(selectedRange)
+                        self.selectionDelegate?.onFileAddrSelection(fileAddr, by: theEvent)
+                    } else {
+                        self.setSelectedRange(selectedRange)
+                        self.selectionDelegate?.onRightMouseSelection(selectedStr, by: theEvent)
+                    }
                 }
             } else {
                 if let str = self.string {

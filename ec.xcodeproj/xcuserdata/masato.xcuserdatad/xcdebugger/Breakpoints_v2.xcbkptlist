@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503474761.582611"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
             <Locations>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
             <Locations>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ECTextView.swift"
-            timestampString = "503482600.810253"
+            timestampString = "503556491.834621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "expandFile(_:)"
             landmarkType = "7">
          </BreakpointContent>
