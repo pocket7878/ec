@@ -5,3 +5,11 @@ body {
 footer {
     background: #E4FEFF;
 }
+
+section {
+    background: #E4FEFF;
+    padding: 10px;
+    border: 1px solid #7d7dc5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -104,6 +104,10 @@ let addrParser: GenericParser<String, (), Addr> = composeAddrParser.attempt <|> 
  * Command Parser
  */
 
+let systemCommandStringParser: GenericParser<String, (), String> = (StringParser.noneOf("\n").many.stringValue >>- { str in
+    return GenericParser(result: str)
+    })
+
 let patternStrOrMultilineParser: GenericParser<String, (), String> = ((patternLikeParser >>- { pat in
     return GenericParser(result: pat.pat)
     }) <|>
@@ -150,16 +154,16 @@ let vCmdParser: GenericParser<String, (), Cmd> = StringParser.character("v") *> 
     }
     })
 
-let pipeCmdParser: GenericParser<String, (), Cmd> = StringParser.character("|") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.external(pat.pat, .pipe))
+let pipeCmdParser: GenericParser<String, (), Cmd> = StringParser.character("|") *> (systemCommandStringParser >>- { str in
+    return GenericParser(result: Cmd.external(str, .pipe))
     })
 
-let inputCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.external(pat.pat, .input))
+let inputCmdParser: GenericParser<String, (), Cmd> = StringParser.character("<") *> (systemCommandStringParser >>- { str in
+    return GenericParser(result: Cmd.external(str, .input))
     })
 
-let outputCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (patternLikeParser >>- { pat in
-    return GenericParser(result: Cmd.external(pat.pat, .output))
+let outputCmdParser: GenericParser<String, (), Cmd> = StringParser.character(">") *> (systemCommandStringParser >>- { str in
+    return GenericParser(result: Cmd.external(str, .output))
     })
 
 let groupCmdParser: GenericParser<String, (), Cmd> = cmdLineParser.separatedBy(StringParser.endOfLine).between(StringParser.character("{"), StringParser.character("}")) >>- { cmds in
@@ -190,10 +194,6 @@ let lookBackCommandParser: GenericParser<String, (), ECCmd> = StringParser.strin
 }
 
 //MARK: External Command
-let systemCommandStringParser: GenericParser<String, (), String> = (StringParser.noneOf("\n").many.stringValue >>- { str in
-    return GenericParser(result: str)
-})
-
 let systemCommandParser: GenericParser<String, (), ECCmd> = (systemCommandStringParser >>- { str in
     if str == "win" {
         return GenericParser(result: ECCmd.win())

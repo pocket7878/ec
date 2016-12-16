@@ -9,17 +9,17 @@
     </head>
     <body>
         <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6286ade715e9bea433b4705870de482a654f78a/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_white_ffffff.png"></a>
-        <div class="container">
+        <article class="container">
             <div class="row" id="header_row">
                 <h1>Ec</h1>
             </div>
-            <div class="row">
-                <img class="u-max-full-width" src="images/main_shot.png">
-            </div>
-            <div class="row">
+            <img class="u-max-full-width" src="images/main_shot.png">
+            <section class="row">
                 <h2>What is this?</h2>
-                Simple text editor inspired by Plan9 text editors (Sam & Acme) for macOS
-                <h3>Conect</h3>
+                <p>Simple text editor inspired by Plan9 text editors (Sam & Acme) for macOS</p>
+            </section>
+            <section class="row">
+                <h3>Concept</h3>
                 <ul>
                     <li>Offer very simple text editing features in core.</li>
                     <li>Use mouse</li>
@@ -27,7 +27,178 @@
                     <li>Use command language to edit text.</li>
                     <li>Use platform native toolkits instead of reimplement it.</li>
                 </ul>
-            </div>
-        </div>
+            </section>
+            <section class="row">
+                <h3>Mouse Action</h3>
+                <p>Ec support right-click, left-click action on Acme(Sorry mouse-chords is not yet implemented..)</p>
+                <ul>
+                    <li>Right-click to open file(and jump addr) or Look string in body</li>
+                    <li><b>Shift + Right-click</b> to open file(and jump addr) or <b>LookBack</b> string in body</li>
+                    <li>Middle-Click to Execute Command</li>
+                </ul>
+            </section>
+            <section class="row"> 
+                <h3>Command Language</h3>
+                <p>Ec support basic acme(sam) command and add some extensions.<p>
+                <table>
+                    <tr>
+                        <th>Command</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td>Edit <i>EditCommand</i></td>
+                        <td>Apply <i>EditCommand</i> to document body</td>
+                    </tr>
+                    <tr>
+                        <td>Look <i>text</i></td>
+                        <td>Forward search <i>text</i></td>
+                    </tr>
+                    <tr>
+                        <td><b>LookBack</b> <i>text</i></td>
+                        <td>Backward search <i>text</i></td>
+                    </tr>
+                    <tr>
+                        <td>win</td>
+                        <td>Launch terminal on current document directory<td>
+                    </tr>
+                    <tr>
+                        <td>| <i>Unix-command</i></td>
+                        <td>Replace dot by result of command applied to dot</td>
+                    </tr>
+                    <tr>
+                        <td>&gt; <i>Unix-command</i> </td>
+                        <td>Send dot to standard input of command</td>
+                    </tr>
+                    <tr>
+                        <td>&lt; <i>Unix-command</i> </td>
+                        <td>Replace dot by standard output of command</td>
+                    </tr>
+                </table>
+            </section>
+            <section class="row">
+                <h4>Simple Address</h4>
+                <table>                     <tr>
+                        <th>Address</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td><i>Number</i></td>
+                        <td>Line number</td>
+                    </tr>
+                    <tr>
+                        <td>+<i>Number</i></td>
+                        <td>Relative line number</td>
+                    </tr>
+                    <tr>
+                        <td>-<i>Number</i></td>
+                        <td>Relative line number</td>
+                    </tr>
+                    <tr>
+                        <td>/<i>regexp</i>/</td>
+                        <td>The first following match of regexp</td>
+                    </tr>
+                    <tr>
+                        <td>+</i>regexp</i>/</td>
+                        <td>The first following match of regexp</td>
+                    </tr>
+                    <tr>
+                        <td>+</i>regexp</i>/</td>
+                        <td>The first previous match of regexp</td>
+                    </tr>
+                    <tr>
+                        <td>$</td>
+                        <td>The end of the file</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>The head of the file</td>
+                    </tr>
+                    <tr>
+                        <td>.</td>
+                        <td>Dot</td>
+                    </tr>
+                </table>
+                <h4>Compound addresses</h4>
+                <table>
+                    <tr>
+                        <th>Address</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td><i>a1</i>,<i>a2</i></td>
+                        <td>From left of <i>a1</i> to the right of <i>a2</i></td>
+                    </tr>
+                    <tr>
+                        <td><i>a1</i>+<i>a2</i></td>
+                        <td>The address <i>a2</i> evaluated starting at right of <i>a1</i></td>
+                    </tr>
+                    <tr>
+                        <td><i>a1</i>-<i>a2</i></td>
+                        <td><i>a2</i> evaluated in the reverse direction starting at left of <i>a1</i></td>
+                    </tr>
+                </table>
+            </section>
+            <section class="row">
+                <h4>Edit Commands</h4>
+                <table>
+                    <tr>
+                        <th>Command</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td>a/<i>text</i>/</td>
+                        <td>Append text after dot</td>
+                    </tr>
+                    <tr>
+                        <td>i/<i>text</i>/</td>
+                        <td>Insert text after dot</td>
+                    </tr>
+                    <tr>
+                        <td>c/<i>text</i>/</td>
+                        <td>Change text in dot</td>
+                    </tr>
+                    <tr>
+                        <td>d</td>
+                        <td>Delete text in dot</td>
+                    </tr>
+                    <tr>
+                        <td>a/<i>text</i>/</td>
+                        <td>Append text after dot</td>
+                    </tr>
+                    <tr>
+                        <td>x/<i>regexp</i>/ <i>command</i></td>
+                        <td>For each match of regexp, set dot and run command</td>
+                    </tr>
+                    <tr>
+                        <td>y/<i>regexp</i>/ <i>command</i></td>
+                        <td>Between adjecent matches of regexp, set dot and run command</td>
+                    </tr>
+                    <tr>
+                        <td>g/<i>regexp</i>/ <i>command</i></td>
+                        <td>If dot contains matche of regexp, run command</td>
+                    </tr>
+                    <tr>
+                        <td>v/<i>regexp</i>/ <i>command</i></td>
+                        <td>If dot does not contain a match of regexp, run command</td>
+                    </tr>
+                    <tr>
+                        <td>| <i>Unix-command</i></td>
+                        <td>Replace dot by result of command applied to dot</td>
+                    </tr>
+                    <tr>
+                        <td>&gt; <i>Unix-command</i> </td>
+                        <td>Send dot to standard input of command</td>
+                    </tr>
+                    <tr>
+                        <td>&lt; <i>Unix-command</i> </td>
+                        <td>Replace dot by standard output of command</td>
+                    </tr>
+                    <tr>
+                        <td>{ <i>commands</i> }</td>
+                        <td>Group of commands</td>
+                    </tr>
+                </table>
+            </section>
+        </article>
     </body>
 </html>
