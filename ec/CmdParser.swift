@@ -175,7 +175,7 @@ let cmdParser: GenericParser<String, (), Cmd> = aCmdParser <|> iCmdParser <|> cC
 let addrsParser: GenericParser<String, (), [Addr]> = addrParser.many
 
 let cmdLineParser: GenericParser<String, (), CmdLine> = (StringParser.spaces *> addrsParser) >>- { addrs in
-    (cmdParser >>- { cmd in
+    (StringParser.spaces *> cmdParser >>- { cmd in
         return GenericParser(result: CmdLine(adders: addrs, cmd: cmd))
         }) <|> GenericParser(result: CmdLine(adders: addrs, cmd: nil))
 }
