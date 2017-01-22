@@ -25,5 +25,6 @@ More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
 
 ## TODO
 
+- Allow file path based setting
 - Allow custom pattern matching on right-mouse-selection
 - Suport mouse chording (cut, snarf, paste)
