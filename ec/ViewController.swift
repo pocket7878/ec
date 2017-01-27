@@ -8,13 +8,16 @@
 
 import Cocoa
 import SnapKit
+import RxSwift
 
 class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegate, ECTextViewSelectionDelegate , NSWindowDelegate, WorkingFolderDataSource, SnapshotContentsDataSource {
 
-    @IBOutlet var mainTextView: ECTextView!
-    @IBOutlet var cmdTextView: ECTextView!
+    @IBOutlet var mainTextView: ECMainTextView!
+    @IBOutlet var cmdTextView: ECSubTextView!
     
     var doc: ECDocument?
+    let disposeBag = DisposeBag()
+    var pref: Variable<Preference?> = Variable(nil)
     
     var editWC: NSWindowController?
     
@@ -23,7 +26,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         
         mainTextView.usesFindBar = true
         mainTextView.isIncrementalSearchingEnabled = true
-        mainTextView.font = Preference.font
         mainTextView.selectionDelegate = self
         mainTextView.isAutomaticTextReplacementEnabled = false
         mainTextView.isAutomaticLinkDetectionEnabled = false
@@ -32,13 +34,9 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         mainTextView.isAutomaticQuoteSubstitutionEnabled = false
         mainTextView.isAutomaticSpellingCorrectionEnabled = false
         mainTextView.workingFolderDataSource = self
-        mainTextView.backgroundColor = Preference.mainBgColor
-        mainTextView.textColor = Preference.mainFgColor
-        mainTextView.insertionPointColor = Preference.mainFgColor
         
         cmdTextView.usesFindBar = true
         cmdTextView.isIncrementalSearchingEnabled = true
-        cmdTextView.font = Preference.font
         cmdTextView.selectionDelegate = self
         cmdTextView.isAutomaticTextReplacementEnabled = false
         cmdTextView.isAutomaticLinkDetectionEnabled = false
@@ -48,9 +46,6 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
         cmdTextView.isAutomaticSpellingCorrectionEnabled = false
         cmdTextView.workingFolderDataSource = self
         cmdTextView.translatesAutoresizingMaskIntoConstraints = true
-        cmdTextView.backgroundColor = Preference.subBgColor
-        cmdTextView.textColor = Preference.subFgColor
-        cmdTextView.insertionPointColor = Preference.subFgColor
         
         if let scrollView = mainTextView.enclosingScrollView {
             let rulerView = LineNumberRulerView(textView: mainTextView)
@@ -59,6 +54,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
             scrollView.hasHorizontalRuler = false
             scrollView.rulersVisible = true
         }
+        
+        pref.asObservable()
+            .subscribe(onNext: { pref in
+                if let pref = pref {
+                    self.mainTextView.reloadPreference(pref: pref)
+                    self.cmdTextView.reloadPreference(pref: pref)
+                }
+            })
+        .addDisposableTo(disposeBag)
     }
 
     override var representedObject: Any? {
@@ -69,8 +73,8 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     //MARK: Sync with ECDcoument
     func loadDoc() {
         if let doc = self.doc {
+            self.pref.value = doc.pref
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
-            mainTextView.font = Preference.font
             doc.snapshotContentDataSource = self
         }
     }

@@ -9,6 +9,7 @@
 import Foundation
 import Cocoa
 import AppKit
+import RxSwift
 
 protocol ECTextViewSelectionDelegate: class {
     func onFileAddrSelection(_ fileAddr: FileAddr, by: NSEvent)
@@ -31,32 +32,50 @@ class ECTextView: CodeTextView {
     weak var selectionDelegate: ECTextViewSelectionDelegate?
     weak var workingFolderDataSource: WorkingFolderDataSource?
     
+    let pref: Variable<Preference?> = Variable(nil)
+    let disposeBag = DisposeBag()
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setDefaultSelectionAttributes()
+        pref.asObservable()
+            .subscribe(onNext: { pref in
+                if pref != nil {
+                    self.setDefaultSelectionAttributes()
+                }
+            })
+            .addDisposableTo(disposeBag)
     }
     
     
     //Selected color setup
     func setDefaultSelectionAttributes() {
-        self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: Preference.leftBgColor,
-            NSForegroundColorAttributeName: Preference.leftFgColor
-        ]
+        if let bg = pref.value?.leftBgColor,
+            let fg = pref.value?.leftFgColor {
+            self.selectedTextAttributes = [
+                NSBackgroundColorAttributeName: bg,
+                NSForegroundColorAttributeName: fg
+            ]
+        }
     }
     
     func setRightSelectionAttributes() {
-        self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: Preference.rightBgColor,
-            NSForegroundColorAttributeName: Preference.rightFgColor
-        ]
+        if let bg = pref.value?.rightBgColor,
+            let fg = pref.value?.rightFgColor {
+            self.selectedTextAttributes = [
+                NSBackgroundColorAttributeName: bg,
+                NSForegroundColorAttributeName: fg
+            ]
+        }
     }
     
     func setOtherSelectionAttributes() {
-        self.selectedTextAttributes = [
-            NSBackgroundColorAttributeName: Preference.otherBgColor,
-            NSForegroundColorAttributeName: Preference.otherFgColor
-        ]
+        if let bg = pref.value?.otherBgColor,
+            let fg = pref.value?.otherFgColor {
+            self.selectedTextAttributes = [
+                NSBackgroundColorAttributeName: bg,
+                NSForegroundColorAttributeName: fg
+            ]
+        }
     }
     
     //MARK: Expand Selection
@@ -459,22 +478,22 @@ class ECTextView: CodeTextView {
         let nl = replacementString.detectNewLineType()
         if nl != .none || nl != .lf {
             var newString = replacementString.stringByReplaceNewLineCharacterWith(.lf)
-            if (Preference.expandTab) {
-                newString = newString.stringByExpandTab(Preference.tabWidth)
+            if let expandTab = pref.value?.expandTab, expandTab, let tabWidth = pref.value?.tabWidth {
+                newString = newString.stringByExpandTab(tabWidth)
             }
             return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
         }
         
         var newString = replacementString
-        if (Preference.expandTab) {
-            newString = newString.stringByExpandTab(Preference.tabWidth)
+        if let expandTab = pref.value?.expandTab, expandTab, let tabWidth = pref.value?.tabWidth {
+            newString = newString.stringByExpandTab(tabWidth)
         }
         return super.shouldChangeText(in: affectedCharRange, replacementString: newString)
     }
     
     override func insertTab(_ sender: Any?) {
-        if (Preference.expandTab) {
-            let tabWidth = Preference.tabWidth
+        if let expandTab = pref.value?.expandTab, expandTab, let tabWidth = pref.value?.tabWidth {
+            let tabWidth = tabWidth
             let spaces = String(repeating: " ", count: tabWidth)
             self.insertText(spaces)
         } else {
@@ -487,7 +506,7 @@ class ECTextView: CodeTextView {
             return super.insertNewline(sender)
         }
         
-        if !Preference.autoIndent {
+        if let autoIndent = pref.value?.autoIndent, !autoIndent {
             return super.insertNewline(sender)
         }
         

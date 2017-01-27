@@ -21,7 +21,6 @@
 		696598481DF2A90200E31E57 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696598471DF2A90200E31E57 /* NSColorExtension.swift */; };
 		6965984A1DF2B55200E31E57 /* ECMainTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696598491DF2B55200E31E57 /* ECMainTextView.swift */; };
 		6965984C1DF2B7E600E31E57 /* ECSubTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */; };
-		6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -61,7 +60,6 @@
 		696598471DF2A90200E31E57 /* NSColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColorExtension.swift; sourceTree = "<group>"; };
 		696598491DF2B55200E31E57 /* ECMainTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECMainTextView.swift; sourceTree = "<group>"; };
 		6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSubTextView.swift; sourceTree = "<group>"; };
-		6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceEntry.swift; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				69C71ECC1D2AB9980023A48E /* Preference.swift */,
-				6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */,
 			);
 			name = Preference;
 			sourceTree = "<group>";
@@ -324,7 +321,6 @@
 				69C71ECD1D2AB9980023A48E /* Preference.swift in Sources */,
 				695419801D30BA360099C34D /* Tagger.swift in Sources */,
 				699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */,
-				6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */,
 				699A03701D24C943005A9FE7 /* ECDocument.swift in Sources */,
 				6965984A1DF2B55200E31E57 /* ECMainTextView.swift in Sources */,
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,

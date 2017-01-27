@@ -18,23 +18,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         //Load Yaml If Exists
         let settingFilePath = Preference.preferenceFilePath
-        if FileManager.default.fileExists(atPath: settingFilePath) {
-            do {
-                let yamlStr = try String(NSString(contentsOfFile: settingFilePath, encoding: String.Encoding.utf8.rawValue))
-                let yaml = try Yaml.load(yamlStr)
-                Preference.loadYaml(yaml)
-            } catch {
-                NSLog("\(error)")
-            }
-        } else {
+        if !FileManager.default.fileExists(atPath: settingFilePath) {
             FileManager.default.createFile(atPath: settingFilePath, contents: nil, attributes: nil)
-            do {
-                let yamlStr = try String(NSString(contentsOfFile: settingFilePath, encoding: String.Encoding.utf8.rawValue))
-                let yaml = try Yaml.load(yamlStr)
-                Preference.loadYaml(yaml)
-            } catch {
-                NSLog("\(error)")
-            }
         }
     }
 

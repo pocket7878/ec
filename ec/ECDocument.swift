@@ -10,6 +10,7 @@ import Foundation
 import AppKit
 import Cocoa
 import RxSwift
+import Yaml
 
 protocol SnapshotContentsDataSource: class {
     func snapshotContent() -> NSAttributedString
@@ -24,6 +25,18 @@ class ECDocument: NSDocument {
     
     var isDirectoryDocument: Bool = false
     let disposeBag = DisposeBag()
+    var pref: Preference!
+    
+    override init() {
+        super.init()
+        do {
+            let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
+            let yaml = try Yaml.load(yamlStr)
+            self.pref = Preference.loadDefaultYaml(yaml)
+        } catch {
+            NSLog("\(error)")
+        }
+    }
     
     override class func autosavesInPlace() -> Bool {
         return false
@@ -74,6 +87,13 @@ class ECDocument: NSDocument {
         switch(typeName) {
         case "public.folder":
             self.isDirectoryDocument = true
+            do {
+                let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
+                let yaml = try Yaml.load(yamlStr)
+                self.pref = Preference.loadYaml(yaml, for: url.path)
+            } catch {
+                NSLog("\(error)")
+            }
             do{
                 let fileManager = FileManager.default
                 var childrens: [String] = []
@@ -90,7 +110,7 @@ class ECDocument: NSDocument {
                 self.hasUndoManager = false
                 self.newLineType = .lf
                 let mutStr = NSMutableAttributedString(string: childrens.joined(separator: "\n"),
-                                                       attributes: [NSForegroundColorAttributeName: Preference.mainFgColor])
+                                                       attributes: [NSForegroundColorAttributeName: pref.mainFgColor])
                 self.contentOfFile = mutStr
             } catch {
                 NSLog("\(error)")
@@ -98,11 +118,21 @@ class ECDocument: NSDocument {
             }
         default:
             do {
+                let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
+                let yaml = try Yaml.load(yamlStr)
+                self.pref = Preference.loadYaml(yaml, for: url.path)
+            } catch {
+                NSLog("\(error)")
+            }
+            do {
                 let attrStr = try NSMutableAttributedString(
                     url: url,
                     options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
                     documentAttributes: nil)
-                attrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, attrStr.length))
+                attrStr.addAttributes([
+                    NSForegroundColorAttributeName: pref.mainFgColor,
+                    NSFontAttributeName: pref.font
+                ], range: NSMakeRange(0, attrStr.length))
                 let newLineType = attrStr.string.detectNewLineType()
                 if newLineType != .none {
                     self.newLineType = newLineType
