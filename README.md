@@ -13,6 +13,10 @@ Simple text editor inspired by plan9 text editors concepts.
 - Use command language to edit text.
 - Use platform native toolkits instead of reimplement it.
 
+## Usage
+
+see [document](https://pocket7878.github.io/ec/)
+
 ## Screenshot
 
 [![https://gyazo.com/e16f941e71f045c4128530948804ea9b](https://i.gyazo.com/e16f941e71f045c4128530948804ea9b.png)](https://gyazo.com/e16f941e71f045c4128530948804ea9b)
@@ -21,5 +25,6 @@ More screenshots in [wiki](https://github.com/pocket7878/ec/wiki/Screen-Shots)
 
 ## TODO
 
+- Allow file path based setting
+- Allow custom pattern matching on right-mouse-selection
 - Suport mouse chording (cut, snarf, paste)
-- Syntax highlighting?
