@@ -17,7 +17,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     
     var doc: ECDocument?
     let disposeBag = DisposeBag()
-    var pref: Variable<Preference?> = Variable(nil)
+    var pref: Observable<Preference?>!
     
     var editWC: NSWindowController?
     
@@ -55,15 +55,7 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
             scrollView.rulersVisible = true
         }
         
-        pref.asObservable()
-            .subscribe(onNext: { pref in
-                if let pref = pref {
-                    self.mainTextView.reloadPreference(pref: pref)
-                    self.cmdTextView.reloadPreference(pref: pref)
-                }
-            })
-        .addDisposableTo(disposeBag)
-    }
+            }
 
     override var representedObject: Any? {
         didSet {
@@ -73,7 +65,15 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
     //MARK: Sync with ECDcoument
     func loadDoc() {
         if let doc = self.doc {
-            self.pref.value = doc.pref
+            self.pref = doc.pref.asObservable()
+            self.pref
+                .subscribe(onNext: { pref in
+                    if let pref = pref {
+                        self.mainTextView.reloadPreference(pref: pref)
+                        self.cmdTextView.reloadPreference(pref: pref)
+                    }
+                })
+                .addDisposableTo(disposeBag)
             mainTextView.textStorage?.setAttributedString(doc.contentOfFile)
             doc.snapshotContentDataSource = self
         }

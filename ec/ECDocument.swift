@@ -25,14 +25,14 @@ class ECDocument: NSDocument {
     
     var isDirectoryDocument: Bool = false
     let disposeBag = DisposeBag()
-    var pref: Preference!
+    var pref: Variable<Preference?> = Variable(nil)
     
     override init() {
         super.init()
         do {
             let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
             let yaml = try Yaml.load(yamlStr)
-            self.pref = Preference.loadDefaultYaml(yaml)
+            self.pref.value = Preference.loadDefaultYaml(yaml)
         } catch {
             NSLog("\(error)")
         }
@@ -65,6 +65,26 @@ class ECDocument: NSDocument {
         }
     }
     
+    override var fileURL: URL? {
+        didSet {
+            guard self.fileURL != oldValue else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                do {
+                    let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
+                    let yaml = try Yaml.load(yamlStr)
+                    if let url = self?.fileURL {
+                        self?.pref.value = Preference.loadYaml(yaml, for: url.path)
+                    } else {
+                        self?.pref.value = Preference.loadDefaultYaml(yaml)
+                    }
+                } catch {
+                    NSLog("\(error)")
+                }
+            }
+        }
+    }
+    
     override func data(ofType typeName: String) throws -> Data {
         for win in self.windowControllers {
             if let vc = win.contentViewController as? ViewController {
@@ -90,7 +110,7 @@ class ECDocument: NSDocument {
             do {
                 let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
                 let yaml = try Yaml.load(yamlStr)
-                self.pref = Preference.loadYaml(yaml, for: url.path)
+                self.pref.value = Preference.loadYaml(yaml, for: url.path)
             } catch {
                 NSLog("\(error)")
             }
@@ -110,7 +130,13 @@ class ECDocument: NSDocument {
                 self.hasUndoManager = false
                 self.newLineType = .lf
                 let mutStr = NSMutableAttributedString(string: childrens.joined(separator: "\n"),
-                                                       attributes: [NSForegroundColorAttributeName: pref.mainFgColor])
+                                                       attributes: [:])
+                if let pre = pref.value {
+                    mutStr.addAttributes([
+                        NSForegroundColorAttributeName: pre.mainFgColor,
+                        NSFontAttributeName: pre.font
+                        ], range: NSMakeRange(0, mutStr.length))
+                }
                 self.contentOfFile = mutStr
             } catch {
                 NSLog("\(error)")
@@ -120,7 +146,7 @@ class ECDocument: NSDocument {
             do {
                 let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
                 let yaml = try Yaml.load(yamlStr)
-                self.pref = Preference.loadYaml(yaml, for: url.path)
+                self.pref.value = Preference.loadYaml(yaml, for: url.path)
             } catch {
                 NSLog("\(error)")
             }
@@ -129,10 +155,12 @@ class ECDocument: NSDocument {
                     url: url,
                     options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
                     documentAttributes: nil)
-                attrStr.addAttributes([
-                    NSForegroundColorAttributeName: pref.mainFgColor,
-                    NSFontAttributeName: pref.font
-                ], range: NSMakeRange(0, attrStr.length))
+                if let pre = pref.value {
+                    attrStr.addAttributes([
+                        NSForegroundColorAttributeName: pre.mainFgColor,
+                        NSFontAttributeName: pre.font
+                        ], range: NSMakeRange(0, attrStr.length))
+                }
                 let newLineType = attrStr.string.detectNewLineType()
                 if newLineType != .none {
                     self.newLineType = newLineType
