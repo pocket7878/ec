@@ -9,6 +9,7 @@
 import Foundation
 import Cocoa
 import AppKit
+import Yaml
 
 class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
     
@@ -22,6 +23,13 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        do {
+            let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
+            let yaml = try Yaml.load(yamlStr)
+            self.pref = Preference.loadDefaultYaml(yaml)
+        } catch {
+            NSLog("\(error)")
+        }
         
         commandOutputView.usesFindBar = true
         commandOutputView.isIncrementalSearchingEnabled = true
