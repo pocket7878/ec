@@ -55,7 +55,52 @@ class ViewController: NSViewController, NSTextStorageDelegate, NSTextViewDelegat
             scrollView.rulersVisible = true
         }
         
+        let mouseNotification = "MouseEvent"
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.mouseEventNotificationHandler(notification:)),
+                                               name: NSNotification.Name(rawValue: mouseNotification),
+                                               object: nil)
+    }
+    
+    func mouseEventNotificationHandler(notification: Notification) {
+        NSLog("Mouse Event Handler")
+        if let userInfo = notification.userInfo,
+            let eventType = userInfo["event_type"] as? CGEventType {
+            let cgevent = userInfo["event"] as! CGEvent
+            let nsevent = NSEvent(cgEvent: cgevent)
+            switch(eventType) {
+            case .leftMouseUp:
+                NSLog("left mouse up")
+                break
+            case .leftMouseDown:
+                NSLog("left mouse down")
+                break
+            case .rightMouseUp:
+                self.mainTextView.rightMouseUp(with: nsevent!)
+                self.cmdTextView.rightMouseUp(with: nsevent!)
+                NSLog("right mouse up")
+                break
+            case .rightMouseDown:
+                self.mainTextView.rightMouseDown(with: nsevent!)
+                self.cmdTextView.rightMouseDown(with: nsevent!)
+                NSLog("right mouse down")
+                break
+            case .otherMouseUp:
+                self.mainTextView.otherMouseUp(with: nsevent!)
+                self.cmdTextView.otherMouseUp(with: nsevent!)
+                NSLog("other mouse up")
+                break
+            case .otherMouseDown:
+                self.mainTextView.otherMouseDown(with: nsevent!)
+                self.cmdTextView.otherMouseDown(with: nsevent!)
+                NSLog("other mouse down")
+                break
+            default:
+                break
             }
+        }
+    }
 
     override var representedObject: Any? {
         didSet {

@@ -27,14 +27,16 @@ class ECTextView: CodeTextView {
     
     var selecting: Bool = false
     var dragged: Bool = false
-    var firstIdx: Int!
+    var firstIdx: Int?
     
     weak var selectionDelegate: ECTextViewSelectionDelegate?
     weak var workingFolderDataSource: WorkingFolderDataSource?
     
     let pref: Variable<Preference?> = Variable(nil)
     let disposeBag = DisposeBag()
-
+    
+    let leftHold: Variable<Bool> = Variable(false)
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         pref.asObservable()
@@ -45,7 +47,6 @@ class ECTextView: CodeTextView {
             })
             .addDisposableTo(disposeBag)
     }
-    
     
     //Selected color setup
     func setDefaultSelectionAttributes() {
@@ -175,7 +176,7 @@ class ECTextView: CodeTextView {
         if let charview = self.string?.characters {
             
             var baseIdx = charview.index(charview.startIndex, offsetBy: charIdx, limitedBy: charview.endIndex) ?? charview.index(before: charview.endIndex)
-            if baseIdx == charview.endIndex {
+            if baseIdx == charview.endIndex && baseIdx != charview.startIndex {
                 baseIdx = charview.index(before: charview.endIndex)
             }
             let baseChar = charview[baseIdx]
@@ -267,7 +268,8 @@ class ECTextView: CodeTextView {
     }
     
     func expandSelectionBy(_ charIdx: Int, checker: (Character) -> Bool) -> NSRange? {
-        if let charview = self.string?.characters {
+        if let str = self.string {
+            let charview = str.characters
             var topIndex = charview.index(charview.startIndex, offsetBy: charIdx)
             while true {
                 let c = charview[topIndex]
@@ -329,6 +331,7 @@ class ECTextView: CodeTextView {
             //Emulate other mouse down
             self.otherMouseDown(with: theEvent)
         } else {
+            self.leftHold.value = true
             super.mouseDown(with: theEvent)
         }
     }
@@ -341,6 +344,7 @@ class ECTextView: CodeTextView {
             //Emulate other mouse down
             self.otherMouseUp(with: theEvent)
         } else {
+            self.leftHold.value = false
             super.mouseUp(with: theEvent)
         }
     }
@@ -353,6 +357,7 @@ class ECTextView: CodeTextView {
             //Emulate other mouse down
             self.otherMouseDragged(with: theEvent)
         } else {
+            self.leftHold.value = true
             super.mouseDragged(with: theEvent)
         }
     }
@@ -378,7 +383,7 @@ class ECTextView: CodeTextView {
                     }
                 }
             } else {
-                if let str = self.string {
+                if let str = self.string, let firstIdx = firstIdx {
                     if let newRange = expandSelection(firstIdx, by: theEvent) {
                         self.setSelectedRange(newRange)
                         let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: newRange.location) ..< str.characters.index(str.startIndex, offsetBy: newRange.location + newRange.length))
@@ -391,13 +396,18 @@ class ECTextView: CodeTextView {
     }
     
     override func rightMouseDown(with theEvent: NSEvent) {
-        self.selecting = true
-        self.dragged = false
-        let winP = theEvent.locationInWindow
-        let pp = self.convert(winP, from: nil)
-        let rangeStartIndex = self.characterIndexForInsertion(at: pp)
-        self.firstIdx = rangeStartIndex
-        setRightSelectionAttributes()
+        if (leftHold.value) {
+            //DO Cut
+            self.paste(nil)
+        } else {
+            self.selecting = true
+            self.dragged = false
+            let winP = theEvent.locationInWindow
+            let pp = self.convert(winP, from: nil)
+            let rangeStartIndex = self.characterIndexForInsertion(at: pp)
+            self.firstIdx = rangeStartIndex
+            setRightSelectionAttributes()
+        }
     }
     
     override func rightMouseDragged(with theEvent: NSEvent) {
@@ -405,9 +415,9 @@ class ECTextView: CodeTextView {
         let winP = theEvent.locationInWindow
         let pp = self.convert(winP, from: nil)
         let cidx = self.characterIndexForInsertion(at: pp)
-        if (cidx > firstIdx) {
+        if let firstIdx = firstIdx, cidx > firstIdx {
             self.setSelectedRange(NSMakeRange(firstIdx, cidx - firstIdx))
-        } else {
+        } else if let firstIdx = firstIdx {
             self.setSelectedRange(NSMakeRange(cidx, firstIdx - cidx))
         }
     }
@@ -418,7 +428,8 @@ class ECTextView: CodeTextView {
         setDefaultSelectionAttributes()
         let selectedRange = self.selectedRange()
         if selectedRange.location != NSNotFound {
-            if let str = self.string {
+            if let str = self.string,
+                let firstIdx = firstIdx {
                 let selectedStr = str.substring(with: str.characters.index(str.startIndex, offsetBy: selectedRange.location) ..< str.characters.index(str.startIndex, offsetBy: selectedRange.location + selectedRange.length))
                 self.setSelectedRange(NSMakeRange(firstIdx, 0))
                 self.selectionDelegate?.onOtherMouseSelection(selectedStr, by: theEvent)
@@ -427,23 +438,30 @@ class ECTextView: CodeTextView {
     }
     
     override func otherMouseDown(with theEvent: NSEvent) {
-        self.selecting = true
-        let winP = theEvent.locationInWindow
-        let pp = self.convert(winP, from: nil)
-        let rangeStartIndex = self.characterIndexForInsertion(at: pp)
-        self.setSelectedRange(NSMakeRange(rangeStartIndex, 0))
-        self.firstIdx = rangeStartIndex
-        setOtherSelectionAttributes()
+        if (leftHold.value) {
+            //DO Pasete
+            self.cut(nil)
+        } else {
+            self.selecting = true
+            let winP = theEvent.locationInWindow
+            let pp = self.convert(winP, from: nil)
+            let rangeStartIndex = self.characterIndexForInsertion(at: pp)
+            self.setSelectedRange(NSMakeRange(rangeStartIndex, 0))
+            self.firstIdx = rangeStartIndex
+            setOtherSelectionAttributes()
+        }
     }
 
     override func otherMouseDragged(with theEvent: NSEvent) {
         let winP = theEvent.locationInWindow
         let pp = self.convert(winP, from: nil)
         let cidx = self.characterIndexForInsertion(at: pp)
-        if (cidx > firstIdx) {
-            self.setSelectedRange(NSMakeRange(firstIdx, cidx - firstIdx))
-        } else {
-            self.setSelectedRange(NSMakeRange(cidx, firstIdx - cidx))
+        if let firstIdx = firstIdx {
+            if cidx > firstIdx {
+                self.setSelectedRange(NSMakeRange(firstIdx, cidx - firstIdx))
+            } else {
+                self.setSelectedRange(NSMakeRange(cidx, firstIdx - cidx))
+            }
         }
     }
     
