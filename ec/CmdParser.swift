@@ -220,10 +220,11 @@ let outputCommandParser: GenericParser<String, (), ECCmd> = StringParser.charact
  * EC Command
  ***************************
  */
-let ecCmdParser: GenericParser<String, (), ECCmd> = editCommandParser.attempt <|>
+let ecCmdParser: GenericParser<String, (), ECCmd> = StringParser.spaces *> (
+    editCommandParser.attempt <|>
     lookBackCommandParser.attempt <|>
     lookCommandParser.attempt <|>
     pipeCommandParser.attempt <|>
     inputCommandParser.attempt <|>
     outputCommandParser.attempt <|>
-    systemCommandParser.attempt
+    systemCommandParser.attempt)
