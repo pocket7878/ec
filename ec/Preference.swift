@@ -169,16 +169,14 @@ class Preference {
             for fileTypeYaml in fileTypeYamls {
                 NSLog("Path pattern \(fileTypeYaml[Yaml.string("path")].string))")
                 if let pathPattern = fileTypeYaml[Yaml.string("path")].string, filePath.pregMatche(pattern: pathPattern) {
-                    
-                    for colorKey in iterateEnum(Preference.ColorKey) {
-                        dic[colorKey.rawValue] = fileTypeYaml[Yaml.string(colorKey.rawValue)].string
+                    for colorKey in iterateEnum(Preference.ColorKey.self) {
+                        dic.updateIfNotNull(key: colorKey.rawValue, newVal: fileTypeYaml[Yaml.string(colorKey.rawValue)].string)
                     }
-                    dic[FontKey.fontName.rawValue] = fileTypeYaml[Yaml.string(FontKey.fontName.rawValue)].string
-                    dic[FontKey.fontSize.rawValue] = fileTypeYaml[Yaml.string(FontKey.fontSize.rawValue)].int
-                    dic[FormatKey.autoIndent.rawValue] = fileTypeYaml[Yaml.string(FormatKey.autoIndent.rawValue)].bool
-                    dic[FormatKey.expandTab.rawValue] = fileTypeYaml[Yaml.string(FormatKey.expandTab.rawValue)].bool
-                    dic[FormatKey.tabWidth.rawValue] = fileTypeYaml[Yaml.string(FormatKey.tabWidth.rawValue)].int
-                    
+                    dic.updateIfNotNull(key: FontKey.fontName.rawValue, newVal: fileTypeYaml[Yaml.string(FontKey.fontName.rawValue)].string)
+                    dic.updateIfNotNull(key: FontKey.fontSize.rawValue, newVal: fileTypeYaml[Yaml.string(FontKey.fontSize.rawValue)].int)
+                    dic.updateIfNotNull(key: FormatKey.autoIndent.rawValue, newVal:  fileTypeYaml[Yaml.string(FormatKey.autoIndent.rawValue)].bool)
+                    dic.updateIfNotNull(key: FormatKey.expandTab.rawValue, newVal: fileTypeYaml[Yaml.string(FormatKey.expandTab.rawValue)].bool)
+                    dic.updateIfNotNull(key: FormatKey.tabWidth.rawValue, newVal: fileTypeYaml[Yaml.string(FormatKey.tabWidth.rawValue)].int)
                     break
                 }
             }

@@ -13,6 +13,7 @@
 		69121BBE1DE4154800F39E0B /* Either.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBB1DE4154800F39E0B /* Either.framework */; };
 		69121BBF1DE4154800F39E0B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69121BBC1DE4154800F39E0B /* SwiftParsec.framework */; };
 		69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69121BC21DE5611B00F39E0B /* CharUtil.swift */; };
+		6953D7C11E42204E0067C6AC /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953D7C01E42204E0067C6AC /* DictionaryExtension.swift */; };
 		695419801D30BA360099C34D /* Tagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954197F1D30BA360099C34D /* Tagger.swift */; };
 		696598421DF17DDC00E31E57 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6965983F1DF17DDC00E31E57 /* RxBlocking.framework */; };
 		696598431DF17DDC00E31E57 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696598401DF17DDC00E31E57 /* RxCocoa.framework */; };
@@ -52,6 +53,7 @@
 		69121BC21DE5611B00F39E0B /* CharUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharUtil.swift; sourceTree = "<group>"; };
 		6912C6911DFEB45400B64817 /* BSD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BSD.framework; path = Carthage/Build/Mac/BSD.framework; sourceTree = "<group>"; };
 		6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PseudoTeletypewriter.framework; path = Carthage/Build/Mac/PseudoTeletypewriter.framework; sourceTree = "<group>"; };
+		6953D7C01E42204E0067C6AC /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		6954197F1D30BA360099C34D /* Tagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tagger.swift; sourceTree = "<group>"; };
 		6965983F1DF17DDC00E31E57 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/Mac/RxBlocking.framework; sourceTree = "<group>"; };
 		696598401DF17DDC00E31E57 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/Mac/RxCocoa.framework; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				699E96651D4DEE31004023C1 /* NSURLExtension.swift */,
 				69121BC21DE5611B00F39E0B /* CharUtil.swift */,
 				696598471DF2A90200E31E57 /* NSColorExtension.swift */,
+				6953D7C01E42204E0067C6AC /* DictionaryExtension.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */,
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */,
+				6953D7C11E42204E0067C6AC /* DictionaryExtension.swift in Sources */,
 				696598481DF2A90200E31E57 /* NSColorExtension.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */,
