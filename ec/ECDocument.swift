@@ -27,6 +27,8 @@ class ECDocument: NSDocument {
     let disposeBag = DisposeBag()
     var pref: Variable<Preference?> = Variable(nil)
     
+    var fileData: Data? = nil
+    
     override init() {
         super.init()
         do {
@@ -103,17 +105,9 @@ class ECDocument: NSDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
     
-    override func read(from url: URL, ofType typeName: String) throws {
+    private func buildContentOfFileread(from url: URL, ofType typeName: String) throws -> NSAttributedString {
         switch(typeName) {
         case "public.folder":
-            self.isDirectoryDocument = true
-            do {
-                let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath, encoding: String.Encoding.utf8.rawValue))
-                let yaml = try Yaml.load(yamlStr)
-                self.pref.value = Preference.loadYaml(yaml, for: url.path)
-            } catch {
-                NSLog("\(error)")
-            }
             do{
                 let fileManager = FileManager.default
                 var childrens: [String] = []
@@ -127,8 +121,6 @@ class ECDocument: NSDocument {
                         childrens.append("\(entry)")
                     }
                 }
-                self.hasUndoManager = false
-                self.newLineType = .lf
                 let mutStr = NSMutableAttributedString(string: childrens.joined(separator: "\n"),
                                                        attributes: [:])
                 if let pre = pref.value {
@@ -137,7 +129,50 @@ class ECDocument: NSDocument {
                         NSFontAttributeName: pre.font
                         ], range: NSMakeRange(0, mutStr.length))
                 }
-                self.contentOfFile = mutStr
+                return mutStr
+            } catch {
+                NSLog("\(error)")
+                throw ECError.openingBinaryFile
+            }
+        default:
+            do {
+                let attrStr = try NSMutableAttributedString(
+                    url: url,
+                    options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
+                    documentAttributes: nil)
+                if let pre = pref.value {
+                    attrStr.addAttributes([
+                        NSForegroundColorAttributeName: pre.mainFgColor,
+                        NSFontAttributeName: pre.font
+                        ], range: NSMakeRange(0, attrStr.length))
+                }
+                return attrStr
+            } catch {
+                NSLog("\(error)")
+                throw ECError.openingBinaryFile
+            }
+        }
+    }
+    
+    
+    override func read(from url: URL, ofType typeName: String) throws {
+        self.fileType = typeName
+        switch(typeName) {
+        case "public.folder":
+            self.isDirectoryDocument = true
+            do {
+                let yamlStr = try String(NSString(contentsOfFile: Preference.preferenceFilePath,
+                                                  encoding: String.Encoding.utf8.rawValue))
+                let yaml = try Yaml.load(yamlStr)
+                self.pref.value = Preference.loadYaml(yaml, for: url.path)
+            } catch {
+                NSLog("\(error)")
+            }
+            do{
+                let dirContent = try buildContentOfFileread(from: url, ofType: typeName)
+                self.hasUndoManager = false
+                self.newLineType = .lf
+                self.contentOfFile = dirContent
             } catch {
                 NSLog("\(error)")
                 throw ECError.openingBinaryFile
@@ -151,21 +186,13 @@ class ECDocument: NSDocument {
                 NSLog("\(error)")
             }
             do {
-                let attrStr = try NSMutableAttributedString(
-                    url: url,
-                    options: [NSDocumentTypeDocumentOption:NSPlainTextDocumentType],
-                    documentAttributes: nil)
-                if let pre = pref.value {
-                    attrStr.addAttributes([
-                        NSForegroundColorAttributeName: pre.mainFgColor,
-                        NSFontAttributeName: pre.font
-                        ], range: NSMakeRange(0, attrStr.length))
-                }
-                let newLineType = attrStr.string.detectNewLineType()
+                self.fileData = try Data(contentsOf: url)
+                let fileContent = try buildContentOfFileread(from: url, ofType: typeName)
+                let newLineType = fileContent.string.detectNewLineType()
                 if newLineType != .none {
                     self.newLineType = newLineType
                 }
-                self.contentOfFile = attrStr
+                self.contentOfFile = fileContent
             } catch {
                 NSLog("\(error)")
                 throw ECError.openingBinaryFile
@@ -193,5 +220,86 @@ class ECDocument: NSDocument {
             paperSize.height - self.printInfo.topMargin - self.printInfo.bottomMargin))
         textView.textStorage?.setAttributedString(content)
         return NSPrintOperation(view: textView, printInfo: self.printInfo)
+    }
+    
+    // MARK: Protocols
+    
+    /// file has been modified by an external process
+    override func presentedItemDidChange() {
+        if let fileURL = fileURL {
+            var changed = false
+            var modifiedAt: Date?
+            let coordinator = NSFileCoordinator(filePresenter: self)
+            coordinator.coordinate(readingItemAt: fileURL, options: .withoutChanges, error: nil) { [weak self] (newURL) in
+                modifiedAt = (try? FileManager.default.attributesOfItem(atPath: newURL.path))?[.modificationDate] as? Date
+                if modifiedAt != self?.fileModificationDate {
+                    let newData = try? Data(contentsOf: newURL)
+                    if newData != self?.fileData {
+                        changed = true
+                    } else {
+                        return
+                    }
+                }
+            }
+            
+            //Just update timestamp
+            if let modifiedAt = modifiedAt,
+                let fileModificationDate = self.fileModificationDate,
+                !changed,
+                modifiedAt > fileModificationDate {
+                self.fileModificationDate = modifiedAt
+                return
+            }
+            
+            if let fileType = self.fileType {
+                do {
+                    DispatchQueue.main.async { [weak self] in
+                        if let me = self {
+                            do {
+                                //If file is not dirty, then just reload content
+                                if changed && !me.isDocumentEdited {
+                                    try me.revert(toContentsOf: fileURL, ofType: fileType)
+                                    for winC in me.windowControllers {
+                                        (winC.contentViewController as? ViewController)?.loadDoc()
+                                    }
+                                } else {
+                                    //Otherwise display notification
+                                    me.askRefreshOrKeep()
+                                }
+                            } catch {
+                                me.presentError(error)
+                            }
+                        }
+                    }
+                } catch {
+                    
+                }
+            }
+        }
+    }
+    
+    private func askRefreshOrKeep() {
+        let alert = NSAlert()
+        alert.messageText = "The file changed on disk"
+        alert.informativeText = "Reread from disk?"
+        alert.addButton(withTitle: "y")
+        alert.addButton(withTitle: "n")
+        
+        alert.beginSheetModal(for: self.windowForSheet!) { [weak self] (returnCode: NSModalResponse) in
+            if let me = self {
+                if returnCode == NSAlertFirstButtonReturn,
+                    let fileType = me.fileType,
+                    let fileURL = me.fileURL {
+                    do {
+                        try me.revert(toContentsOf: fileURL, ofType: fileType)
+                        for winC in me.windowControllers {
+                            (winC.contentViewController as? ViewController)?.loadDoc()
+                        }
+                    } catch {
+                        me.presentError(error)
+                    }
+                }
+            }
+        }
     }
 }
