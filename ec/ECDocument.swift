@@ -205,6 +205,12 @@ class ECDocument: NSDocument {
             throw ECError.illigalState
         } else {
             try super.write(to: url, ofType: typeName, for: saveOperation, originalContentsURL: absoluteOriginalContentsURL)
+            if saveOperation != .autosaveElsewhereOperation {
+                //Refresh Data
+                if let data = try? Data(contentsOf: url) {
+                    self.fileData = data
+                }
+            }
         }
     }
     
@@ -239,15 +245,19 @@ class ECDocument: NSDocument {
                     } else {
                         return
                     }
+                } else {
+                    //Self edit
+                    return
                 }
             }
             
             //Just update timestamp
-            if let modifiedAt = modifiedAt,
-                let fileModificationDate = self.fileModificationDate,
-                !changed,
-                modifiedAt > fileModificationDate {
-                self.fileModificationDate = modifiedAt
+            if !changed {
+                if let modifiedAt = modifiedAt,
+                    let fileModificationDate = self.fileModificationDate,
+                    modifiedAt > fileModificationDate {
+                    self.fileModificationDate = modifiedAt
+                }
                 return
             }
             
