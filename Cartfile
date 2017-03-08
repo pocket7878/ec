@@ -5,3 +5,5 @@ github "kylef/PathKit" ~> 0.7.0
 github "ReactiveX/RxSwift" ~> 3.0
 github "behrang/YamlSwift" ~> 3.0
 github "yeahdongcn/UIColor-Hex-Swift" >= 3.0.2
+github "pocket7878/PseudoTeletypewriter.Swift" "develop"
+github "pocket7878/VT100Parser" ~> 0.1

@@ -9,13 +9,13 @@
 import Foundation
 import Cocoa
 import AppKit
+import PseudoTeletypewriter
 
 class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
     
     var parentWindowController: NSWindowController!
     @IBOutlet var commandOutputView: ECTextView!
-    var cmdTask: Process!
-    var outPipe: Pipe!
+    var pty: PseudoTeletypewriter!
     var workingDir: String!
     var command: String!
     
@@ -55,41 +55,46 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     func executeCommand(_ workingDir: String, command: String) {
-        //Clear whole text and run command
-        self.commandOutputView.textStorage?.setAttributedString(
-            NSAttributedString(string: ""))
+        let shell = Util.getShell()
+        let env = ProcessInfo.processInfo.environment
+        var envs: [String] = []
+        env.forEach { (key, val) in
+            envs += ["\(key)=\(val)"]
+        }
+        envs += ["TERM=dumb"]
+        var envpath = shell
+        for (ek, ev) in env {
+            if (ek == "PATH") {
+                envpath = ev
+            }
+        }
+        //pty = PseudoTeletypewriter(path: envpath, arguments: [shell, "-l", "-c", "cd", workingDir, "&&", command], environment: envs)!
+        pty =   PseudoTeletypewriter(path: shell, arguments: [shell, "-l"], environment: envs)!
         self.workingDir = workingDir
-        cmdTask = Process()
-        let ax = ["-l", "-c", command]
-        cmdTask.launchPath = Util.getShell()
-        cmdTask.arguments = ax
-        cmdTask.currentDirectoryPath = workingDir
-
-        self.workingDir = cmdTask.currentDirectoryPath
         self.command = command
-        
-        outPipe = Pipe()
-        cmdTask.standardOutput = outPipe
-        cmdTask.standardError = outPipe
-        
-        cmdTask.launch()
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(ExternalCommandViewController.notificationReadedData(_:)),
                                                name: FileHandle.readCompletionNotification, object: nil)
-        outPipe.fileHandleForReading.readInBackgroundAndNotify()
+        pty.masterFileHandle.readInBackgroundAndNotify()
     }
     
     func notificationReadedData(_ notification: Notification) {
         var output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
+        
+        debugPrint(output.map {
+            String(format: "%.2hhx(%c)", $0, $0)
+        }.joined())
+        
+        
+        
         let outputStr: NSString = NSString(data: output, encoding: String.Encoding.utf8.rawValue)!
         let outAttrStr = NSMutableAttributedString(string: String(outputStr))
         outAttrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, outputStr.length))
         self.commandOutputView.textStorage?.append(outAttrStr)
-        if cmdTask.isRunning {
-            outPipe.fileHandleForReading.readInBackgroundAndNotify()
+        if !pty.isChildProcessFinished() {
+            pty.masterFileHandle.readInBackgroundAndNotify()
         } else {
-            let exitMsg = "\n[COMMAND OUTPUT FINISH EXIT STATUS: \(cmdTask.terminationStatus)]"
+            let exitMsg = "\n[COMMAND OUTPUT FINISH EXIT STATUS: \(pty.childProcessExitStatus())]"
             let exitMessage = NSMutableAttributedString(string: exitMsg)
             exitMessage.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, exitMsg.characters.count))
             self.commandOutputView.textStorage?.append(exitMessage)
@@ -187,6 +192,27 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         if let appDelegate = NSApplication.shared().delegate as? AppDelegate {
             appDelegate.commandWCs["\(self.workingDir) \(self.command)+Errors"] = nil
         }
-        cmdTask.waitUntilExit()
+        pty.killChild(sig: SIGTERM)
+    }
+    
+    //NSTextViewDelegate
+    func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
+        guard let replacementString = replacementString else {
+            return true
+        }
+        let textTail = textView.textStorage?.length
+        if let strData = replacementString.data(using: .utf8),
+            affectedCharRange.location == textTail {
+            //Added to tail
+            pty.masterFileHandle.write(strData)
+            return false
+        } else if let bsStr = String(repeating: "\u{8}", count: affectedCharRange.length).data(using: .utf8),
+            replacementString.isEmpty,
+            affectedCharRange.location != NSNotFound,
+            (affectedCharRange.location + affectedCharRange.length) == textTail {
+            pty.masterFileHandle.write(bsStr)
+            return true
+        }
+        return true
     }
 }

@@ -22,6 +22,8 @@
 		6965984A1DF2B55200E31E57 /* ECMainTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696598491DF2B55200E31E57 /* ECMainTextView.swift */; };
 		6965984C1DF2B7E600E31E57 /* ECSubTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */; };
 		6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */; };
+		697D20E21E6DC43A0034DFD4 /* PseudoTeletypewriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */; };
+		697D20E31E6DC4890034DFD4 /* BSD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6911DFEB45400B64817 /* BSD.framework */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -91,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				697D20E31E6DC4890034DFD4 /* BSD.framework in Frameworks */,
+				697D20E21E6DC43A0034DFD4 /* PseudoTeletypewriter.framework in Frameworks */,
 				696598461DF2A03A00E31E57 /* Yaml.framework in Frameworks */,
 				696598421DF17DDC00E31E57 /* RxBlocking.framework in Frameworks */,
 				696598431DF17DDC00E31E57 /* RxCocoa.framework in Frameworks */,
@@ -306,6 +310,8 @@
 				"$(SRCROOT)/Carthage/Build/Mac/RxCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/Yaml.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/PseudoTeletypewriter.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/BSD.framework",
 			);
 			name = "Carthage Copy-Frameworks";
 			outputPaths = (

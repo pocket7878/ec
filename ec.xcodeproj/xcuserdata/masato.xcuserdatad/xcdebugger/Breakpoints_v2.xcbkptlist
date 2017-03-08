@@ -559,13 +559,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510558281.176517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "84"
             endingLineNumber = "84"
             landmarkName = "notificationReadedData(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.ExternalCommandViewController.notificationReadedData (Foundation.Notification) -&gt; ()"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "510556535.745297"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83"
+                  offsetFromSymbolStart = "642">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.ExternalCommandViewController.(notificationReadedData (Foundation.Notification) -&gt; ()).(closure #1)"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "510556535.747128"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "14">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -591,11 +623,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510558281.176517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "notificationReadedData(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -607,11 +639,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510545390.509558"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "notificationReadedData(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -623,11 +655,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510558281.176517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "cleaning()"
             landmarkType = "7">
          </BreakpointContent>
@@ -639,11 +671,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510558281.176517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "notificationReadedData(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -655,12 +687,220 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ec/ExternalCommandViewController.swift"
-            timestampString = "503296689.724034"
+            timestampString = "510558281.176517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "notificationReadedData(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510511278.565927"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "showErrorOutput(_:command:error:statusCode:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510511622.195714"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "executeCommand(_:command:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "notificationReadedData(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510545390.509558"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "executeCommand(_:command:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "notificationReadedData(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510545390.509558"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "executeCommand(_:command:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510545390.509558"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "executeCommand(_:command:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "cleaning()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "textView(_:shouldChangeTextIn:replacementString:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "textView(_:shouldChangeTextIn:replacementString:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.ExternalCommandViewController.textView (__ObjC.NSTextView, shouldChangeTextIn : __C._NSRange, replacementString : Swift.Optional&lt;Swift.String&gt;) -&gt; Swift.Bool"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "510545129.567309"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "968">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ec.ExternalCommandViewController.textView (__ObjC.NSTextView, shouldChangeTextIn : __C._NSRange, replacementString : Swift.Optional&lt;Swift.String&gt;) -&gt; Swift.Bool"
+                  moduleName = "ec"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/masato/Documents/Pocket7878/ec/ec/ExternalCommandViewController.swift"
+                  timestampString = "510545129.570902"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "1119">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ec/ExternalCommandViewController.swift"
+            timestampString = "510558281.176517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "textView(_:shouldChangeTextIn:replacementString:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
