@@ -163,6 +163,7 @@ class Util {
             if let windowController = appDelegate.commandWCs["\(wdir) \(command)+Errors"] {
                 if let vc = windowController.contentViewController as? ExternalCommandViewController {
                     vc.parentWindowController = windowController
+                    vc.cleaning()
                     vc.showErrorOutput(wdir, command: command, error: error, statusCode: statusCode)
                     if let win = windowController.window {
                         var winTitle = ""
@@ -251,10 +252,7 @@ class Util {
     }
     
     class func startWin(workingFolder: String?) {
-        if appInstalled("iTerm") {
-            runShellIniTerm(fileFolderPath: workingFolder)
-        } else {
-            runShellInTerminal(fileFolderPath: workingFolder)
-        }
+        let shell = Util.getShell()
+        runExternalCommand(shell, inputString: nil, fileFolderPath: workingFolder)
     }
 }

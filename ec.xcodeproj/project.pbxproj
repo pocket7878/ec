@@ -24,6 +24,7 @@
 		6965984E1DF2D2A200E31E57 /* PreferenceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */; };
 		697D20E21E6DC43A0034DFD4 /* PseudoTeletypewriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */; };
 		697D20E31E6DC4890034DFD4 /* BSD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6911DFEB45400B64817 /* BSD.framework */; };
+		6995C65F1E74E66500A356E9 /* VT100Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6995C65D1E74DEFA00A356E9 /* VT100Parser.framework */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		696598491DF2B55200E31E57 /* ECMainTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECMainTextView.swift; sourceTree = "<group>"; };
 		6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSubTextView.swift; sourceTree = "<group>"; };
 		6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceEntry.swift; sourceTree = "<group>"; };
+		6995C65D1E74DEFA00A356E9 /* VT100Parser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VT100Parser.framework; path = Carthage/Build/Mac/VT100Parser.framework; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6995C65F1E74E66500A356E9 /* VT100Parser.framework in Frameworks */,
 				697D20E31E6DC4890034DFD4 /* BSD.framework in Frameworks */,
 				697D20E21E6DC43A0034DFD4 /* PseudoTeletypewriter.framework in Frameworks */,
 				696598461DF2A03A00E31E57 /* Yaml.framework in Frameworks */,
@@ -112,6 +115,7 @@
 		66AAC8186CC6FFFD9346DB85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6995C65D1E74DEFA00A356E9 /* VT100Parser.framework */,
 				6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */,
 				6912C6911DFEB45400B64817 /* BSD.framework */,
 				696598451DF2A03A00E31E57 /* Yaml.framework */,
@@ -312,6 +316,7 @@
 				"$(SRCROOT)/Carthage/Build/Mac/Yaml.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/PseudoTeletypewriter.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/BSD.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/VT100Parser.framework",
 			);
 			name = "Carthage Copy-Frameworks";
 			outputPaths = (
@@ -467,6 +472,7 @@
 				);
 				INFOPLIST_FILE = ec/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -486,6 +492,7 @@
 				);
 				INFOPLIST_FILE = ec/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.poketo7878.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;

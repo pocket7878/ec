@@ -10,6 +10,7 @@ import Foundation
 import Cocoa
 import AppKit
 import PseudoTeletypewriter
+import VT100Parser
 
 class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
     
@@ -18,6 +19,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     var pty: PseudoTeletypewriter!
     var workingDir: String!
     var command: String!
+    
+    var currentOutputFg: NSColor = Preference.mainFgColor
+    var currentOutputBg: NSColor = Preference.mainBgColor
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,18 +43,20 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         commandOutputView.textColor = Preference.mainFgColor
     }
     
+    func genOutputAttributeString(_ str: String) -> NSAttributedString {
+        let outAttrStr = NSMutableAttributedString(string: str)
+        outAttrStr.setAttributes([
+            NSForegroundColorAttributeName: currentOutputFg,
+            NSBackgroundColorAttributeName: currentOutputBg,
+            NSFontAttributeName: Preference.font
+        ], range: NSMakeRange(0, str.characters.count))
+        return outAttrStr
+    }
+    
     func showErrorOutput(_ workingDir: String, command: String, error: String, statusCode: Int) {
-        let outAttrStr = NSMutableAttributedString(string: error)
-        outAttrStr.addAttributes(
-            [NSForegroundColorAttributeName: Preference.mainFgColor],
-            range: NSMakeRange(0, error.count))
-        self.commandOutputView.textStorage?.append(outAttrStr)
+        self.commandOutputView.textStorage?.append(genOutputAttributeString(error))
         let exitMsg = "\n\(command): exit \(statusCode)"
-        let exitMessage = NSMutableAttributedString(string: exitMsg)
-        exitMessage.addAttributes(
-            [NSForegroundColorAttributeName: Preference.mainFgColor],
-            range: NSMakeRange(0, exitMsg.characters.count))
-        self.commandOutputView.textStorage?.append(exitMessage)
+        self.commandOutputView.textStorage?.append(genOutputAttributeString(exitMsg))
         self.commandOutputView.scrollToEndOfDocument(nil)
     }
     
@@ -61,15 +67,14 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
         env.forEach { (key, val) in
             envs += ["\(key)=\(val)"]
         }
-        envs += ["TERM=dumb"]
+        envs += ["TERM=vt100"]
         var envpath = shell
         for (ek, ev) in env {
             if (ek == "PATH") {
                 envpath = ev
             }
         }
-        //pty = PseudoTeletypewriter(path: envpath, arguments: [shell, "-l", "-c", "cd", workingDir, "&&", command], environment: envs)!
-        pty =   PseudoTeletypewriter(path: shell, arguments: [shell, "-l"], environment: envs)!
+        pty = PseudoTeletypewriter(path: shell, arguments: [shell, "-l", "-c", "cd \(workingDir) && \(command)"], environment: envs)!
         self.workingDir = workingDir
         self.command = command
         NotificationCenter.default.addObserver(self,
@@ -79,18 +84,70 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
     }
     
     func notificationReadedData(_ notification: Notification) {
-        var output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
-        
-        debugPrint(output.map {
-            String(format: "%.2hhx(%c)", $0, $0)
-        }.joined())
-        
-        
-        
-        let outputStr: NSString = NSString(data: output, encoding: String.Encoding.utf8.rawValue)!
-        let outAttrStr = NSMutableAttributedString(string: String(outputStr))
-        outAttrStr.addAttributes([NSForegroundColorAttributeName: Preference.mainFgColor], range: NSMakeRange(0, outputStr.length))
-        self.commandOutputView.textStorage?.append(outAttrStr)
+        let output: Data = notification.userInfo![NSFileHandleNotificationDataItem] as! Data
+        let vt100cmds = parseVT100(bytes: Array<UInt8>(output))
+        self.commandOutputView.textStorage?.beginEditing()
+        for cmd in vt100cmds {
+            //Handle each commands
+            switch(cmd) {
+            case .backspace:
+                if let textTail = self.commandOutputView.textStorage?.length {
+                    self.commandOutputView.textStorage?.replaceCharacters(in: NSMakeRange(textTail - 1, 1), with: "")
+                }
+            case .bytes(let bs):
+                let outputStr = String(NSString(data: Data(bs), encoding: String.Encoding.utf8.rawValue)!)
+                self.commandOutputView.textStorage?.append(genOutputAttributeString(outputStr))
+            case .carriageReturn:
+                self.commandOutputView.textStorage?.append(genOutputAttributeString("\r"))
+            case .lineFeed:
+                self.commandOutputView.textStorage?.append(genOutputAttributeString("\n"))
+            case .horizontalTab:
+                self.commandOutputView.textStorage?.append(genOutputAttributeString("\t"))
+            case .bell:
+                NSBeep()
+            //Background Colors
+            case .setBgBlack:
+                currentOutputBg = NSColor.black
+            case .setBgRed:
+                currentOutputBg = NSColor.red
+            case .setBgGreen:
+                currentOutputBg = NSColor.green
+            case .setBgYellow:
+                currentOutputBg = NSColor.yellow
+            case .setBgBlue:
+                currentOutputBg = NSColor.blue
+            case .setBgMagenta:
+                currentOutputBg = NSColor.magenta
+            case .setBgCyan:
+                currentOutputBg = NSColor.cyan
+            case .setBgWhite:
+                currentOutputBg = NSColor.white
+            case .setBgDefault:
+                currentOutputBg = Preference.mainBgColor
+            //Foreground Colors
+            case .setFgBlack:
+                currentOutputFg = NSColor.black
+            case .setFgRed:
+                currentOutputFg = NSColor.red
+            case .setFgGreen:
+                currentOutputFg = NSColor.green
+            case .setFgYellow:
+                currentOutputFg = NSColor.yellow
+            case .setFgBlue:
+                currentOutputFg = NSColor.blue
+            case .setFgMagenta:
+                currentOutputFg = NSColor.magenta
+            case .setFgCyan:
+                currentOutputFg = NSColor.cyan
+            case .setFgWhite:
+                currentOutputFg = NSColor.white
+            case .setFgDefault:
+                currentOutputFg = Preference.mainFgColor
+            default:
+                break
+            }
+        }
+        self.commandOutputView.textStorage?.endEditing()
         if !pty.isChildProcessFinished() {
             pty.masterFileHandle.readInBackgroundAndNotify()
         } else {
@@ -211,7 +268,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             affectedCharRange.location != NSNotFound,
             (affectedCharRange.location + affectedCharRange.length) == textTail {
             pty.masterFileHandle.write(bsStr)
-            return true
+            return false
         }
         return true
     }
