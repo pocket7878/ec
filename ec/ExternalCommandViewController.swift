@@ -12,7 +12,7 @@ import AppKit
 import PseudoTeletypewriter
 import VT100Parser
 
-class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate {
+class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelegate, NSTextViewDelegate, WorkingFolderDataSource, NSWindowDelegate{
     
     var parentWindowController: NSWindowController!
     @IBOutlet var commandOutputView: ECTextView!
@@ -68,6 +68,7 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             envs += ["\(key)=\(val)"]
         }
         envs += ["TERM=vt100"]
+        envs += ["LANG=\(Util.getLang())"]
         var envpath = shell
         for (ek, ev) in env {
             if (ek == "PATH") {
@@ -95,8 +96,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
                     self.commandOutputView.textStorage?.replaceCharacters(in: NSMakeRange(textTail - 1, 1), with: "")
                 }
             case .bytes(let bs):
-                let outputStr = String(NSString(data: Data(bs), encoding: String.Encoding.utf8.rawValue)!)
-                self.commandOutputView.textStorage?.append(genOutputAttributeString(outputStr))
+                if let outputStr = String(data: Data(bs), encoding: .utf8) {
+                    self.commandOutputView.textStorage?.append(genOutputAttributeString(outputStr))
+                }
             case .carriageReturn:
                 self.commandOutputView.textStorage?.append(genOutputAttributeString("\r"))
             case .lineFeed:
@@ -258,8 +260,9 @@ class ExternalCommandViewController: NSViewController, ECTextViewSelectionDelega
             return true
         }
         let textTail = textView.textStorage?.length
-        if let strData = replacementString.data(using: .utf8),
+        if let strData = replacementString.data(using: .utf8, allowLossyConversion: true),
             affectedCharRange.location == textTail {
+            debugPrint(Array<UInt8>(strData))
             //Added to tail
             pty.masterFileHandle.write(strData)
             return false

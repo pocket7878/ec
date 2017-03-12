@@ -19,6 +19,19 @@ class Util {
         }
     }
     
+    class func getLocale() -> String {
+        if let languageCode = Locale.current.languageCode,
+            let regionCode = Locale.current.regionCode {
+            return "\(languageCode)_\(regionCode)"
+        } else {
+            return Locale.current.identifier
+        }
+    }
+    
+    class func getLang() -> String {
+        return "\(getLocale()).UTF-8"
+    }
+    
     class func appInstalled(_ appName: String) -> Bool {
         let res = Util.runCommand("osascript", inputStr: "id of app \"\(appName)\"", wdir: nil, args: [])
         if res.exitCode == 0 {
