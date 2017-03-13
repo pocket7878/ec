@@ -25,6 +25,7 @@
 		697D20E21E6DC43A0034DFD4 /* PseudoTeletypewriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6931DFEB45800B64817 /* PseudoTeletypewriter.framework */; };
 		697D20E31E6DC4890034DFD4 /* BSD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6912C6911DFEB45400B64817 /* BSD.framework */; };
 		6995C65F1E74E66500A356E9 /* VT100Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6995C65D1E74DEFA00A356E9 /* VT100Parser.framework */; };
+		6995C6631E755D3800A356E9 /* ExternalCommandTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995C6621E755D3800A356E9 /* ExternalCommandTextView.swift */; };
 		699A033F1D2234CC005A9FE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A033E1D2234CC005A9FE7 /* AppDelegate.swift */; };
 		699A03411D2234CC005A9FE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699A03401D2234CC005A9FE7 /* ViewController.swift */; };
 		699A03431D2234CC005A9FE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699A03421D2234CC005A9FE7 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		6965984B1DF2B7E600E31E57 /* ECSubTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSubTextView.swift; sourceTree = "<group>"; };
 		6965984D1DF2D2A200E31E57 /* PreferenceEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceEntry.swift; sourceTree = "<group>"; };
 		6995C65D1E74DEFA00A356E9 /* VT100Parser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VT100Parser.framework; path = Carthage/Build/Mac/VT100Parser.framework; sourceTree = "<group>"; };
+		6995C6621E755D3800A356E9 /* ExternalCommandTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalCommandTextView.swift; sourceTree = "<group>"; };
 		699A033B1D2234CC005A9FE7 /* ec.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ec.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A033E1D2234CC005A9FE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		699A03401D2234CC005A9FE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				690FD13D1D4CD8EE000D58AF /* ExternalCommandView.storyboard */,
 				690FD13F1D4CD9E8000D58AF /* ExternalCommandViewController.swift */,
+				6995C6621E755D3800A356E9 /* ExternalCommandTextView.swift */,
 			);
 			name = ExternalCommandView;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				69E58FD01D2EAA7E00D8220F /* CodeTextView.swift in Sources */,
 				69121BC31DE5611B00F39E0B /* CharUtil.swift in Sources */,
 				696598481DF2A90200E31E57 /* NSColorExtension.swift in Sources */,
+				6995C6631E755D3800A356E9 /* ExternalCommandTextView.swift in Sources */,
 				69D0B6ED1D268520003C04DD /* CmdEvaluator.swift in Sources */,
 				69EA84FA1D38FAA5004DEA38 /* Util.swift in Sources */,
 				69C835F21DF1049B008F6A7F /* ECDocumentController.swift in Sources */,
